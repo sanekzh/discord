@@ -44,6 +44,13 @@ async def on_ready():
     print("Bot has connected to server as {}".format(client.user))
 
 
+@client.event
+async def on_member_join(member):
+    await client.send_message(member, "Hello, {} Welcome to Testing server," +
+                              "Please use following Commands" +
+                              " !activate your@email.com," +
+                              " !status and !renew.".format(member))
+
 
 @client.event
 async def on_message(message):
@@ -57,7 +64,7 @@ async def on_message(message):
 
 
 
-    if "!activate" in message.content.lower():
+    if message.content.lower().startswith("!activate"):
         # we here activate user subscription!
 
         # parsing message for finding email address entered by user.
