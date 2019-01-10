@@ -25,7 +25,7 @@ SECRET_KEY = '+dfp4%c@v^k-sixv@2h=%q1t35r1$6!b8q!@=he+c9)x)ue-!@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["concero.serveo.net", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +120,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Paypal
+
+PAYPAL_RECEIVER_EMAIL = "beradze@europe.com"
+PAYPAL_TEST = True
