@@ -9,9 +9,22 @@
 # permission 268511296
 # auth url https://discordapp.com/oauth2/authorize?client_id={531899668435697704}&scope=bot&permissions={268511296}
 import re
+
+
+import os
+import django
+os.environ["DJANGO_SETTINGS_MODULE"] = "website.settings"
+django.setup()
+
+from announceusio.models import Member
+
 import discord
+import datetime
+
 
 client = discord.Client()
+
+
 
 def generate_paypal_link():
     """ Here we are generating paypal transaction link
@@ -21,11 +34,21 @@ def generate_paypal_link():
     return "http://paypal.com"
 
 
-def get_status():
+def get_status(discord_id):
     """ Here we are checking in database user status
         how many days he/she has left before their membership ends."""
 
-    return "You have 3 days left before expire!"
+    # Getting from database member
+    member = Member.objects.filter(discord_id=discord_id).first()
+
+    # calculating days left
+    days_left = member.subscription_date_expire - datetime.datetime.now(
+        datetime.timezone.utc)
+
+    # subscripting for fancy look delta time
+    days_left = str(days_left)[:-10]
+
+    return "You have {} hours left before expire!".format(days_left)
 
 
 def activate_user(email):
@@ -80,7 +103,7 @@ async def on_message(message):
     elif "!status" == message.content.lower():
 
         # we replay to user the status of his subscription.
-        await client.send_message(message.author, get_status())
+        await client.send_message(message.author, get_status(message.author.id))
 
 
     elif "!renew" == message.content.lower():

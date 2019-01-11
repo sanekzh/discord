@@ -57,6 +57,9 @@ class Member(models.Model):
     is_activated = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
 
+    # Would be great to make another child table to this one
+    # and move there all notification column staff.
+
     def __str__(self):
         return "{} {} {}".format(self.email, self.discord_id,
                                  self.subscription_date_expire)
@@ -73,6 +76,7 @@ def payment_received_succes(sender, **kwargs):
 
     ipn_obj = sender
 
+    #TODO make sure this query works!!!
     member = Member.objects.filter(email=ipn_obj.payer_email).get()
     print(member)
 
@@ -81,6 +85,7 @@ def payment_received_succes(sender, **kwargs):
         # days to her/him.
         member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=30)
 
+        is_activated = True
         member.notify_7 = False
         member.notify_3 = False
         member.notify_24h = False
@@ -95,9 +100,6 @@ def payment_received_succes(sender, **kwargs):
         print("I have saved it!")
 
     print("HERE IS EMAIL ", member)
-
-
-
 
 
 valid_ipn_received.connect(payment_received_succes)
