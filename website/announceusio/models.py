@@ -46,7 +46,7 @@ class Member(models.Model):
                               null=True, unique=True)
     discord_username = models.CharField(max_length=300, blank=True,
                                         null=True, unique=True)
-    discord_id = models.IntegerField(blank=True, null=True, unique=True)
+    discord_id = models.CharField(max_length=300, blank=True, null=True, unique=True)
 
     subscription_date_expire = models.DateTimeField(blank=True, null=True)
 

@@ -13,6 +13,7 @@ import re
 
 import os
 import django
+from django.db.models import Q
 os.environ["DJANGO_SETTINGS_MODULE"] = "website.settings"
 django.setup()
 
@@ -66,11 +67,12 @@ def activate_user(author, email):
     """ We here are activating user email address."""
 
     message = None
-    member = Member.objects.filter(email=email).first()
+    member = Member.objects.filter(Q(email=email) | Q(discord_id=author.id)).first()
 
     # checking if memebr exists and already is activated.
-    if member and member.is_activated:
+    if member and member.is_activated and member.discord_id == author.id:
         message = "You have been already activated! " + get_status(author.id)
+        return False, message
 
     # checking if member email is presents in database but is not activated.
     # this means he/she got paid but not yet activated.
@@ -91,10 +93,17 @@ def activate_user(author, email):
         member.save()
 
         message = "You have been activated! {}".format(get_status(author.id))
+
+        return True, message
+
+    # Checking if user is trying to use different email...
+    elif member and member.email != email:
+        message = "This is not your email. You have been activated with different email."
+        return False, message
     else:
         message = "You should buy membership on http://announceus.io"
+        return False, message
 
-    return message
 
 
 
@@ -122,9 +131,6 @@ async def on_message(message):
 
 
     # print(message.channel, message.author, message.author.name, message.content)
-    user_info = client.get_user_info(message.author.id)
-
-
 
 
     if message.content.lower().startswith("!activate"):
@@ -134,7 +140,14 @@ async def on_message(message):
         email = re.search(r'[\w\.-]+@[\w\.-]+', message.content.lower())
 
         if email:
-            answer = activate_user(message.author, email.group(0))
+            activate_status = activate_user(message.author, email.group(0))
+            answer = activate_status[1]
+            if activate_status[0]:
+
+                server = client.get_server("531541056185958421")
+                user = server.get_member(message.author.id)
+                role = discord.utils.get(server.roles, name="Member")
+                await client.add_roles(user, role)
         else:
             answer = "For activation please provide email address which where used for payment!"
 
