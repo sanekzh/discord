@@ -2,29 +2,23 @@
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 
-
-
 # id 531899668435697704
 # token NTMxODk5NjY4NDM1Njk3NzA0.DxUqGg.S0om0c6N0eEZz6pA3xWuGKG5xlg
 # permission 268511296
 # auth url https://discordapp.com/oauth2/authorize?client_id={531899668435697704}&scope=bot&permissions={268511296}
 import re
-
-
 import os
 import django
 from django.db.models import Q
 os.environ["DJANGO_SETTINGS_MODULE"] = "website.settings"
 django.setup()
-
 from announceusio.models import Member
-
 import discord
 import datetime
+import asyncio
 
 
 client = discord.Client()
-
 
 
 def renew_membership(discord_id):
@@ -106,6 +100,60 @@ def activate_user(author, email):
 
 
 
+async def member_reminder():
+    """ This function is running as task.
+    Here we are checking how many days has
+    left and remind them to renew for additional
+    days. If the time has come we remove from user
+    `Member` role. Switch is_activated to False,
+    Clearing the subscription_date_expire column.
+    """
+    await client.wait_until_ready()
+    while not client.is_closed:
+        members = Member.objects.filter(is_activated=True).all()
+        for member in members:
+            # Getting user in the server. Connecting to each other.
+            server = client.get_server("531541056185958421")
+            user = server.get_member(member.discord_id)
+            time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
+            if member.notify_7 is False and time_left.days <= 7 and time_left.seconds == 0:
+                print("7 days", member)
+                member.notify_7 = True
+                member.save()
+                await client.send_message(user, "You have 7 days left. You can use !renew command.")
+
+            elif member.notify_3 is False and time_left.days <= 3 and time_left.seconds == 0:
+                print("3 days", member)
+                member.notify_3 = True
+                member.save()
+                await client.send_message(user, "You have 3 days left. You can use !renew command.")
+
+            # 24 hours = 86400 seconds. If I choose 1 day it will triger
+            # reminder at 1 day and 23:59.
+            # elif member.notify_24h is False and time_left.seconds == 86400:
+            elif member.notify_24h is False and time_left.days == 1 and time_left.seconds == 0:
+                print("24 hours", member)
+                member.notify_24h = True
+                member.save()
+                await client.send_message(user, "You have 24 hours left. You can use !renew command.")
+            elif member.is_activated and time_left.days <= 0:
+                print(time_left.seconds)
+                member.notify_3 = False
+                member.notify_7 = False
+                member.notify_24h = False
+                member.is_activated = False
+
+                member.save()
+                print("Expired", member)
+
+                # Removing `Member` role from expired user.
+                role = discord.utils.get(server.roles, name="Member")
+                await client.remove_roles(user, role)
+
+                await client.send_message(user, "Your subscription has been expired you can buy it on http://announceus.io")
+
+
+        await asyncio.sleep(2)
 
 
 @client.event
@@ -124,6 +172,11 @@ async def on_member_join(member):
                               " !status and !renew.".format(member))
 
 
+async def get_invite_link():
+    await client.create_invite(destination=client.get_server("531541056185958421"), max_uses=1)
+
+
+
 @client.event
 async def on_message(message):
     """ Here we handle messages in channel and in private
@@ -131,6 +184,9 @@ async def on_message(message):
 
 
     # print(message.channel, message.author, message.author.name, message.content)
+    # invite = await client.create_invite(destination=client.get_server("531541056185958421"), xkcd=True, max_uses=1)
+    invite = get_invite_link()
+    print(dir(invite))
 
 
     if message.content.lower().startswith("!activate"):
@@ -165,5 +221,5 @@ async def on_message(message):
         await client.send_message(message.author, renew_membership(message.author.id))
 
 
-
+client.loop.create_task(member_reminder())
 client.run("NTMxODk5NjY4NDM1Njk3NzA0.DxUqGg.S0om0c6N0eEZz6pA3xWuGKG5xlg")
