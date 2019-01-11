@@ -26,12 +26,15 @@ client = discord.Client()
 
 
 
-def generate_paypal_link():
+def renew_membership(discord_id):
     """ Here we are generating paypal transaction link
         using it user will buy membership."""
 
+    member = Member.objects.filter(discord_id=discord_id).first()
+    if member:
+        message = "You can renew your membership the using following link http://announceus.io/renew/?email={}".format(member.email)
 
-    return "http://paypal.com"
+    return message
 
 
 def get_status(discord_id):
@@ -41,20 +44,57 @@ def get_status(discord_id):
     # Getting from database member
     member = Member.objects.filter(discord_id=discord_id).first()
 
-    # calculating days left
-    days_left = member.subscription_date_expire - datetime.datetime.now(
-        datetime.timezone.utc)
+    # Checking if member does exists.
+    if member:
+        # calculating days left
+        days_left = member.subscription_date_expire - datetime.datetime.now(
+            datetime.timezone.utc)
 
-    # subscripting for fancy look delta time
-    days_left = str(days_left)[:-10]
+        # subscripting for fancy look delta time
+        days_left = str(days_left)[:-10]
 
-    return "You have {} hours left before expire!".format(days_left)
+        message = "You have {} hours left before expire!".format(days_left)
+    else:
+        message = "You should activate your membership with command !activate example@example.com"
+
+    return message
 
 
-def activate_user(email):
+
+
+def activate_user(author, email):
     """ We here are activating user email address."""
 
-    return "Your subscription has been activated with email - {}".format(email)
+    message = None
+    member = Member.objects.filter(email=email).first()
+
+    # checking if memebr exists and already is activated.
+    if member and member.is_activated:
+        message = "You have been already activated! " + get_status(author.id)
+
+    # checking if member email is presents in database but is not activated.
+    # this means he/she got paid but not yet activated.
+    elif member and member.is_activated == False:
+
+        # Discord username like user#1234
+        member.discord_username = author
+
+        # Assign discord user id
+        member.discord_id = author.id
+
+        # Adding days
+        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=30)
+
+        # Set activated status true.
+        member.is_activated = True
+        # Saving in database.
+        member.save()
+
+        message = "You have been activated! {}".format(get_status(author.id))
+    else:
+        message = "You should buy membership on http://announceus.io"
+
+    return message
 
 
 
@@ -81,7 +121,7 @@ async def on_message(message):
         message to bot. Commands are we except !status and !renew. """
 
 
-    print(message.channel, message.author, message.author.name, message.content)
+    # print(message.channel, message.author, message.author.name, message.content)
     user_info = client.get_user_info(message.author.id)
 
 
@@ -94,7 +134,7 @@ async def on_message(message):
         email = re.search(r'[\w\.-]+@[\w\.-]+', message.content.lower())
 
         if email:
-            answer = activate_user(email.group(0))
+            answer = activate_user(message.author, email.group(0))
         else:
             answer = "For activation please provide email address which where used for payment!"
 
@@ -109,7 +149,7 @@ async def on_message(message):
     elif "!renew" == message.content.lower():
 
         # we here reply to user the paypal link to finish transaction.
-        await client.send_message(message.author, generate_paypal_link())
+        await client.send_message(message.author, renew_membership(message.author.id))
 
 
 
