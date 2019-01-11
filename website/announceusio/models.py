@@ -64,6 +64,46 @@ class Member(models.Model):
         return "{} {} {}".format(self.email, self.discord_id,
                                  self.subscription_date_expire)
 
+class Invite(models.Model):
+    email = models.EmailField(max_length=300, blank=True,
+                              null=True, unique=True)
+    is_invited = models.BooleanField(default=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return "{} {} {}".format(self.email, self.is_invited,
+                                 self.created_on)
+
+class SiteSettings(models.Model):
+    price = models.CharField(default="25", max_length=20, blank=False,
+                                null=False)
+
+    item_name = models.CharField(default="announceus.io - PREMIUM",
+                                 max_length=300, blank=False, null=False)
+
+    paypal_email = models.EmailField(max_length=300,
+                                     default="some@mail.com",
+                                     blank=False, null=False)
+
+    email = models.EmailField(max_length=300, blank=False,
+                              null=False)
+
+    email_password = models.CharField(max_length=300, blank=False,
+                                      null=False)
+
+    discord_channel_id = models.CharField(max_length=300, blank=False,
+                                  null=False)
+
+    discord_server_id = models.CharField(default="asds", max_length=300, blank=False,
+                                         null=False)
+
+    bot_token = models.CharField(max_length=300, blank=False,
+                                 null=False)
+
+
+    def __str__(self):
+        return "{} {} {}".format(self.price, self.item_name, self.email)
 
 
 def payment_received_succes(sender, **kwargs):
@@ -76,7 +116,6 @@ def payment_received_succes(sender, **kwargs):
 
     ipn_obj = sender
 
-    #TODO make sure this query works!!!
     member = Member.objects.filter(email=ipn_obj.payer_email).get()
     print(member)
 
@@ -92,10 +131,14 @@ def payment_received_succes(sender, **kwargs):
 
         member.save()
     else:
-        new_member = Member(
-            email=ipn_obj.payer_email)
-
+        # Saving starting point of Member.
+        new_member = Member(email=ipn_obj.payer_email)
         new_member.save()
+
+
+        # Saving email for sending invite to email.
+        invite_member = Invite(email=ipn_obj.payer_email)
+        invite_member.save()
 
         print("I have saved it!")
 
