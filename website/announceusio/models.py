@@ -42,11 +42,11 @@ class Member(models.Model):
     created_on - the date when made record to database.
     """
 
-    email = models.EmailField(max_length=300, blank=True,
+    email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
-    discord_username = models.CharField(max_length=300, blank=True,
+    discord_username = models.CharField(max_length=200, blank=True,
                                         null=True, unique=True)
-    discord_id = models.CharField(max_length=300, blank=True, null=True, unique=True)
+    discord_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
 
     subscription_date_expire = models.DateTimeField(blank=True, null=True)
 
@@ -65,7 +65,7 @@ class Member(models.Model):
                                  self.subscription_date_expire)
 
 class Invite(models.Model):
-    email = models.EmailField(max_length=300, blank=True,
+    email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
     is_invited = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -80,7 +80,7 @@ class SiteSettings(models.Model):
                                 null=False)
 
     item_name = models.CharField(default="announceus.io - PREMIUM",
-                                 max_length=300, blank=False, null=False)
+                                 max_length=255, blank=False, null=False)
 
     paypal_email = models.EmailField(max_length=300,
                                      default="some@mail.com",
@@ -89,16 +89,16 @@ class SiteSettings(models.Model):
     email = models.EmailField(max_length=300, blank=False,
                               null=False)
 
-    email_password = models.CharField(max_length=300, blank=False,
+    email_password = models.CharField(max_length=255, blank=False,
                                       null=False)
 
-    discord_channel_id = models.CharField(max_length=300, blank=False,
+    discord_channel_id = models.CharField(max_length=255, blank=False,
                                   null=False)
 
-    discord_server_id = models.CharField(default="asds", max_length=300, blank=False,
+    discord_server_id = models.CharField(default="asds", max_length=255, blank=False,
                                          null=False)
 
-    bot_token = models.CharField(max_length=300, blank=False,
+    bot_token = models.CharField(max_length=255, blank=False,
                                  null=False)
 
 
