@@ -12,6 +12,7 @@ import uuid
 #     return render(request, "announceusio/index.html")
 
 def index(request):
+    """ Here we are displaying index page."""
     print(reverse('paypal-ipn'))
     print(request.get_host())
 
