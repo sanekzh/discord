@@ -172,10 +172,11 @@ async def on_member_join(member):
                               " !status and !renew.".format(member))
 
 
-async def get_invite_link():
+async def get_link():
     await client.create_invite(destination=client.get_server("531541056185958421"), max_uses=1)
+    return invite
 
-
+print(get_link())
 
 @client.event
 async def on_message(message):
@@ -183,10 +184,9 @@ async def on_message(message):
         message to bot. Commands are we except !status and !renew. """
 
 
-    # print(message.channel, message.author, message.author.name, message.content)
-    # invite = await client.create_invite(destination=client.get_server("531541056185958421"), xkcd=True, max_uses=1)
-    invite = get_invite_link()
-    print(dir(invite))
+    invite = await client.create_invite(destination=client.get_server("531541056185958421"), max_uses=1)
+    # invite = await client.create_invite(destination=client.get_server("531541056185958421"), max_uses=1)
+    print(next(invite).done)
 
 
     if message.content.lower().startswith("!activate"):

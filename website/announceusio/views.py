@@ -31,4 +31,23 @@ def index(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
+    print(dir(PayPalPaymentsForm))
     return render(request, "announceusio/index.html", context)
+
+def renew(request):
+
+    paypal_dict = {
+        "business": "beradze@europe.com",
+        "amount": "35",
+        "item_name": "announceus.io - PREMIUM",
+        "invoice": "{}".format(str(uuid.uuid4())),
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('index')),
+        "cancel_return": request.build_absolute_uri(reverse('index')),
+        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "announceusio/renew.html", context)

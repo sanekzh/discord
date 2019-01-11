@@ -52,8 +52,22 @@ URI     : https://ANNOUNCEUS.io
                                 <li class="nav-item"> <a class="nav-link" href="#features">FEATURES</a> </li>
 								<li class="nav-item"> <a class="nav-link" href="#faq">FAQ</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#contact">CONTACT</a> </li>
-                                {{ form.sandbox }}
-                                <li class="nav-item"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=U4KRG6FJE9NKY" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">BUY IT NOW</a></li>
+
+                                 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                {{ form.cmd }}
+                                {{ form.charset }}
+                                {{ form.currency_code }}
+                                {{ form.no_shipping }}
+                                {{ form.custom }}
+                                {{ form.notify_url }}
+                                {{ form.cancel_return }}
+                                {{ form.amount }}
+                                {{ form.return }}
+                                {{ form.business }}
+                                {{ form.invoice }}
+                                {{ form.item_name }}
+                                <li class="nav-item"><input type="submit" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3" value="BUY IT NOW"></li>
+                                 </form>
                             </ul>
                         </div>
                     </nav>
@@ -266,8 +280,22 @@ URI     : https://ANNOUNCEUS.io
                 <h2>JOIN ANNOUNCEUS NOW</h2>
                 <p class="tagline">Available on Discord. </p>
                 <div class="my-4">
+                    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                {{ form.cmd }}
+                                {{ form.charset }}
+                                {{ form.currency_code }}
+                                {{ form.no_shipping }}
+                                {{ form.custom }}
+                                {{ form.notify_url }}
+                                {{ form.cancel_return }}
+                                {{ form.amount }}
+                                {{ form.return }}
+                                {{ form.business }}
+                                {{ form.invoice }}
+                                {{ form.item_name }}
 
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=U4KRG6FJE9NKY" class="btn btn-light"><img src="{% static 'images/discord-icon.png' %}" alt="icon"> BUY IT NOW </a>
+                    <input type="submit" class="btn btn-light" value="BUY IT NOW"><img src="{% static 'images/discord-icon.png' %}" alt="icon" >
+                    </form>
                 </div>
                 <p class="text-primary"><small><i>Works on any OS. </i></small></p>
             </div>
