@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+dfp4%c@v^k-sixv@2h=%q1t35r1$6!b8q!@=he+c9)x)ue-!@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["announceus.io"]
 
@@ -81,9 +81,9 @@ DATABASES = {
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'CONN_MAX_AGE': 3000, 
-        'NAME': 'admin_django',
-        'USER': 'admin_django',
-        'PASSWORD': 'QVKG4LAoQI',
+        'NAME': 'db_django',
+        'USER': 'root',
+        'PASSWORD': 'aw@ewq2zAd',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -128,7 +128,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-STATIC_ROOT = '/home/admin/web/announceus.io/public_html/discord-paypal-bot/website'
+STATIC_ROOT = '/root/myproject/discord-paypal-bot/website/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
@@ -137,4 +137,4 @@ MEDIA_URL = '/media/'
 # Paypal
 
 PAYPAL_RECEIVER_EMAIL = "Lastrit@hotmail.com"
-PAYPAL_TEST = True
+PAYPAL_TEST = False

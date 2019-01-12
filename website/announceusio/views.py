@@ -31,7 +31,6 @@ def index(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
-    print(dir(PayPalPaymentsForm))
     return render(request, "announceusio/index.html", context)
 
 def renew(request):

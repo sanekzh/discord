@@ -1,2 +1,4 @@
-discord-py
+discord.py
 django
+django-paypal
+mysqlclient
