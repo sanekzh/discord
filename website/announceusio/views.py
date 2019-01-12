@@ -22,9 +22,9 @@ def index(request):
         "amount": settings.price,
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri(reverse('index')),
-        "cancel_return": request.build_absolute_uri(reverse('index')),
+        "notify_url": "https://announceus.io" + reverse('paypal-ipn'),
+        "return": "https://announceus.io" + reverse('index'),
+        "cancel_return": "https://announceus.io" + reverse('index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 
@@ -41,9 +41,9 @@ def renew(request):
         "amount": settings.price,
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri(reverse('index')),
-        "cancel_return": request.build_absolute_uri(reverse('index')),
+        "notify_url": "https://announceus.io" + reverse('paypal-ipn'),
+        "return": "https://announceus.io" + reverse('index'),
+        "cancel_return": "https://announceus.io" + reverse('index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 

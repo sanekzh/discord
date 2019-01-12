@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
@@ -136,5 +136,5 @@ MEDIA_URL = '/media/'
 
 # Paypal
 
-PAYPAL_RECEIVER_EMAIL = "Lastrit@hotmail.com"
+PAYPAL_RECEIVER_EMAIL = "lastrit@hotmail.com"
 PAYPAL_TEST = False
