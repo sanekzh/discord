@@ -12,7 +12,7 @@ import django
 from django.db.models import Q
 os.environ["DJANGO_SETTINGS_MODULE"] = "website.settings"
 django.setup()
-from announceusio.models import Member, Invite, SiteSettings
+from announceusio.models import Member, SiteSettings
 import discord
 import datetime
 import asyncio
@@ -124,7 +124,7 @@ async def member_invite():
     await client.wait_until_ready()
     while not client.is_closed:
 
-        members = Invite.objects.filter(is_invited=False).all()
+        members = Member.objects.filter(is_invited=False).all()
         if members:
             settings = SiteSettings.objects.first()
             smtp_client = smtplib.SMTP('smtp.gmail.com', 587)

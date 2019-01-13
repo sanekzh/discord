@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Member, Invite, SiteSettings
+from .models import Member, SiteSettings
 
 
 @admin.register(Member)
@@ -8,10 +8,6 @@ class AdminMember(admin.ModelAdmin):
     list_display = ("email", "discord_username", "discord_id",
                     "subscription_date_expire", "created_on")
 
-
-@admin.register(Invite)
-class AdminInvite(admin.ModelAdmin):
-    list_display = ("email", "is_invited", "created_on")
 
 @admin.register(SiteSettings)
 class AdminSiteSettings(admin.ModelAdmin):

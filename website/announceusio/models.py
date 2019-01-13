@@ -54,6 +54,7 @@ class Member(models.Model):
     notify_3 = models.BooleanField(default=False)
     notify_24h = models.BooleanField(default=False)
 
+    is_invited = models.BooleanField(default=False)
     is_activated = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -64,6 +65,7 @@ class Member(models.Model):
         return "{} {} {}".format(self.email, self.discord_id,
                                  self.subscription_date_expire)
 
+"""
 class Invite(models.Model):
     email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
@@ -74,6 +76,7 @@ class Invite(models.Model):
     def __str__(self):
         return "{} {} {}".format(self.email, self.is_invited,
                                  self.created_on)
+"""
 
 class SiteSettings(models.Model):
     price = models.CharField(default="25", max_length=20, blank=False,
@@ -105,7 +108,7 @@ class SiteSettings(models.Model):
 
     member_role = models.CharField(default="Member", max_length=255, blank=False, null=False)
 
-    message_body = models.TextField(default="{invite_url}", help_text="You must set invite_url in message body!", blank=False, null=False)
+    message_body = models.TextField(default="{invite_url}", help_text="You must set {invite_url} in message body!", blank=False, null=False)
 
 
     def __str__(self):
