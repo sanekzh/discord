@@ -76,8 +76,13 @@ def activate_user(author, email):
     message = None
     member = Member.objects.filter(Q(email=email) | Q(discord_id=author.id)).first()
 
+    # Checking if user is trying to use different email...
+    if member and member.email != email:
+        message = "This is not your email. You have been activated with a different email."
+        return False, message
+
     # checking if memebr exists and already is activated.
-    if member and member.is_activated and member.discord_id == author.id:
+    elif member and member.is_activated and member.discord_id == author.id:
         message = "You are already activated! " + get_status(author.id)
         return False, message
 
@@ -100,13 +105,10 @@ def activate_user(author, email):
         member.save()
 
         message = "You have been activated! {}".format(get_status(author.id))
+        print("I amin activation", message)
 
         return True, message
 
-    # Checking if user is trying to use different email...
-    elif member and member.email != email:
-        message = "This is not your email. You have been activated with a different email."
-        return False, message
     else:
         message = "You can buy a membership on http://announceus.io"
         return False, message
@@ -146,7 +148,6 @@ async def member_invite():
                 """.format(settings.email, member.email, invite.url)
                 smtp_client.sendmail(settings.email,
                                      member.email, message)
-                print(member)
                 member.is_invited = True
                 member.save()
         await asyncio.sleep(2)
@@ -162,7 +163,8 @@ async def member_reminder():
     """
     await client.wait_until_ready()
     while not client.is_closed:
-        members = Member.objects.filter(is_activated=True).all()
+        members = Member.objects.filter(is_activated=True, discord_id__isnull=False).all()
+        #members = members.exclude(discord_id__isnull=True)
         for member in members:
             # Getting user in the server. Connecting to each other.
             # server = client.get_server("531541056185958421")
@@ -239,8 +241,10 @@ async def on_message(message):
         email = re.search(r'[\w\.-]+@[\w\.-]+', message.content.lower())
 
         if email:
+            print("I am here")
             activate_status = activate_user(message.author, email.group(0))
             answer = activate_status[1]
+            print("if email", answer)
             if activate_status[0]:
 
                 server = client.get_server(settings.discord_server_id)
@@ -250,6 +254,7 @@ async def on_message(message):
         else:
             answer = "For activation please provide email address which where used for payment!"
 
+        print(answer)
         await client.send_message(message.author, answer)
 
     elif "!status" == message.content.lower():
