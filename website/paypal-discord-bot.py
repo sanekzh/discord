@@ -17,6 +17,8 @@ import discord
 import datetime
 import asyncio
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 client = discord.Client()
@@ -125,29 +127,33 @@ async def member_invite():
         members = Invite.objects.filter(is_invited=False).all()
         if members:
             smtp_client = smtplib.SMTP('smtp.gmail.com', 587)
+            smtp_client.ehlo()
             smtp_client.starttls()
             smtp_client.login(settings.email, settings.email_password)
             for member in members:
                 invite = await client.create_invite(destination=client.get_channel(settings.discord_channel_id), max_uses=1)
-                message = """From:  Announceus.io Invite <{}>
-                To:  <{}>
-                Subject:  <Announceus.io Invite>\n\n
-
+                message_text = """
                 Hello,
 
                  Thank you for join ANNOUNCEUS.IO
 
                  Please follow the following Steps:
 
-                     1. Join Our Discord > > {}
+                     1. Join Our Discord > > {invite_url}
 
                      2. Enjoy!
 
                      Thanks
                      ANNOUNCEUS.IO
-                """.format(settings.email, member.email, invite.url)
+                """.format(invite_url=invite.url)
+                message_body = MIMEText(message_text)
+                message = MIMEMultipart()
+                message['From'] = settings.email
+                message['To'] = member.email
+                message['Subject'] = "Announceus.io Invite"
+                message.attach(message_body)
                 smtp_client.sendmail(settings.email,
-                                     member.email, message)
+                                     member.email, message.as_string())
                 member.is_invited = True
                 member.save()
         await asyncio.sleep(2)
@@ -205,7 +211,7 @@ async def member_reminder():
                 role = discord.utils.get(server.roles, name="Member")
                 await client.remove_roles(user, role)
 
-                await client.send_message(user, "Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".fomat(member.discord_username))
+                await client.send_message(user, "Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username))
 
 
         await asyncio.sleep(2)
