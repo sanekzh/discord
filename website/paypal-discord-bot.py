@@ -124,7 +124,7 @@ async def member_invite():
         if members:
             smtp_client = smtplib.SMTP('smtp.gmail.com', 587)
             smtp_client.starttls()
-            smtp_client.login(settings.email, settings.password)
+            smtp_client.login(settings.email, settings.email_password)
             for member in members:
                 invite = await client.create_invite(destination=client.get_channel(settings.discord_channel_id), max_uses=1)
                 message = """From:  Announceus.io Invite <{}>

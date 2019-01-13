@@ -52,3 +52,25 @@ def renew(request):
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
     return render(request, "announceusio/renew.html", context)
+
+
+def payment(request):
+    """ Here we are displaying index page."""
+    settings = SiteSettings.objects.first()
+
+    # What you want the button to do.
+    paypal_dict = {
+        "business": settings.paypal_email,
+        "amount": settings.price,
+        "item_name": settings.item_name,
+        "invoice": "{}".format(str(uuid.uuid4())),
+        "notify_url": "http://announceus.io" + reverse('paypal-ipn'),
+        "return": "https://announceus.io" + reverse('index'),
+        "cancel_return": "https://announceus.io" + reverse('index'),
+        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "announceusio/payment.html", context)

@@ -1,6 +1,6 @@
 from django.db import models
 
-from paypal.standard.ipn.signals import valid_ipn_received
+from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 
 import datetime
 
@@ -115,11 +115,14 @@ def payment_received_succes(sender, **kwargs):
     """
 
     ipn_obj = sender
+    print("I am here in valid payment")
 
-    member = Member.objects.filter(email=ipn_obj.payer_email).get()
+    member = Member.objects.filter(email=ipn_obj.payer_email).exists()
     print(member)
+    print("OeeeE", type(member))
 
     if member:
+        print("I am here...")
         # If the user already exists in database we are just adding 30
         # days to her/him.
         member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=30)
@@ -131,6 +134,7 @@ def payment_received_succes(sender, **kwargs):
 
         member.save()
     else:
+        print("I am saving it")
         # Saving starting point of Member.
         new_member = Member(email=ipn_obj.payer_email)
         new_member.save()
@@ -144,5 +148,9 @@ def payment_received_succes(sender, **kwargs):
 
     print("HERE IS EMAIL ", member)
 
+def invalid_payment(sender, **kwargs):
+    print("I am here in invalid payment")
+    print(sender)
 
+invalid_ipn_received.connect(invalid_payment)
 valid_ipn_received.connect(payment_received_succes)
