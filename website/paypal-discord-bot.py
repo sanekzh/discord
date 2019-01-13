@@ -126,26 +126,14 @@ async def member_invite():
 
         members = Invite.objects.filter(is_invited=False).all()
         if members:
+            settings = SiteSettings.objects.first()
             smtp_client = smtplib.SMTP('smtp.gmail.com', 587)
             smtp_client.ehlo()
             smtp_client.starttls()
             smtp_client.login(settings.email, settings.email_password)
             for member in members:
                 invite = await client.create_invite(destination=client.get_channel(settings.discord_channel_id), max_uses=1)
-                message_text = """
-                Hello,
-
-                 Thank you for join ANNOUNCEUS.IO
-
-                 Please follow the following Steps:
-
-                     1. Join Our Discord > > {invite_url}
-
-                     2. Enjoy!
-
-                     Thanks
-                     ANNOUNCEUS.IO
-                """.format(invite_url=invite.url)
+                message_text = settings.message_body.format(invite_url=invite.url)
                 message_body = MIMEText(message_text)
                 message = MIMEMultipart()
                 message['From'] = settings.email
@@ -174,6 +162,7 @@ async def member_reminder():
         for member in members:
             # Getting user in the server. Connecting to each other.
             # server = client.get_server("531541056185958421")
+            settings = SiteSettings.objects.first()
             server = client.get_server(settings.discord_server_id)
             user = server.get_member(member.discord_id)
             time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
@@ -208,7 +197,8 @@ async def member_reminder():
                 print("Expired", member)
 
                 # Removing `Member` role from expired user.
-                role = discord.utils.get(server.roles, name="Member")
+                settings = SiteSettings.objects.first()
+                role = discord.utils.get(server.roles, name=settings.member_role)
                 await client.remove_roles(user, role)
 
                 await client.send_message(user, "Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username))
@@ -253,9 +243,10 @@ async def on_message(message):
             print("if email", answer)
             if activate_status[0]:
 
+                settings = SiteSettings.objects.first()
                 server = client.get_server(settings.discord_server_id)
                 user = server.get_member(message.author.id)
-                role = discord.utils.get(server.roles, name="Member")
+                role = discord.utils.get(server.roles, name=settings.member_role)
                 await client.add_roles(user, role)
         else:
             answer = "For activation please provide email address which where used for payment!"

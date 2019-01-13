@@ -15,6 +15,6 @@ class AdminInvite(admin.ModelAdmin):
 
 @admin.register(SiteSettings)
 class AdminSiteSettings(admin.ModelAdmin):
-    list_display = ("price", "item_name", "paypal_email", "email", "discord_channel_id",
-                    "discord_server_id", "bot_token")
+    list_display = ("price", "item_name", "sub_days", "member_role", "paypal_email", "email", "discord_channel_id",
+                    "discord_server_id")
 

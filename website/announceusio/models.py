@@ -101,6 +101,12 @@ class SiteSettings(models.Model):
     bot_token = models.CharField(max_length=255, blank=False,
                                  null=False)
 
+    sub_days = models.IntegerField(default=30, blank=False, null=False)
+
+    member_role = models.CharField(default="Member", max_length=255, blank=False, null=False)
+
+    message_body = models.TextField(default="{invite_url}", help_text="You must set invite_url in message body!", blank=False, null=False)
+
 
     def __str__(self):
         return "{} {} {}".format(self.price, self.item_name, self.email)
@@ -115,18 +121,17 @@ def payment_received_succes(sender, **kwargs):
     """
 
     ipn_obj = sender
-    print("I am here in valid payment")
 
     member = Member.objects.filter(email=ipn_obj.payer_email).exists()
-    print(member)
-    print("OeeeE", type(member))
+    settings = SiteSettings.objects.first()
+
 
     if member:
         print("I am here...")
         # If the user already exists in database we are just adding 30
         # days to her/him.
         member = Member.objects.filter(email=ipn_obj.payer_email).first()
-        member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=30)
+        member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=settings.sub_days)
 
         is_activated = True
         member.notify_7 = False
@@ -135,7 +140,6 @@ def payment_received_succes(sender, **kwargs):
 
         member.save()
     else:
-        print("I am saving it")
         # Saving starting point of Member.
         new_member = Member(email=ipn_obj.payer_email)
         new_member.save()
@@ -145,9 +149,7 @@ def payment_received_succes(sender, **kwargs):
         invite_member = Invite(email=ipn_obj.payer_email)
         invite_member.save()
 
-        print("I have saved it!")
 
-    print("HERE IS EMAIL ", member)
 
 def invalid_payment(sender, **kwargs):
     print("I am here in invalid payment")
