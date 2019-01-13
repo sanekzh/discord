@@ -125,6 +125,7 @@ def payment_received_succes(sender, **kwargs):
         print("I am here...")
         # If the user already exists in database we are just adding 30
         # days to her/him.
+        member = Member.objects.filter(email=ipn_obj.payer_email).first()
         member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=30)
 
         is_activated = True
