@@ -65,18 +65,6 @@ class Member(models.Model):
         return "{} {} {}".format(self.email, self.discord_id,
                                  self.subscription_date_expire)
 
-"""
-class Invite(models.Model):
-    email = models.EmailField(max_length=200, blank=True,
-                              null=True, unique=True)
-    is_invited = models.BooleanField(default=False)
-    created_on = models.DateTimeField(auto_now_add=True)
-
-
-    def __str__(self):
-        return "{} {} {}".format(self.email, self.is_invited,
-                                 self.created_on)
-"""
 
 class SiteSettings(models.Model):
     price = models.CharField(default="25", max_length=20, blank=False,
@@ -127,6 +115,8 @@ def payment_received_succes(sender, **kwargs):
 
     member = Member.objects.filter(email=ipn_obj.payer_email).exists()
     settings = SiteSettings.objects.first()
+    print("I am in valid ipn")
+    print(ipn_obj)
 
 
     if member:
@@ -134,7 +124,11 @@ def payment_received_succes(sender, **kwargs):
         # If the user already exists in database we are just adding 30
         # days to her/him.
         member = Member.objects.filter(email=ipn_obj.payer_email).first()
-        member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=settings.sub_days)
+        if member.subscription_date_expire is not None:
+            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=settings.sub_days)
+        else:
+            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=settings.sub_days)
+
 
         is_activated = True
         member.notify_7 = False
@@ -147,10 +141,6 @@ def payment_received_succes(sender, **kwargs):
         new_member = Member(email=ipn_obj.payer_email)
         new_member.save()
 
-
-        # Saving email for sending invite to email.
-        invite_member = Invite(email=ipn_obj.payer_email)
-        invite_member.save()
 
 
 
