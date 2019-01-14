@@ -1,0 +1,26 @@
+#!/bin/bash
+
+NAME="django_boards"
+DIR=/home/boards/discord-paypal-bot/website
+USER=boards
+GROUP=boards
+WORKERS=3
+BIND=unix:/home/boards/run/gunicorn.sock
+DJANGO_SETTINGS_MODULE=website.settings
+DJANGO_WSGI_MODULE=website.wsgi
+LOG_LEVEL=error
+
+cd $DIR
+source ../venv/bin/activate
+
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DIR:$PYTHONPATH
+
+exec ../venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $WORKERS \
+  --user=$USER \
+  --group=$GROUP \
+  --bind=$BIND \
+  --log-level=$LOG_LEVEL \
+  --log-file=-

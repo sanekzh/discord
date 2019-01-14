@@ -1,0 +1,33 @@
+upstream app_server {
+    server unix:/home/boards/run/gunicorn.sock fail_timeout=0;
+}
+
+server {
+    server_name announceus.io;  # here can also be the IP address of the server
+
+    keepalive_timeout 5;
+    client_max_body_size 4G;
+
+    access_log /home/boards/logs/nginx-access.log;
+    error_log /home/boards/logs/nginx-error.log;
+
+    location /static/ {
+        alias /home/boards/discord-paypal-bot/website/static/;
+    }
+
+    # checks for static file, if not found proxy to app
+    location / {
+        try_files $uri @proxy_to_app;
+    }
+
+    location @proxy_to_app {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect off;
+      proxy_pass http://app_server;
+    }
+
+
+}
+
+
