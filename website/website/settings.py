@@ -86,6 +86,9 @@ DATABASES = {
         'PASSWORD': 'aw@ewq2zAd',
         'HOST': 'localhost',
         'PORT': '',
+        'OPTIONS':{
+            'charset': 'utf8mb4',
+            'use_unicode': True, },
     }
 }
 
