@@ -25,7 +25,7 @@ SECRET_KEY = '+dfp4%c@v^k-sixv@2h=%q1t35r1$6!b8q!@=he+c9)x)ue-!@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["announceus.io"]
+ALLOWED_HOSTS = ["announceus.io", "127.0.0.1"]
 
 
 # Application definition
