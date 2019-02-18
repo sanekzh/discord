@@ -91,16 +91,62 @@ class LoginFormView(FormView):
         return super(LoginFormView, self).form_valid(form)
 
 
+class LogoutFormView(View):
+
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse('announceusio:index'))
+
 class Dashboard(View):
     template_name = 'dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {}
+            data = {'menu': 'Dashboard'}
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
         # if request.user.in_group(SALES_AGENT):
         #     return HttpResponseRedirect(reverse('core:manage_clients'))
         # if request.user:
         #     return HttpResponseRedirect(reverse(self.second_template_name))
+
+
+class Members(View):
+    template_name = 'dashboard/members.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = {'menu': 'Members'}
+            return render(request, self.template_name, data)
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+
+class BotMessages(View):
+    template_name = 'dashboard/bot_messages.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = {'menu': 'Bot messages'}
+            return render(request, self.template_name, data)
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+
+class UserSettings(View):
+    template_name = 'dashboard/user_settings.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = {'menu': 'User settings'}
+            return render(request, self.template_name, data)
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+
+class Billing(View):
+    template_name = 'dashboard/billing.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = {'menu': 'Billing'}
+            return render(request, self.template_name, data)
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
