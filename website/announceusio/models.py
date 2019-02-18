@@ -4,6 +4,8 @@ from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 
 import datetime
 
+SALES_AGENT = 'sales_agent'
+
 
 class Member(models.Model):
     """

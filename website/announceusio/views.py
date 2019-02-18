@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http.response import HttpResponseRedirect
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout
+from django.views.generic import View
 
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from paypal.standard.forms import PayPalPaymentsForm
 import uuid
-from .models import SiteSettings
-
+from .models import SiteSettings, SALES_AGENT
 
 
 # def index(request):
@@ -23,8 +27,8 @@ def index(request):
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
         "notify_url": "https://announceus.io" + reverse('paypal-ipn'),
-        "return": "https://announceus.io" + reverse('index'),
-        "cancel_return": "https://announceus.io" + reverse('index'),
+        "return": "https://announceus.io" + reverse('announceusio:index'),
+        "cancel_return": "https://announceus.io" + reverse('announceusio:index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 
@@ -74,3 +78,29 @@ def payment(request):
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
     return render(request, "announceusio/payment.html", context)
+
+
+class LoginFormView(FormView):
+    form_class = AuthenticationForm
+    template_name = "login.html"
+    success_url = reverse_lazy('announceusio:dashboard')
+
+    def form_valid(self, form):
+        self.user = form.get_user()
+        login(self.request, self.user)
+        return super(LoginFormView, self).form_valid(form)
+
+
+class Dashboard(View):
+    template_name = 'dashboard/dashboard.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = {}
+            return render(request, self.template_name, data)
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        # if request.user.in_group(SALES_AGENT):
+        #     return HttpResponseRedirect(reverse('core:manage_clients'))
+        # if request.user:
+        #     return HttpResponseRedirect(reverse(self.second_template_name))
+
