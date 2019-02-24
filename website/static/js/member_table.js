@@ -1,6 +1,6 @@
 $(document).ready(function ($) {
 
-    var $members_table = $('#table_of_products').DataTable({
+    var $members_table = $('#table_of_members').DataTable({
             "bServerSide": true,
             "ajax": {
                 type: 'GET',
