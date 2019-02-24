@@ -14,7 +14,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Active</p>
-                      <p class="card-title">15
+                      <p class="card-title">{{ members_active }}
                         <p>
                     </div>
                   </div>
@@ -40,7 +40,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">All members</p>
-                      <p class="card-title">415
+                      <p class="card-title">{{ members_all }}
                         <p>
                     </div>
                   </div>
@@ -66,7 +66,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Income</p>
-                      <p class="card-title">$ 2,316
+                      <p class="card-title">$ {{ income.mc_gross__sum }}
                         <p>
                     </div>
                   </div>
@@ -92,7 +92,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Total Income</p>
-                      <p class="card-title">$ 125,415
+                      <p class="card-title">$ {{ total_income.mc_gross__sum }}
                         <p>
                     </div>
                   </div>

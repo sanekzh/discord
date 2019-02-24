@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangobower',
+    'crispy_forms',
     'paypal.standard.ipn',
     'announceusio',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -92,7 +95,9 @@ DATABASES = {
         'PORT': '',
         'OPTIONS':{
             'charset': 'utf8mb4',
-            'use_unicode': True, },
+            'use_unicode': True,
+            'init_command': 'SET foreign_key_checks = 0;',
+            },
     }
 }
 
@@ -144,11 +149,35 @@ STATIC_ROOT = '/root/myproject/discord-paypal-bot/website/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'underscore',
+BOWER_INSTALLED_APPS = [
     'components-font-awesome#4.7.0',
-)
+    'datatables.net#1.10.19',
+    'datatables.net-autofill#2.3.2',
+    'datatables.net-autofill-dt#2.3.2',
+    'datatables.net-buttons#1.5.4',
+    'datatables.net-buttons-dt#1.5.4',
+    'datatables.net-colreorder#1.5.1',
+    'datatables.net-colreorder-dt#1.5.1',
+    'datatables.net-dt#3.2.2',
+    'datatables.net-fixedcolumns#3.2.6',
+    'datatables.net-fixedcolumns-dt#3.2.6',
+    'datatables.net-fixedheader#3.1.5',
+    'datatables.net-fixedheader-dt#3.1.5',
+    'datatables.net-keytable#2.5.0',
+    'datatables.net-keytable-dt#2.5.0',
+    'datatables.net-responsive#2.2.3',
+    'datatables.net-responsive-dt#2.2.3',
+    'datatables.net-rowgroup#1.1.0',
+    'datatables.net-rowgroup-dt#1.1.0',
+    'datatables.net-rowreorder#1.2.5',
+    'datatables.net-rowreorder-dt#1.2.5',
+    'datatables.net-scroller#1.5.1',
+    'datatables.net-scroller-dt#1.5.1',
+    'datatables.net-select#1.2.7',
+    'datatables.net-select-dt#1.2.7',
+    'jquery#3.3.1',
+    'underscore#1.9.1'
+]
 
 # Paypal
 

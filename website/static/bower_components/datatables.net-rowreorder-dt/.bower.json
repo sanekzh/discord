@@ -1,0 +1,48 @@
+{
+  "name": "datatables.net-rowreorder-dt",
+  "description": "RowReorder for DataTables ",
+  "main": [
+    "css/rowReorder.dataTables.css"
+  ],
+  "keywords": [
+    "row reordering",
+    "DataTables",
+    "jQuery",
+    "table",
+    "DataTables"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7",
+    "datatables.net": ">=1.10.9",
+    "datatables.net-rowreorder": ">=1.0.0"
+  },
+  "moduleType": [
+    "globals",
+    "amd",
+    "node"
+  ],
+  "ignore": [
+    "composer.json",
+    "datatables.json",
+    "package.json"
+  ],
+  "authors": [
+    {
+      "name": "SpryMedia Ltd",
+      "homepage": "https://datatables.net"
+    }
+  ],
+  "homepage": "https://datatables.net",
+  "license": "MIT",
+  "version": "1.2.5",
+  "_release": "1.2.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.2.5",
+    "commit": "8df312c93310e1d65aa184b31a6835ddc1aff08d"
+  },
+  "_source": "https://github.com/DataTables/Dist-DataTables-RowReorder-DataTables.git",
+  "_target": "^1.2.5",
+  "_originalSource": "datatables.net-rowreorder-dt",
+  "_direct": true
+}

@@ -1,16 +1,25 @@
+import json
+
+from django.core import serializers
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.db.models import Sum, Q
+from django.utils import timezone
+from django.urls import reverse, reverse_lazy
+from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.views.generic import View
+from django.contrib.auth.models import User, Group
 
-from django.urls import reverse, reverse_lazy
-from django.shortcuts import render
 from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.ipn.models import PayPalIPN
 import uuid
-from .models import SiteSettings, SALES_AGENT
+
+from .forms import MemberForm, BotSettingsForm
+from .models import SiteSettings, Member
 
 
 # def index(request):
@@ -37,6 +46,7 @@ def index(request):
     context = {"form": form}
     return render(request, "announceusio/index.html", context)
 
+
 def renew(request):
     settings = SiteSettings.objects.first()
 
@@ -50,7 +60,6 @@ def renew(request):
         "cancel_return": "https://announceus.io" + reverse('index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
-
 
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
@@ -92,23 +101,103 @@ class LoginFormView(FormView):
 
 
 class LogoutFormView(View):
-
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('announceusio:index'))
+
 
 class Dashboard(View):
     template_name = 'dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {'menu': 'Dashboard'}
+            members_active = Member.objects.filter(is_activated=True).count()
+            members_all = Member.objects.all().count()
+            income = PayPalIPN.objects. \
+                filter(created_at__gte=timezone.now().
+                       replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
+            total_income = PayPalIPN.objects.aggregate(Sum('mc_gross'))
+            data = {'menu': 'Dashboard',
+                    'members_active': members_active,
+                    'members_all': members_all,
+                    'income': income,
+                    'total_income': total_income
+                    }
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
-        # if request.user.in_group(SALES_AGENT):
-        #     return HttpResponseRedirect(reverse('core:manage_clients'))
-        # if request.user:
-        #     return HttpResponseRedirect(reverse(self.second_template_name))
+
+
+class AddMember(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            ajax_response = {'sEcho': '', 'aaData': [], 'iTotalRecords': 0, 'iTotalDisplayRecords': 0}
+            user = request.user
+            members = Member.objects.filter(group=Group.objects.get(user=request.user))
+            list_name = ['discord_username', 'discord_id', 'email', 'subscription_date_expire', 'notify_7', 'notify_3',
+                         'notify_24h', 'is_invited', 'is_activated']
+            # search
+            search = request.GET.get('search[value]', '')
+            if search:
+                pass
+                members = members.filter(
+                    Q(discord_username__icontains=search) | Q(discord_id__icontains=search)
+                    | Q(email__icontains=search))
+            # Sorting
+            sort_column = list_name[int(request.GET.get('order[0][column]', 0))]
+            if request.GET.get('order[0][dir]', None) == 'desc':
+                sort_column = '-{}'.format(sort_column)
+            members = members.order_by(sort_column)
+            # filter
+            discord_username = request.GET.get('columns[1][search][value]', False)
+            discord_id = request.GET.get('columns[3][search][value]', False)
+            email = request.GET.get('columns[2][search][value]', False)
+
+            if discord_username or discord_id or email:
+                members = members.filter(
+                    (Q(fnsku=discord_username) if discord_username else Q())
+                    & (Q(description=discord_id) if discord_id else Q())
+                    & (Q(category=email) if email else Q())
+                )
+            start = int(request.GET.get('start', 0))
+            length = int(request.GET.get('length', 10))
+            ajax_response['iTotalRecords'] = ajax_response['iTotalDisplayRecords'] = members.count()
+            for member in members[start:start + length]:
+                ajax_response['aaData'].append(
+                    [
+                        member.discord_username,
+                        member.discord_id,
+                        member.email,
+                        str((member.subscription_date_expire).strftime('%m/%d/%Y')),
+                        member.notify_7,
+                        member.notify_3,
+                        member.notify_24h,
+                        member.is_invited,
+                        member.is_activated
+                    ])
+            # json_data = serializers.serialize('json', members)
+            return HttpResponse(json.dumps(ajax_response), content_type='application/json')
+        except Exception as e:
+            pass
+
+    def post(self, request):
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            member = Member(group=Group.objects.get(user=request.user),
+                            discord_username=data['discord_username'],
+                            discord_id=data['discord_id'],
+                            email=data['email'],
+                            subscription_date_expire=data['subscription_date_expire'],
+                            notify_7=json.loads(request.POST.get('notify_7', 'false')),
+                            notify_3=json.loads(request.POST.get('notify_3', 'false')),
+                            notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
+                            is_invited=json.loads(request.POST.get('is_invited', 'false')),
+                            is_activated=json.loads(request.POST.get('is_activated', 'false')),
+                            )
+            member.save()
+            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'NO', 'errors': [(v[0]) for k, v in form.errors.items()]}),
+                            content_type='application/json')
 
 
 class Members(View):
@@ -116,8 +205,8 @@ class Members(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {'menu': 'Members'}
-            return render(request, self.template_name, data)
+            form = MemberForm()
+            return render(request=request, template_name=self.template_name, context={'menu': 'Members', 'form': form})
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
 
@@ -136,9 +225,37 @@ class UserSettings(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {'menu': 'User settings'}
+            user = User.objects.get(username=request.user)
+            form = {
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'username': user.username
+            }
+            data = {'menu': 'User settings', 'form': form}
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+    def post(self, request):
+        if request.user.is_authenticated and request.POST:
+            form = {}
+            try:
+                user = User.objects.get(username=request.user)
+                user.first_name = request.POST['first_name']
+                user.last_name = request.POST['last_name']
+                user.email = request.POST['user_email']
+                user.save()
+                form = {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                    'username': user.username
+                }
+            except Exception as e:
+                pass
+            data = {'menu': 'User settings', 'form': form, 'status': 'OK'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        return render(request, self.template_name, {})
 
 
 class Billing(View):
@@ -150,3 +267,56 @@ class Billing(View):
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
+
+class BotSettings(View):
+    template_name = 'dashboard/bot_settings.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            try:
+                group = Group.objects.get(user=request.user)
+                bot_settings = SiteSettings.objects.filter(group=group).first()
+                form = {
+                    'price': bot_settings.price,
+                    'item_name': bot_settings.item_name,
+                    'paypal_email': bot_settings.paypal_email,
+                    'email': bot_settings.email,
+                    'email_password': bot_settings.email_password,
+                    'discord_channel_id': bot_settings.discord_channel_id,
+                    'discord_server_id': bot_settings.discord_server_id,
+                    'bot_token': bot_settings.bot_token,
+                    'sub_days': bot_settings.sub_days,
+                    'member_role': bot_settings.member_role,
+                    'message_body': bot_settings.message_body
+                }
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Bot settings', 'form': form})
+            except Exception as e:
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Bot settings', 'form': {}})
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+    def post(self, request):
+        if not request.user.is_authenticated and request.method != 'POST':
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        try:
+            bot_settings = {
+                'price': request.POST['price'],
+                'item_name': request.POST['item_name'],
+                'paypal_email': request.POST['paypal_email'],
+                'email': request.POST['email'],
+                'email_password': request.POST['email_password'],
+                'discord_channel_id': request.POST['discord_channel_id'],
+                'discord_server_id': request.POST['discord_server_id'],
+                'bot_token': request.POST['bot_token'],
+                'sub_days': request.POST['sub_days'],
+                'member_role': request.POST['member_role'],
+                'message_body': request.POST['message_body']
+            }
+            group = Group.objects.get(user=request.user)
+            SiteSettings.objects.filter(group=group).update(**bot_settings)
+            data = {'status': 'OK'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        except Exception as e:
+            data = {'status': 'NO', 'error': e.args[1]}
+            return HttpResponse(json.dumps(data), content_type='application/json')

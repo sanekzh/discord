@@ -1,10 +1,9 @@
-from django.db import models
-
-from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
-
 import datetime
 
-SALES_AGENT = 'sales_agent'
+from django.db import models
+from django.contrib.auth.models import AbstractUser, Group
+
+from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 
 
 class Member(models.Model):
@@ -44,6 +43,7 @@ class Member(models.Model):
     created_on - the date when made record to database.
     """
 
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, default=None)
     email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
     discord_username = models.CharField(max_length=200, blank=True,
@@ -69,6 +69,7 @@ class Member(models.Model):
 
 
 class SiteSettings(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, default=None, unique=True)
     price = models.CharField(default="25", max_length=20, blank=False,
                                 null=False)
 
