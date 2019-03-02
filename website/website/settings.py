@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'CONN_MAX_AGE': 3000, 
         # 'NAME': 'db_django',
-        'NAME': 'db_discord',
+        'NAME': 'discord_db',
         'USER': 'root',
         # 'PASSWORD': 'aw@ewq2zAd',
         'PASSWORD': '789456',
