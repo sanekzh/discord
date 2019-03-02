@@ -1,7 +1,7 @@
 import datetime
 
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group
+from django.contrib.auth.models import AbstractUser, Group, User
 
 from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 
@@ -43,7 +43,7 @@ class Member(models.Model):
     created_on - the date when made record to database.
     """
 
-    group = models.ForeignKey(Group, on_delete=models.PROTECT, default=None)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, default=None)
     email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
     discord_username = models.CharField(max_length=200, blank=True,
@@ -68,8 +68,32 @@ class Member(models.Model):
                                  self.subscription_date_expire)
 
 
+class Billing(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
+    price = models.CharField(default="25", max_length=20, blank=False, null=False)
+    sub_days = models.IntegerField(default=30, blank=False, null=False)
+    item_name = models.CharField(default="announceus.io - PREMIUM", max_length=255, blank=False, null=False)
+    paypal_email = models.EmailField(max_length=300, default="some@mail.com", blank=False, null=False)
+
+
+class BotSettings(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
+    discord_channel_id = models.CharField(max_length=255, blank=False, null=False)
+    discord_server_id = models.CharField(default="asds", max_length=255, blank=False, null=False)
+    bot_token = models.CharField(max_length=255, blank=False, null=False)
+    member_role = models.CharField(default="Member", max_length=255, blank=False, null=False)
+
+
+class EmailSettings(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
+    message_body = models.TextField(default="{invite_url}", help_text="You must set {invite_url} in message body!",
+                                    blank=False, null=False)
+    email = models.EmailField(max_length=300, blank=False, null=False)
+    email_password = models.CharField(max_length=255, blank=False, null=False)
+
+
 class SiteSettings(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.PROTECT, default=None, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
     price = models.CharField(default="25", max_length=20, blank=False,
                                 null=False)
 

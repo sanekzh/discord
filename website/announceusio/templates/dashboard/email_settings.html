@@ -1,0 +1,68 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card demo-icons">
+                    <div class="card-header">
+                        <h5 class="card-title">Email settings</h5>
+                    </div>
+                    <form class="email_settings" action="{% url 'announceusio:email_settings' %}" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-md-6 pr-1">
+                                            <div class="form-group">
+                                                <div id="div_id_email" class="form-group">
+                                                    <label for="id_email" class="col-form-label  requiredField">
+                                                        Email<span class="asteriskField">*</span>
+                                                    </label>
+                                                    <div class="">
+                                                        <input type="email" name="email" maxlength="300"
+                                                               class="emailinput form-control" required=""
+                                                               id="id_email" value="{{ form.email }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 pl-1">
+                                            <div class="form-group">
+                                                <div id="div_id_email_password" class="form-group">
+                                                    <label for="id_email_password"
+                                                           class="col-form-label  requiredField">
+                                                        Email password<span class="asteriskField">*</span>
+                                                    </label>
+                                                    <div class="">
+                                                        <input type="text" name="email_password" maxlength="255"
+                                                               class="textinput textInput form-control" required=""
+                                                               id="id_email_password" value="{{ form.email_password }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_message_body" class="form-group">
+                                        <label for="id_message_body" class="col-form-label  requiredField">
+                                            Message body<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="">
+                                            <textarea name="message_body" cols="40" rows="10"
+                                                      class="textarea form-control" required=""
+                                                      id="id_message_body">{{ form.message_body }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="save_email_settings" type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

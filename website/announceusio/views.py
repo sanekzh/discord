@@ -1,25 +1,30 @@
+import os
 import json
+import uuid
+import subprocess
+from shutil import copyfile
 
-from django.core import serializers
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.db.models import Sum, Q
-from django.utils import timezone
-from django.urls import reverse, reverse_lazy
-from django.shortcuts import render
-from django.http.response import HttpResponseRedirect
-from django.views.generic.edit import FormView
-from django.contrib.auth.forms import AuthenticationForm
+import requests
 from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.db.models import Sum, Q
+from django.http import HttpResponse
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.generic import View
-from django.contrib.auth.models import User, Group
-
+from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.models import PayPalIPN
-import uuid
 
-from .forms import MemberForm, BotSettingsForm
-from .models import SiteSettings, Member
+from .forms import MemberForm
+from .models import Member, Billing, EmailSettings, BotSettings
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # def index(request):
@@ -27,7 +32,7 @@ from .models import SiteSettings, Member
 
 def index(request):
     """ Here we are displaying index page."""
-    settings = SiteSettings.objects.first()
+    settings = Billing.objects.first()
 
     # What you want the button to do.
     paypal_dict = {
@@ -48,7 +53,7 @@ def index(request):
 
 
 def renew(request):
-    settings = SiteSettings.objects.first()
+    settings = Billing.objects.first()
 
     paypal_dict = {
         "business": settings.paypal_email,
@@ -69,7 +74,7 @@ def renew(request):
 
 def payment(request):
     """ Here we are displaying index page."""
-    settings = SiteSettings.objects.first()
+    settings = Billing.objects.first()
 
     # What you want the button to do.
     paypal_dict = {
@@ -106,7 +111,7 @@ class LogoutFormView(View):
         return HttpResponseRedirect(reverse('announceusio:index'))
 
 
-class Dashboard(View):
+class DashboardView(View):
     template_name = 'dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
@@ -127,12 +132,14 @@ class Dashboard(View):
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
 
-class AddMember(View):
+class AddMemberView(View):
     def get(self, request, *args, **kwargs):
         try:
             ajax_response = {'sEcho': '', 'aaData': [], 'iTotalRecords': 0, 'iTotalDisplayRecords': 0}
             user = request.user
-            members = Member.objects.filter(group=Group.objects.get(user=request.user))
+            members = Member.objects.filter(user=User.objects.get(username=request.user))
+            if not members:
+                return HttpResponse(json.dumps(ajax_response), content_type='application/json')
             list_name = ['discord_username', 'discord_id', 'email', 'subscription_date_expire', 'notify_7', 'notify_3',
                          'notify_24h', 'is_invited', 'is_activated']
             # search
@@ -183,7 +190,7 @@ class AddMember(View):
         form = MemberForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            member = Member(group=Group.objects.get(user=request.user),
+            member = Member(user=User.objects.get(username=request.user),
                             discord_username=data['discord_username'],
                             discord_id=data['discord_id'],
                             email=data['email'],
@@ -200,7 +207,7 @@ class AddMember(View):
                             content_type='application/json')
 
 
-class Members(View):
+class MembersView(View):
     template_name = 'dashboard/members.html'
 
     def get(self, request, *args, **kwargs):
@@ -210,7 +217,7 @@ class Members(View):
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
 
-class BotMessages(View):
+class BotMessagesView(View):
     template_name = 'dashboard/bot_messages.html'
 
     def get(self, request, *args, **kwargs):
@@ -220,7 +227,7 @@ class BotMessages(View):
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
 
-class UserSettings(View):
+class UserSettingsView(View):
     template_name = 'dashboard/user_settings.html'
 
     def get(self, request, *args, **kwargs):
@@ -258,36 +265,72 @@ class UserSettings(View):
         return render(request, self.template_name, {})
 
 
-class Billing(View):
+class BillingSettingsView(View):
     template_name = 'dashboard/billing.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {'menu': 'Billing'}
-            return render(request, self.template_name, data)
+            try:
+                user = User.objects.get(username=request.user)
+                billing_settings = Billing.objects.filter(user=user).first()
+                form = {
+                    'price': billing_settings.price,
+                    'item_name': billing_settings.item_name,
+                    'paypal_email': billing_settings.paypal_email,
+                    'sub_days': billing_settings.sub_days,
+                }
+                paypal_dict = {
+                    "business": billing_settings.paypal_email,
+                    "amount": billing_settings.price,
+                    "item_name": billing_settings.item_name,
+                    "invoice": "{}".format(str(uuid.uuid4())),
+                    "notify_url": "http://announceus.io" + reverse('paypal-ipn'),
+                    "return": "https://announceus.io" + str(reverse_lazy('announceusio:index')),
+                    "cancel_return": "https://announceus.io" + str(reverse_lazy('announceusio:index')),
+                    "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+                }
+                form_paypal = PayPalPaymentsForm(initial=paypal_dict)
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Billing', 'form': form, 'form_paypal': form_paypal})
+            except Exception as e:
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Billing', 'form': {}, 'form_paypal': {}})
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
 
+    def post(self, request):
+        if not request.user.is_authenticated and request.method != 'POST':
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        try:
+            billing_settings = {
+                'price': request.POST['price'],
+                'item_name': request.POST['item_name'],
+                'paypal_email': request.POST['paypal_email'],
+                'sub_days': request.POST['sub_days'],
+            }
+            user = User.objects.get(username=request.user)
+            if Billing.objects.filter(user_id=user.id).exists():
+                Billing.objects.filter(user=user).update(**billing_settings)
+            else:
+                Billing.objects.update_or_create(user=user, **billing_settings)
+            data = {'status': 'OK'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        except Exception as e:
+            data = {'status': 'NO', 'error': e.args[1]}
+            return HttpResponse(json.dumps(data), content_type='application/json')
 
-class BotSettings(View):
+
+class BotSettingsView(View):
     template_name = 'dashboard/bot_settings.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             try:
-                group = Group.objects.get(user=request.user)
-                bot_settings = SiteSettings.objects.filter(group=group).first()
+                user = User.objects.get(username=request.user)
+                bot_settings = BotSettings.objects.filter(user=user).first()
                 form = {
-                    'price': bot_settings.price,
-                    'item_name': bot_settings.item_name,
-                    'paypal_email': bot_settings.paypal_email,
-                    'email': bot_settings.email,
-                    'email_password': bot_settings.email_password,
                     'discord_channel_id': bot_settings.discord_channel_id,
                     'discord_server_id': bot_settings.discord_server_id,
-                    'bot_token': bot_settings.bot_token,
-                    'sub_days': bot_settings.sub_days,
-                    'member_role': bot_settings.member_role,
-                    'message_body': bot_settings.message_body
+                    'bot_token': bot_settings.bot_token
                 }
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Bot settings', 'form': form})
@@ -301,20 +344,127 @@ class BotSettings(View):
             return render(request, reverse_lazy('announceusio:index'), {'error': False})
         try:
             bot_settings = {
-                'price': request.POST['price'],
-                'item_name': request.POST['item_name'],
-                'paypal_email': request.POST['paypal_email'],
-                'email': request.POST['email'],
-                'email_password': request.POST['email_password'],
                 'discord_channel_id': request.POST['discord_channel_id'],
                 'discord_server_id': request.POST['discord_server_id'],
-                'bot_token': request.POST['bot_token'],
-                'sub_days': request.POST['sub_days'],
-                'member_role': request.POST['member_role'],
+                'bot_token': request.POST['bot_token']
+            }
+            user = User.objects.get(username=request.user)
+            if BotSettings.objects.filter(user=user).exists():
+                BotSettings.objects.filter(user=user).update(**bot_settings)
+            else:
+                BotSettings.objects.update_or_create(user=user, **bot_settings)
+            data = {'status': 'OK'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        except Exception as e:
+            data = {'status': 'NO', 'error': e.args[1]}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class EmailSettingsView(View):
+    template_name = 'dashboard/email_settings.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            try:
+                user = User.objects.get(username=request.user)
+                email_settings = EmailSettings.objects.filter(user=user).first()
+                form = {
+                    'email': email_settings.email,
+                    'email_password': email_settings.email_password,
+                    'message_body': email_settings.message_body
+                }
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Email settings', 'form': form})
+            except Exception as e:
+                return render(request=request, template_name=self.template_name,
+                              context={'menu': 'Email settings', 'form': {}})
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+    def post(self, request):
+        if not request.user.is_authenticated and request.method != 'POST':
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        try:
+            email_settings = {
+                'email': request.POST['email'],
+                'email_password': request.POST['email_password'],
                 'message_body': request.POST['message_body']
             }
-            group = Group.objects.get(user=request.user)
-            SiteSettings.objects.filter(group=group).update(**bot_settings)
+            user = User.objects.get(username=request.user)
+            if EmailSettings.objects.filter(user=user).exists():
+                EmailSettings.objects.filter(user=user).update(**email_settings)
+            else:
+                EmailSettings.objects.update_or_create(user=user, **email_settings)
+            data = {'status': 'OK'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        except Exception as e:
+            data = {'status': 'NO', 'error': e.args[1]}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class OwnerView(View):
+    template_name = 'dashboard/owner.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            form = UserCreationForm()
+            return render(request, self.template_name, {'form': form})
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        form = UserCreationForm(request.POST)
+        print(request.POST['username'])
+        if form.is_valid():
+            try:
+                form.save()
+                super_admin = User.objects.get(username=request.user.username)
+                owner = User.objects.get(username=request.POST['username'])
+                bot_settings = BotSettings.objects.get(user=super_admin)
+                bot_settings.pk = None
+                bot_settings.user = owner
+                bot_settings.save()
+                email_settings = EmailSettings.objects.get(user=super_admin)
+                email_settings.pk = None
+                email_settings.user = owner
+                email_settings.save()
+                billing = Billing.objects.get(user=super_admin)
+                billing.pk = None
+                billing.user = owner
+                billing.save()
+                bot = BASE_DIR + "/paypal-discord-bot-admin.py"
+                new_bot = BASE_DIR + f"/paypal-discord-bot-{request.POST['username']}.py"
+                copyfile(bot, new_bot)
+                f = open(new_bot, 'r')
+                file_data = f.read()
+                f.close()
+                new_data = file_data.replace("OWNER_ID = 1", f"OWNER_ID = {owner.id}")
+                f = open(new_bot, 'w')
+                f.write(new_data)
+                f.close()
+                return render(request, self.template_name, {'form': form, 'success': 'Passed successfully!'})
+            except Exception as e:
+                form = UserCreationForm()
+        return render(request, self.template_name, {'form': form, 'errors': [(v[0]) for k, v in form.errors.items()]})
+
+
+class BotStatusView(View):
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and request.method != 'POST':
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        try:
+            url = 'http://127.0.0.1:9001/index.html'
+            if request.POST['status'] == 'start':
+                r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=start',
+                                 auth=('admin', '789456'))
+            elif request.POST['status'] == 'restart':
+                r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=restart',
+                                 auth=('admin', '789456'))
+            elif request.POST['status'] == 'stop':
+                r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=stop',
+                                 auth=('admin', '789456'))
+
             data = {'status': 'OK'}
             return HttpResponse(json.dumps(data), content_type='application/json')
         except Exception as e:

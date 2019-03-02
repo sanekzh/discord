@@ -1,263 +1,98 @@
 {% extends "dashboard/dashboard_base.html" %}
 {% load static %}
 {% block content %}
-      <div class="content">
+     <div class="content">
         <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title"> Simple Table</h4>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Country
-                      </th>
-                      <th>
-                        City
-                      </th>
-                      <th class="text-right">
-                        Salary
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          Dakota Rice
-                        </td>
-                        <td>
-                          Niger
-                        </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
-                        <td class="text-right">
-                          $36,738
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-right">
-                          $23,789
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-right">
-                          $56,142
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Philip Chaney
-                        </td>
-                        <td>
-                          Korea, South
-                        </td>
-                        <td>
-                          Overland Park
-                        </td>
-                        <td class="text-right">
-                          $38,735
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-right">
-                          $63,542
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $78,615
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Jon Porter
-                        </td>
-                        <td>
-                          Portugal
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $98,615
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+            <div class="col-md-12">
+                <div class="card demo-icons">
+                    <div class="card-header">
+                        <h5 class="card-title">Billing</h5>
+                    <form class="billing_settings" action="{% url 'announceusio:billing' %}" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-lg-8">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div id="div_id_price" class="form-group">
+                                                <label for="id_price" class="col-form-label  requiredField">
+                                                    Price<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" name="price" maxlength="20"
+                                                           class="textinput textInput form-control" required=""
+                                                           id="id_price" value="{{ form.price }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div id="div_id_item_name" class="form-group">
+                                                <label for="id_item_name" class="col-form-label  requiredField">
+                                                    Item name<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" name="item_name" maxlength="255"
+                                                           class="textinput textInput form-control" required=""
+                                                           id="id_item_name" value="{{ form.item_name }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div id="div_id_sub_days" class="form-group">
+                                                <label for="id_sub_days" class="col-form-label  requiredField">
+                                                    Sub days<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="number" name="sub_days"
+                                                           class="numberinput form-control" required=""
+                                                           id="id_sub_days" value="{{ form.sub_days }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div id="div_id_paypal_email" class="form-group">
+                                                <label for="id_paypal_email" class="col-form-label  requiredField">
+                                                    Paypal email<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="email" name="paypal_email" maxlength="300"
+                                                           class="emailinput form-control" required="" id="id_paypal_email"
+                                                    value="{{ form.paypal_email }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer left-side">
+                            <button id="save_billing" type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+
+                    <div class="col-md-2">
+                        {{ form_paypal.sandbox}}
+                    </div>
+                    <div class="col-md-10">
+                        <div id="div_id_message_body" class="form-group">
+                            <label for="id_message_body" class="col-form-label  requiredField">
+                                Copy this code in your website
+                                <span class="asteriskField">*</span>
+                            </label>
+                            <div class="">
+                                <textarea name="message_body" cols="40" rows="10"
+                                          class="textarea form-control" required=""
+                                          id="id_message_body">{{ form_paypal.sandbox}}</textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="col-md-12">
-            <div class="card card-plain">
-              <div class="card-header">
-                <h4 class="card-title"> Table on Plain Background</h4>
-                <p class="card-category"> Here is a subtitle for this table</p>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Country
-                      </th>
-                      <th>
-                        City
-                      </th>
-                      <th class="text-right">
-                        Salary
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          Dakota Rice
-                        </td>
-                        <td>
-                          Niger
-                        </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
-                        <td class="text-right">
-                          $36,738
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-right">
-                          $23,789
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-right">
-                          $56,142
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Philip Chaney
-                        </td>
-                        <td>
-                          Korea, South
-                        </td>
-                        <td>
-                          Overland Park
-                        </td>
-                        <td class="text-right">
-                          $38,735
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-right">
-                          $63,542
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $78,615
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Jon Porter
-                        </td>
-                        <td>
-                          Portugal
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $98,615
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 {% endblock %}

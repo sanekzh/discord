@@ -80,6 +80,7 @@ var $members_table = $('#table_of_members').DataTable({
             //     }
             // ]
         });
+
 $('form.add_member').submit(function(e){
         e.preventDefault();
         var form = $(e.target);
@@ -108,7 +109,7 @@ $('form.add_member').submit(function(e){
             error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
             success: function(data){
                 if (data['status'] == 'OK'){
-                     $("#likeForSupportModal").modal('hide');
+                     $("#addMemberModal").modal('hide');
                      $members_table.ajax.reload();
                 }
                 else if (data['status'] == 'NO'){
@@ -158,16 +159,9 @@ $('form.bot_settings').submit(function(e){
         e.preventDefault();
         var form = $(e.target);
         var data = new FormData(form[0]);
-        data.append('price', $('#id_price').val());
-        data.append('item_name', $('#id_item_name').val());
-        data.append('paypal_email', $('#id_paypal_email').val());
-        data.append('email', $('#id_email').val());
-        data.append('email_password', $('#id_email_password').val());
         data.append('discord_channel_id', $('#id_discord_channel_id').val());
         data.append('discord_server_id', $('#id_discord_server_id').val());
         data.append('bot_token', $('#id_bot_token').val());
-        data.append('sub_days', $('#id_sub_days').val());
-        data.append('member_role', $('#id_member_role').val());
         $.ajax({
             url: links.bot_settings,
             type: 'post',
@@ -191,5 +185,106 @@ $('form.bot_settings').submit(function(e){
             }
         });
  });
+
+$('form.billing_settings').submit(function(e){
+        e.preventDefault();
+        var form = $(e.target);
+        var data = new FormData(form[0]);
+        data.append('price', $('#id_price').val());
+        data.append('item_name', $('#id_item_name').val());
+        data.append('paypal_email', $('#id_paypal_email').val());
+        data.append('sub_days', $('#id_sub_days').val());
+        $.ajax({
+            url: links.billing_settings,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: data,
+             beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+            },
+            error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
+            success: function(data){
+                if (data['status'] == 'OK'){
+                    alert('Passed successfully!');
+                    location.reload();
+                }
+                else if (data['status'] == 'NO'){
+                    alert('Error!!!')
+                }
+            }
+        });
+ });
+
+$('form.email_settings').submit(function(e){
+        e.preventDefault();
+        var form = $(e.target);
+        var data = new FormData(form[0]);
+        data.append('email', $('#id_email').val());
+        data.append('email_settings', $('#id_email_settings').val());
+        data.append('message_body', $('#id_message_body').val());
+        $.ajax({
+            url: links.email_settings,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: data,
+             beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+            },
+            error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
+            success: function(data){
+                if (data['status'] == 'OK'){
+                    alert('Passed successfully!');
+                }
+                else if (data['status'] == 'NO'){
+                    alert('Error!!!')
+                }
+            }
+        });
+ });
+function set_bot_status(status){
+    $ajax = $.ajax({
+        url: links.bot_status,
+        type: 'POST',
+        data: {
+            status: status
+        },
+        dataType: "json",
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        },
+        success: function (data) {
+             if (data['status'] == 'OK'){
+                 alert('Passed successfully!');
+             }
+             else if (data['status'] == 'NO'){
+                 alert('Error!!!', data['error'])
+             }
+        },
+        error: function () {
+        }
+    });
+}
+$('#start_bot').on('click', function () {
+    set_bot_status('start');
+});
+
+$('#restart_bot').on('click', function () {
+    set_bot_status('restart');
+});
+
+$('#stop_bot').on('click', function () {
+    set_bot_status('stop');
+});
+
 
 

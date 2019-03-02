@@ -1,6 +1,6 @@
 {% extends "dashboard/dashboard_base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
+{#{% load crispy_forms_tags %}#}
 {% block content %}
     <div class="content">
         <div class="row">
@@ -9,237 +9,67 @@
                     <div class="card-header">
                         <h5 class="card-title">Bot settings</h5>
                     </div>
+                    <div class="col-lg-8">
+                        <button id="start_bot" type="submit" class="btn btn-success">Start</button>
+                        <button id="restart_bot" type="submit" class="btn btn-warning">Restart</button>
+                        <button id="stop_bot" type="submit" class="btn btn-danger">Stop</button>
+                    </div>
                     <form class="bot_settings" action="{% url 'announceusio:bot_settings' %}" method="post">
                         <div class="modal-body">
                             <div class="form-group">
-                                {#                                <div class="col-lg-8">#}
-                                {##}
-                                {#                                    {% csrf_token %}#}
-                                {##}
-                                {#                                    {{ from.errors }}#}
-                                {#                                    <div class="row">#}
-                                {#                                        <div class="col-md-6 pr-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.price | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                        <div class="col-md-6 pl-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.item_name | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                    </div>#}
-                                {#                                    {{ form.paypal_email | as_crispy_field }}#}
-                                {##}
-                                {#                                    <div class="row">#}
-                                {#                                        <div class="col-md-6 pr-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.email | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                        <div class="col-md-6 pl-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.email_password | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                    </div>#}
-                                {#                                    <div class="row">#}
-                                {#                                        <div class="col-md-6 pr-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.discord_channel_id | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                        <div class="col-md-6 pl-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.discord_server_id | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                    </div>#}
-                                {#                                    <div class="row">#}
-                                {#                                        <div class="col-md-4 pr-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.bot_token | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                        <div class="col-md-4 pl-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.sub_days | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                        <div class="col-md-4 pl-1">#}
-                                {#                                            <div class="form-group">#}
-                                {#                                                {{ form.member_role | as_crispy_field }}#}
-                                {#                                            </div>#}
-                                {#                                        </div>#}
-                                {#                                    </div>#}
-                                {#                                    {{ form.message_body | as_crispy_field }}#}
-                                {#                                </div>#}
                                 <div class="col-lg-8">
-                                    <div class="row">
-                                        <div class="col-md-6 pr-1">
-                                            <div class="form-group">
-                                                <div id="div_id_price" class="form-group">
-                                                    <label for="id_price" class="col-form-label  requiredField">
-                                                        Price<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="price" maxlength="20"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_price" value="{{ form.price }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 pl-1">
-                                            <div class="form-group">
-                                                <div id="div_id_item_name" class="form-group">
-                                                    <label for="id_item_name" class="col-form-label  requiredField">
-                                                        Item name<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="item_name" maxlength="255"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_item_name" value="{{ form.item_name }}">
-                                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div id="div_id_discord_channel_id" class="form-group">
+                                                <label for="id_discord_channel_id"
+                                                       class="col-form-label  requiredField">
+                                                    Discord channel id<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" name="discord_channel_id" maxlength="255"
+                                                           class="textinput textInput form-control" required=""
+                                                           id="id_discord_channel_id"
+                                                           value="{{ form.discord_channel_id }}">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="div_id_paypal_email" class="form-group">
-                                        <label for="id_paypal_email" class="col-form-label  requiredField">
-                                            Paypal email<span class="asteriskField">*</span>
-                                        </label>
-                                        <div class="">
-                                            <input type="email" name="paypal_email" maxlength="300"
-                                                   class="emailinput form-control" required="" id="id_paypal_email"
-                                            value="{{ form.paypal_email }}">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 pr-1">
-                                            <div class="form-group">
-                                                <div id="div_id_email" class="form-group">
-                                                    <label for="id_email" class="col-form-label  requiredField">
-                                                        Email<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="email" name="email" maxlength="300"
-                                                               class="emailinput form-control" required=""
-                                                               id="id_email" value="{{ form.email }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 pl-1">
-                                            <div class="form-group">
-                                                <div id="div_id_email_password" class="form-group">
-                                                    <label for="id_email_password"
-                                                           class="col-form-label  requiredField">
-                                                        Email password<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="email_password" maxlength="255"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_email_password" value="{{ form.email_password }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 pr-1">
-                                            <div class="form-group">
-                                                <div id="div_id_discord_channel_id" class="form-group">
-                                                    <label for="id_discord_channel_id"
-                                                           class="col-form-label  requiredField">
-                                                        Discord channel id<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="discord_channel_id" maxlength="255"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_discord_channel_id"
-                                                               value="{{ form.discord_channel_id }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 pl-1">
-                                            <div class="form-group">
-                                                <div id="div_id_discord_server_id" class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div id="div_id_discord_server_id" class="form-group">
 
-                                                    <label for="id_discord_server_id"
-                                                           class="col-form-label  requiredField">
-                                                        Discord server id<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="discord_server_id"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_discord_server_id"
-                                                        value="{{ form.discord_server_id }}">
-                                                    </div>
+                                                <label for="id_discord_server_id"
+                                                       class="col-form-label  requiredField">
+                                                    Discord server id<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" name="discord_server_id"
+                                                           class="textinput textInput form-control" required=""
+                                                           id="id_discord_server_id"
+                                                    value="{{ form.discord_server_id }}">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4 pr-1">
-                                            <div class="form-group">
-                                                <div id="div_id_bot_token" class="form-group">
-                                                    <label for="id_bot_token" class="col-form-label  requiredField">
-                                                        Bot token<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="bot_token" maxlength="255"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_bot_token" value="{{ form.bot_token }}">
-                                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div id="div_id_bot_token" class="form-group">
+                                                <label for="id_bot_token" class="col-form-label  requiredField">
+                                                    Bot token<span class="asteriskField">*</span>
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" name="bot_token" maxlength="255"
+                                                           class="textinput textInput form-control" required=""
+                                                           id="id_bot_token" value="{{ form.bot_token }}">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 pl-1">
-                                            <div class="form-group">
-                                                <div id="div_id_sub_days" class="form-group">
-                                                    <label for="id_sub_days" class="col-form-label  requiredField">
-                                                        Sub days<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="number" name="sub_days"
-                                                               class="numberinput form-control" required=""
-                                                               id="id_sub_days" value="{{ form.sub_days }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 pl-1">
-                                            <div class="form-group">
-                                                <div id="div_id_member_role" class="form-group">
-                                                    <label for="id_member_role" class="col-form-label  requiredField">
-                                                        Member role<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="text" name="member_role" maxlength="255"
-                                                               class="textinput textInput form-control" required=""
-                                                               id="id_member_role" value="{{ form.member_role }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="div_id_message_body" class="form-group">
-                                        <label for="id_message_body" class="col-form-label  requiredField">
-                                            Message body<span class="asteriskField">*</span>
-                                        </label>
-                                        <div class="">
-                                            <textarea name="message_body" cols="40" rows="10"
-                                                      class="textarea form-control" required=""
-                                                      id="id_message_body">{{ form.message_body }}</textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button id="save_member" type="submit" class="btn btn-success">Save</button>
+                            <button id="save_bot_settings" type="submit" class="btn btn-success">Save</button>
                         </div>
                     </form>
                 </div>

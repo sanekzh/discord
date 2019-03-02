@@ -25,7 +25,7 @@ SECRET_KEY = '+dfp4%c@v^k-sixv@2h=%q1t35r1$6!b8q!@=he+c9)x)ue-!@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["announceus.io", "127.0.0.1", "45.79.0.173"]
+ALLOWED_HOSTS = ["announceus.io", "127.0.0.1", "45.79.0.173", 'cookstart.io', 'dashboard.cookstart.io']
 
 
 # Application definition
@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'CONN_MAX_AGE': 3000, 
         # 'NAME': 'db_django',
-        'NAME': 'discord_db',
+        'NAME': 'db_discord',
         'USER': 'root',
         # 'PASSWORD': 'aw@ewq2zAd',
         'PASSWORD': '789456',
