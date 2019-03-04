@@ -27,6 +27,16 @@ $('#member_add').on('click', function(){
    $("#addMemberModal").modal('show');
 });
 
+var elements = document.querySelectorAll('.sidebar-wrapper ul li');
+    for (var i = 0; i < elements.length; i++) {
+        if ($(elements[i]).find('p').text() === menu) {
+            $(elements[i]).addClass('active');
+        }
+        else {
+            $(elements[i]).removeClass('active');
+        }
+
+    }
 //
 // $("#save_member").on('click', function () {
 //    alert('ok');

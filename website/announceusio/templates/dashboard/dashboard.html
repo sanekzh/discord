@@ -189,21 +189,9 @@
 {#        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"#}
 {#        crossorigin="anonymous"></script>#}
 <script>
-
     $(document).ready(function () {
         // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
         demo.initChartsPages();
     });
-    var menu = '{{ menu }}';
-    var elements = document.querySelectorAll('.sidebar-wrapper ul li');
-    for (var i = 0; i < elements.length; i++) {
-        if ($(elements[i]).find('p').text() === menu) {
-            $(elements[i]).addClass('active');
-        }
-        else {
-            $(elements[i]).removeClass('active');
-        }
-
-    }
 </script>
 {% endblock %}
