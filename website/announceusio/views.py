@@ -171,15 +171,16 @@ class AddMemberView(View):
             for member in members[start:start + length]:
                 ajax_response['aaData'].append(
                     [
-                        member.discord_username,
-                        member.discord_id,
+                        member.discord_username if member.discord_username != member.email else '',
+                        member.discord_id if member.discord_id != member.email else '',
                         member.email,
                         str((member.subscription_date_expire).strftime('%m/%d/%Y')) if member.subscription_date_expire else '',
                         member.notify_7,
                         member.notify_3,
                         member.notify_24h,
                         member.is_invited,
-                        member.is_activated
+                        member.is_activated,
+                        member.id
                     ])
             # json_data = serializers.serialize('json', members)
             return HttpResponse(json.dumps(ajax_response), content_type='application/json')
@@ -187,6 +188,20 @@ class AddMemberView(View):
             pass
 
     def post(self, request):
+        if Member.objects.filter(email=request.POST['email']).exists():
+            subscription_date_expire = request.POST['subscription_date_expire']
+
+            Member.objects.filter(email=request.POST['email']).update(
+                discord_username=request.POST['discord_username'],
+                discord_id=request.POST['discord_id'],
+                subscription_date_expire=subscription_date_expire if subscription_date_expire else None,
+                notify_7=json.loads(request.POST.get('notify_7', 'false')),
+                notify_3=json.loads(request.POST.get('notify_3', 'false')),
+                notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
+                is_invited=json.loads(request.POST.get('is_invited', 'false')),
+                is_activated=json.loads(request.POST.get('is_activated', 'false'))
+            )
+            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
         form = MemberForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data

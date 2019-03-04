@@ -21,6 +21,7 @@ urlpatterns = [
     path("owner/", login_required()(views.OwnerView.as_view()), name="owner"),
     path("members/", login_required()(views.MembersView.as_view()), name="members"),
     path("add_member/", login_required()(views.AddMemberView.as_view()), name="add_member"),
+    path("member_update/", login_required()(views.MembersView.as_view()), name="members"),
     path("bot_messages/", login_required()(views.BotMessagesView.as_view()), name="bot_messages"),
     path("bot_settings/", login_required()(views.BotSettingsView.as_view()), name="bot_settings"),
     path("email_settings/", login_required()(views.EmailSettingsView.as_view()), name="email_settings"),
