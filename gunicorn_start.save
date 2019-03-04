@@ -1,22 +1,21 @@
 #!/bin/bash
 
-NAME="django_discord"
-DIR=/home/discord/discord/website
+NAME="django_boards"
+DIR=/home/boards/discord/website
 USER=discord
-GROUP=discord
-WORKERS=3
-BIND=unix:/home/discord/discord/run/gunicorn.sock
+GROUP=boardsWORKERS=3
+BIND=unix:/home/boards/run/gunicorn.sock
 DJANGO_SETTINGS_MODULE=website.settings
 DJANGO_WSGI_MODULE=website.wsgi
 LOG_LEVEL=error
 
 cd $DIR
-source /home/discord/venv/bin/activate
+source ../venv/bin/activate
 
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DIR:$PYTHONPATH
 
-exec /home/discord/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+exec ../venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $WORKERS \
   --user=$USER \

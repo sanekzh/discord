@@ -444,6 +444,7 @@ class OwnerView(View):
                 f.close()
                 return render(request, self.template_name, {'form': form, 'success': 'Passed successfully!'})
             except Exception as e:
+                print(e)
                 form = UserCreationForm()
         return render(request, self.template_name, {'form': form, 'errors': [(v[0]) for k, v in form.errors.items()]})
 

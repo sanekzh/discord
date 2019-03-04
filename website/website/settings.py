@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+dfp4%c@v^k-sixv@2h=%q1t35r1$6!b8q!@=he+c9)x)ue-!@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["announceus.io", "127.0.0.1", "45.79.0.173", 'cookstart.io', 'dashboard.cookstart.io']
 
@@ -138,14 +138,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder'
+)
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-# STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-STATIC_ROOT = '/root/myproject/discord-paypal-bot/website/static/'
+
+STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = '/home/discord/website/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 

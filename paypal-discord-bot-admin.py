@@ -12,7 +12,7 @@ import django
 from django.db.models import Q
 os.environ["DJANGO_SETTINGS_MODULE"] = "website.website.settings"
 django.setup()
-from website.announceusio.models import Member, SiteSettings, BotSettings, EmailSettings, Billing
+from announceusio.models import Member, SiteSettings, BotSettings, EmailSettings, Billing
 import discord
 import datetime
 import asyncio
