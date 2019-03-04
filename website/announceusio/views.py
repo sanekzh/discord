@@ -174,7 +174,7 @@ class AddMemberView(View):
                         member.discord_username,
                         member.discord_id,
                         member.email,
-                        str((member.subscription_date_expire).strftime('%m/%d/%Y')),
+                        str((member.subscription_date_expire).strftime('%m/%d/%Y')) if member.subscription_date_expire else '',
                         member.notify_7,
                         member.notify_3,
                         member.notify_24h,
