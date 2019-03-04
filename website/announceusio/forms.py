@@ -11,10 +11,11 @@ class MemberForm(ModelForm):
         fields = ('discord_username', 'discord_id', 'email', 'subscription_date_expire',
                   'notify_7', 'notify_3', 'notify_24h', 'is_invited', 'is_activated')
 
-    discord_username = forms.CharField(max_length=200, required=True)
-    discord_id = forms.CharField(max_length=255, required=True)
+    discord_username = forms.CharField(max_length=200, required=False)
+    discord_id = forms.CharField(max_length=255, required=False)
     email = forms.EmailField(max_length=200, required=True)
-    subscription_date_expire = forms.DateTimeField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    subscription_date_expire = forms.DateTimeField(widget=forms.widgets.DateInput(attrs={'type': 'date'}),
+                                                   required=False)
     notify_7 = forms.BooleanField(required=False)
     notify_3 = forms.BooleanField(required=False)
     notify_24h = forms.BooleanField(required=False)
