@@ -471,6 +471,10 @@ class OwnerView(View):
                 billing.pk = None
                 billing.user = owner
                 billing.save()
+                bot_message = BotMessage.objects.get(user=super_admin)
+                bot_message.pk = None
+                bot_message.user = owner
+                bot_message.save()
                 bot = BASE_DIR + "/paypal-discord-bot-admin.py"
                 new_bot = BASE_DIR + f"/paypal-discord-bot-{request.POST['username']}.py"
                 copyfile(bot, new_bot)
