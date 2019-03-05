@@ -12,7 +12,7 @@ import django
 from django.db.models import Q
 os.environ["DJANGO_SETTINGS_MODULE"] = "website.settings"
 django.setup()
-from announceusio.models import Member, SiteSettings, BotSettings, EmailSettings, Billing
+from announceusio.models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage
 import discord
 import datetime
 import asyncio
@@ -24,6 +24,7 @@ OWNER_ID = 1
 
 client = discord.Client()
 settings = BotSettings.objects.get(user_id=OWNER_ID)
+bot_message = BotMessage.objects.get(user_id=OWNER_ID)
 
 def renew_membership(discord_id):
     """ Here we are generating paypal transaction link
@@ -31,9 +32,11 @@ def renew_membership(discord_id):
 
     member = Member.objects.filter(discord_id=discord_id).first()
     if member:
-        message = "Renewal link http://announceus.io/renew/?email={}".format(member.email)
+        # message = "Renewal link http://announceus.io/renew/?email={}".format(member.email)
+        message = str(bot_message.renewal_link).format(member.email)
     else:
-        message = "Please buy membership http://announceus.io"
+        # message = "Please buy membership http://announceus.io"
+        message = bot_message.buy_membership
 
     return message
 
@@ -54,22 +57,25 @@ def get_status(discord_id):
         # subscripting for fancy look delta time
         days_left = str(days_left)[:-10]
 
-        message = "You have {} hours left before expiration!".format(days_left)
+        # message = "You have {} hours left before expiration!".format(days_left)
+        message = str(bot_message.before_expiration).format(days_left)
     else:
-        message = "You should activate your membership with command !activate example@example.com"
+        # message = "You should activate your membership with command !activate example@example.com"
+        message = str(bot_message.should_activate)
 
     return message
 
 def help_message():
-        help_message = """
-        ``` Supported commands:
-        !activate example@example.com - you activate your membershp.
-        !renew - you get membership renewal link.
-        !status - gives days left before expiration.
-        !help - show help message.
-        ```
-
-        """
+        # help_message = """
+        # ``` Supported commands:
+        # !activate example@example.com - you activate your membershp.
+        # !renew - you get membership renewal link.
+        # !status - gives days left before expiration.
+        # !help - show help message.
+        # ```
+        #
+        # """
+        help_message = bot_message.help_message_body
         return help_message
 
 
@@ -81,12 +87,14 @@ def activate_user(author, email):
 
     # Checking if user is trying to use different email...
     if member and member.email != email:
-        message = "This is not your email. You have been activated with a different email."
+        # message = "This is not your email. You have been activated with a different email."
+        message = bot_message.wrong_email
         return False, message
 
     # checking if memebr exists and already is activated.
     elif member and member.is_activated and member.discord_id == author.id:
-        message = "You are already activated! " + get_status(author.id)
+        # message = "You are already activated! " + get_status(author.id)
+        message = bot_message.already_activated + get_status(author.id)
         return False, message
 
     # checking if member email is presents in database but is not activated.
@@ -107,13 +115,15 @@ def activate_user(author, email):
         # Saving in database.
         member.save()
 
-        message = "You have been activated! {}".format(get_status(author.id))
+        # message = "You have been activated! {}".format(get_status(author.id))
+        message = str(bot_message.activated).format(get_status(author.id))
         print("I amin activation", message)
 
         return True, message
 
     else:
-        message = "You can buy a membership on http://announceus.io"
+        # message = "You can buy a membership on http://announceus.io"
+        message = bot_message.buy_membership
         return False, message
 
 

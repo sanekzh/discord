@@ -321,5 +321,38 @@ $('#stop_bot').on('click', function () {
     set_bot_status('stop');
 });
 
+$("#save_message_settings").on('click', function () {
+        $.ajax({
+            url: links.bot_messages,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                 help_message_body: $('#id_message_body').val(),
+                 wrong_email: $('#id_wrong_email').val(),
+                 already_activated: $('#id_already_activated').val(),
+                 activated: $('#id_activated').val(),
+                 before_expiration: $('#id_before_expiration').val(),
+                 should_activate: $('#id_should_activate').val(),
+                 renewal_link: $('#id_renewal_link').val(),
+                 buy_membership: $('#id_buy_membership').val()
+            },
+             beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+            },
+            error: function(xhr, ajaxOptions, thrownError){ alert(thrownError); },
+            success: function(data){
+                if (data['status'] == 'OK'){
+                    alert('Passed successfully!')
+
+                }
+                else if (data['status'] == 'NO'){
+                    alert('Internal Server Error')
+                }
+
+            }
+        })
+});
 
 

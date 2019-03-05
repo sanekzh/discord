@@ -21,8 +21,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.models import PayPalIPN
 
 from .forms import MemberForm
-from .models import Member, Billing, EmailSettings, BotSettings
-
+from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -237,9 +236,34 @@ class BotMessagesView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            data = {'menu': 'Bot messages'}
+            if BotMessage.objects.filter(user=User.objects.get(username=request.user)).exists():
+                bot_message = BotMessage.objects.filter(user=User.objects.get(username=request.user)).values()[0]
+                form = bot_message
+            else:
+                form = {}
+            data = {'menu': 'Bot messages', 'form': form}
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        body = dict()
+        body['help_message_body'] = (request.POST['help_message_body']).strip()
+        body['wrong_email'] = (request.POST['wrong_email']).strip()
+        body['already_activated'] = (request.POST['already_activated']).strip()
+        body['activated'] = (request.POST['activated']).strip()
+        body['before_expiration'] = (request.POST['before_expiration']).strip()
+        body['should_activate'] = (request.POST['should_activate']).strip()
+        body['renewal_link'] = (request.POST['renewal_link']).strip()
+        body['buy_membership'] = (request.POST['buy_membership']).strip()
+        try:
+            if BotMessage.objects.filter(user=User.objects.get(username=request.user)).exists():
+                BotMessage.objects.filter(user=User.objects.get(username=request.user)).update(**body)
+                return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+            return HttpResponse(json.dumps({'status': 'NO'}), content_type='application/json')
+        except Exception as e:
+            return HttpResponse(json.dumps({'status': 'NO'}), content_type='application/json')
 
 
 class UserSettingsView(View):

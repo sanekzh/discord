@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing
+from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage
 
 
 @admin.register(Member)
@@ -29,4 +29,9 @@ class AdminEmailSettings(admin.ModelAdmin):
 class AdminBilling(admin.ModelAdmin):
     list_display = ("user", "price", "sub_days", "item_name", "paypal_email")
 
+
+@admin.register(BotMessage)
+class AdminBotMessage(admin.ModelAdmin):
+    list_display = ("user",  'help_message_body', 'wrong_email', 'already_activated', 'activated', 'before_expiration',
+                    'should_activate', 'renewal_link', 'buy_membership')
 

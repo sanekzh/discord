@@ -92,6 +92,40 @@ class EmailSettings(models.Model):
     email_password = models.CharField(max_length=255, blank=False, null=False)
 
 
+HELP_MESSAGE = """
+        ``` Supported commands:
+        !activate example@example.com - you activate your membershp.
+        !renew - you get membership renewal link.
+        !status - gives days left before expiration.
+        !help - show help message.
+        ```
+
+        """
+WRONG_EMAIl = "This is not your email. You have been activated with a different email."
+ALREADY_ACTIVATED = "You are already activated! "
+ACTIVATED = "You have been activated! {}"
+BEFORE_EXPIRATION = "You have {} hours left before expiration!"
+SHOULD_ACTIVATE = "You should activate your membership with command !activate example@example.com"
+RENEW_LINK = "Renewal link http://announceus.io/renew/?email={}"
+BUY_MEMBERSHIP = "Please buy membership http://announceus.io"
+
+
+class BotMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
+    # !help
+    help_message_body = models.TextField(default=HELP_MESSAGE, blank=False, null=False)
+    # !activate
+    wrong_email = models.TextField(default=WRONG_EMAIl, blank=False, null=False)
+    already_activated = models.TextField(default=ALREADY_ACTIVATED, blank=False, null=False)
+    activated = models.TextField(default=ACTIVATED, blank=False, null=False)
+    # !status
+    before_expiration = models.TextField(default=BEFORE_EXPIRATION, blank=False, null=False)
+    should_activate = models.TextField(default=SHOULD_ACTIVATE, blank=False, null=False)
+    # !renew
+    renewal_link = models.TextField(default=RENEW_LINK, blank=False, null=False)
+    buy_membership = models.TextField(default=BUY_MEMBERSHIP, blank=False, null=False)
+
+
 class SiteSettings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
     price = models.CharField(default="25", max_length=20, blank=False,
