@@ -55,6 +55,20 @@ var $members_table = $('#table_of_members').DataTable({
             oLanguage: {sProcessing: "<div id='loader'></div>"},
             "columnDefs": [
                 {
+                    'targets': 0,
+                    'visible': false
+
+                },
+                {
+                    'targets': 1,
+                    'visible': false
+
+                },
+                {
+                    'targets': 3,
+                    'visible': false
+                },
+                {
                 'targets': 4,
                 'render': function (data, type, full, meta) {
                     return setCheckBoxValue(data);
