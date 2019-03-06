@@ -317,6 +317,10 @@ $('#restart_bot').on('click', function () {
     set_bot_status('restart');
 });
 
+$('#restart_bot_message').on('click', function () {
+    set_bot_status('restart');
+});
+
 $('#stop_bot').on('click', function () {
     set_bot_status('stop');
 });

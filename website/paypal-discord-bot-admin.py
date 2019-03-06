@@ -78,6 +78,10 @@ def help_message():
         help_message = bot_message.help_message_body
         return help_message
 
+def embed_message(title, description):
+    text = discord.Embed(title=title, description=description, color=0xe83e8c)
+    text.set_footer(text="© Announceus.io", icon_url="https://announceus.io/static/images/boticon.png")
+    return text
 
 def activate_user(author, email):
     """ We here are activating user email address."""
@@ -185,13 +189,13 @@ async def member_reminder():
                 print("7 days", member)
                 member.notify_7 = True
                 member.save()
-                await client.send_message(user, "Hello {}, This is your 1st reminder that your Premium Membership expires in 7 days. To renew your membership use !renew command.".format(member.discord_username))
+                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 1st reminder that your Premium Membership expires in 7 days. To renew your membership use !renew command.".format(member.discord_username)))
 
             elif member.notify_3 is False and time_left.days <= 3 and time_left.seconds == 0:
                 print("3 days", member)
                 member.notify_3 = True
                 member.save()
-                await client.send_message(user, "Hello {}, This is your 2nd reminder that your Premium Membership expires in 3 days. To renew your membership use !renew command.".format(member.discord_username))
+                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 2nd reminder that your Premium Membership expires in 3 days. To renew your membership use !renew command.".format(member.discord_username)))
 
             # 24 hours = 86400 seconds. If I choose 1 day it will triger
             # reminder at 1 day and 23:59.
@@ -200,7 +204,7 @@ async def member_reminder():
                 print("24 hours", member)
                 member.notify_24h = True
                 member.save()
-                await client.send_message(user, "Hello {}, This is your Final Reminder your membership expires in 24 hours. To renew your membership use !renew command.".format(member.discord_username))
+                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your Final Reminder your membership expires in 24 hours. To renew your membership use !renew command.".format(member.discord_username)))
             elif member.is_activated and time_left.days <= 0:
                 print(time_left.seconds)
                 member.notify_3 = False
@@ -216,7 +220,7 @@ async def member_reminder():
                 role = discord.utils.get(server.roles, name=bot_settings.member_role)
                 await client.remove_roles(user, role)
 
-                await client.send_message(user, "Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username))
+                await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
 
 
         await asyncio.sleep(2)
@@ -233,10 +237,9 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     await client.send_message(member,
-                              """Hello, {} Welcome to announceus.io discord server. Please use following Commands:
+                              embed=embed_message("Welcome", """Hello, {} Welcome to announceus.io discord server. Please use following Commands:
                               {}
-                               """.format(member, help_message()))
-
+                              """.format(member, help_message())))
 
 
 @client.event
@@ -268,20 +271,20 @@ async def on_message(message):
             answer = "For activation please provide email address which where used for payment!"
 
         print(answer)
-        await client.send_message(message.author, answer)
+        await client.send_message(message.author, embed=embed_message("Status", answer))
 
     elif "!status" == message.content.lower():
 
         # we replay to user the status of his subscription.
-        await client.send_message(message.author, get_status(message.author.id))
+        await client.send_message(message.author, embed=embed_message("Status", get_status(message.author.id)))
 
 
     elif "!renew" == message.content.lower():
 
         # we here reply to user the paypal link to finish transaction.
-        await client.send_message(message.author, renew_membership(message.author.id))
+        await client.send_message(message.author, embed=embed_message("Renew", renew_membership(message.author.id)))
     elif "!help" == message.content.lower():
-        await client.send_message(message.author, help_message())
+        await client.send_message(message.author, embed=embed_message("Help", help_message()))
 
 
 

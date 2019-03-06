@@ -92,15 +92,16 @@ class EmailSettings(models.Model):
     email_password = models.CharField(max_length=255, blank=False, null=False)
 
 
-HELP_MESSAGE = """
-        ``` Supported commands:
-        !activate example@example.com - you activate your membershp.
-        !renew - you get membership renewal link.
-        !status - gives days left before expiration.
-        !help - show help message.
-        ```
+HELP_MESSAGE = """```Supported commands:
 
-        """
+!activate example@example.com - you activate your membershp.
+
+!renew - you get membership renewal link.
+
+!status - gives days left before expiration.
+
+!help - show help message.
+```"""
 WRONG_EMAIl = "This is not your email. You have been activated with a different email."
 ALREADY_ACTIVATED = "You are already activated! "
 ACTIVATED = "You have been activated! {}"
