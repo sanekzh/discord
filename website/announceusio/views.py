@@ -542,7 +542,7 @@ class PayPalTableView(View):
                 pass
                 paypal_ipns = paypal_ipns.filter(
                     Q(invoice__icontains=search) | Q(flag_info__icontains=search)
-                    | Q(custom__icontains=search))
+                    | Q(custom__icontains=search) | Q(payment_status__icontains=search))
             # Sorting
             sort_column = list_name[int(request.GET.get('order[0][column]', 0))]
             if request.GET.get('order[0][dir]', None) == 'desc':
@@ -576,37 +576,3 @@ class PayPalTableView(View):
             return HttpResponse(json.dumps(ajax_response), content_type='application/json')
         except Exception as e:
             pass
-
-    def post(self, request):
-        if Member.objects.filter(email=request.POST['email']).exists():
-            subscription_date_expire = request.POST['subscription_date_expire']
-
-            Member.objects.filter(email=request.POST['email']).update(
-                discord_username=request.POST['discord_username'],
-                discord_id=request.POST['discord_id'],
-                subscription_date_expire=subscription_date_expire if subscription_date_expire else None,
-                notify_7=json.loads(request.POST.get('notify_7', 'false')),
-                notify_3=json.loads(request.POST.get('notify_3', 'false')),
-                notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
-                is_invited=json.loads(request.POST.get('is_invited', 'false')),
-                is_activated=json.loads(request.POST.get('is_activated', 'false'))
-            )
-            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
-        form = MemberForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            member = Member(user=User.objects.get(username=request.user),
-                            discord_username=data['discord_username'],
-                            discord_id=data['discord_id'],
-                            email=data['email'],
-                            subscription_date_expire=data['subscription_date_expire'],
-                            notify_7=json.loads(request.POST.get('notify_7', 'false')),
-                            notify_3=json.loads(request.POST.get('notify_3', 'false')),
-                            notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
-                            is_invited=json.loads(request.POST.get('is_invited', 'false')),
-                            is_activated=json.loads(request.POST.get('is_activated', 'false')),
-                            )
-            member.save()
-            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
-        return HttpResponse(json.dumps({'status': 'NO', 'errors': [(v[0]) for k, v in form.errors.items()]}),
-                            content_type='application/json')
