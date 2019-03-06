@@ -20,7 +20,7 @@ from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.models import PayPalIPN
 
-from website.website.credentials import SERVER_SUPERVISOR_URL
+from website.website.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
 from .forms import MemberForm
 from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
 
@@ -501,13 +501,13 @@ class BotStatusView(View):
             url = f'http://{SERVER_SUPERVISOR_URL}/index.html'
             if request.POST['status'] == 'start':
                 r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=start',
-                                 auth=('admin', '789456'))
+                                 auth=(SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD))
             elif request.POST['status'] == 'restart':
                 r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=restart',
-                                 auth=('admin', '789456'))
+                                 auth=(SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD))
             elif request.POST['status'] == 'stop':
                 r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=stop',
-                                 auth=('admin', '789456'))
+                                 auth=(SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD))
 
             data = {'status': 'OK'}
             return HttpResponse(json.dumps(data), content_type='application/json')
