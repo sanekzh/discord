@@ -1,5 +1,7 @@
 from django import forms
 from django.forms import ModelForm
+from paypal.standard.forms import PayPalStandardBaseForm
+from paypal.standard.ipn.models import PayPalIPN
 
 from .models import Member, SiteSettings
 
@@ -40,3 +42,9 @@ class BotSettingsForm(ModelForm):
     sub_days = forms.IntegerField(required=True)
     member_role = forms.CharField(max_length=255, required=True)
     message_body = forms.CharField(widget=forms.Textarea, required=True)
+
+
+class PayPalForm(PayPalStandardBaseForm):
+    class Meta:
+        model = PayPalIPN
+        fields = '__all__'

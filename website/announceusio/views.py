@@ -16,11 +16,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import View
 from django.views.generic.edit import FormView
-from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.forms import PayPalPaymentsForm, PayPalStandardBaseForm
 from paypal.standard.ipn.models import PayPalIPN
 
 from .credentials.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
-from .forms import MemberForm
+from .forms import MemberForm, PayPalForm
 from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -160,9 +160,9 @@ class AddMemberView(View):
 
             if discord_username or discord_id or email:
                 members = members.filter(
-                    (Q(fnsku=discord_username) if discord_username else Q())
-                    & (Q(description=discord_id) if discord_id else Q())
-                    & (Q(category=email) if email else Q())
+                    (Q(iscord_username=discord_username) if discord_username else Q())
+                    & (Q(discord_id=discord_id) if discord_id else Q())
+                    & (Q(email=email) if email else Q())
                 )
             start = int(request.GET.get('start', 0))
             length = int(request.GET.get('length', 10))
@@ -513,3 +513,100 @@ class BotStatusView(View):
         except Exception as e:
             data = {'status': 'NO', 'error': e.args[1]}
             return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class PayPalIPNView(View):
+    template_name = 'dashboard/paypal_ipn.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            form = PayPalForm()
+            return render(request, self.template_name, {'menu': 'PayPal settings', 'form': form})
+        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+
+
+class PayPalTableView(View):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            ajax_response = {'sEcho': '', 'aaData': [], 'iTotalRecords': 0, 'iTotalDisplayRecords': 0}
+            user = request.user
+            paypal_ipns = PayPalIPN.objects.all()
+            if not paypal_ipns:
+                return HttpResponse(json.dumps(ajax_response), content_type='application/json')
+            list_name = ['invoice', 'receiver_id', 'flag', 'flag_info', 'custom', 'payment_status',
+                         'created_at']
+            # search
+            search = request.GET.get('search[value]', '')
+            if search:
+                pass
+                paypal_ipns = paypal_ipns.filter(
+                    Q(invoice__icontains=search) | Q(flag_info__icontains=search)
+                    | Q(custom__icontains=search))
+            # Sorting
+            sort_column = list_name[int(request.GET.get('order[0][column]', 0))]
+            if request.GET.get('order[0][dir]', None) == 'desc':
+                sort_column = '-{}'.format(sort_column)
+            paypal_ipns = paypal_ipns.order_by(sort_column)
+            # filter
+            # discord_username = request.GET.get('columns[1][search][value]', False)
+            # discord_id = request.GET.get('columns[3][search][value]', False)
+            # email = request.GET.get('columns[2][search][value]', False)
+            #
+            # if discord_username or discord_id or email:
+            #     members = paypal_ipns.filter(
+            #         (Q(invoice=invoice) if invoice else Q())
+            #         & (Q(description=discord_id) if discord_id else Q())
+            #         & (Q(category=email) if email else Q())
+            #     )
+            start = int(request.GET.get('start', 0))
+            length = int(request.GET.get('length', 10))
+            ajax_response['iTotalRecords'] = ajax_response['iTotalDisplayRecords'] = paypal_ipns.count()
+            for paypal_ipn in paypal_ipns[start:start + length]:
+                ajax_response['aaData'].append(
+                    [
+                        str(paypal_ipn.__unicode__()).replace('<', '< '),
+                        paypal_ipn.flag,
+                        paypal_ipn.flag_info,
+                        paypal_ipn.invoice,
+                        paypal_ipn.custom,
+                        paypal_ipn.payment_status,
+                        str((paypal_ipn.created_at).strftime('%m/%d/%Y'))
+                    ])
+            return HttpResponse(json.dumps(ajax_response), content_type='application/json')
+        except Exception as e:
+            pass
+
+    def post(self, request):
+        if Member.objects.filter(email=request.POST['email']).exists():
+            subscription_date_expire = request.POST['subscription_date_expire']
+
+            Member.objects.filter(email=request.POST['email']).update(
+                discord_username=request.POST['discord_username'],
+                discord_id=request.POST['discord_id'],
+                subscription_date_expire=subscription_date_expire if subscription_date_expire else None,
+                notify_7=json.loads(request.POST.get('notify_7', 'false')),
+                notify_3=json.loads(request.POST.get('notify_3', 'false')),
+                notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
+                is_invited=json.loads(request.POST.get('is_invited', 'false')),
+                is_activated=json.loads(request.POST.get('is_activated', 'false'))
+            )
+            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            member = Member(user=User.objects.get(username=request.user),
+                            discord_username=data['discord_username'],
+                            discord_id=data['discord_id'],
+                            email=data['email'],
+                            subscription_date_expire=data['subscription_date_expire'],
+                            notify_7=json.loads(request.POST.get('notify_7', 'false')),
+                            notify_3=json.loads(request.POST.get('notify_3', 'false')),
+                            notify_24h=json.loads(request.POST.get('notify_24h', 'false')),
+                            is_invited=json.loads(request.POST.get('is_invited', 'false')),
+                            is_activated=json.loads(request.POST.get('is_activated', 'false')),
+                            )
+            member.save()
+            return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'NO', 'errors': [(v[0]) for k, v in form.errors.items()]}),
+                            content_type='application/json')

@@ -92,6 +92,12 @@
                         <p>User settings</p>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'announceusio:paypal' %}">
+                        <i class="fa fa-paypal"></i>
+                        <p>PayPal IPN</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -189,7 +195,8 @@
         bot_settings: {% url 'announceusio:bot_settings' %},
         billing_settings: {% url 'announceusio:billing' %},
         bot_status: {% url 'announceusio:bot_status' %},
-        bot_messages: {% url 'announceusio:bot_messages' %}
+        bot_messages: {% url 'announceusio:bot_messages' %},
+        paypal_table: {% url 'announceusio:paypal_table' %}
     }
 </script>
 <script src="{% static 'js/discord.js' %}"></script>

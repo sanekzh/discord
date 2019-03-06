@@ -359,4 +359,33 @@ $("#save_message_settings").on('click', function () {
         })
 });
 
+var $paypal_table = $('#table_paypal').DataTable({
+            "bServerSide": true,
+            "ajax": {
+                type: 'GET',
+                "url": links.paypal_table,
+                "data": {}
+            },
+            "bProcessing": true,
+            "bSortable": true,
+            "bSearch": true,
+            "ordering": true,
+            "order": [[1, "asc" ]],
+            "bInfo": true,
+            "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+            "iDisplayLength": 10,
+            "select": {
+                "style": "single"
+            },
+            oLanguage: {sProcessing: "<div id='loader'></div>"},
+            "columnDefs": [
+                {
+                'targets': 1,
+                'render': function (data, type, full, meta) {
+                    return setCheckBoxValue(data);
+                    }
+                }
+            ]
+        });
+
 
