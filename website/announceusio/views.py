@@ -20,6 +20,7 @@ from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.models import PayPalIPN
 
+from website.website.credentials import SERVER_SUPERVISOR_URL
 from .forms import MemberForm
 from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
 
@@ -497,7 +498,7 @@ class BotStatusView(View):
         if not request.user.is_authenticated and request.method != 'POST':
             return render(request, reverse_lazy('announceusio:index'), {'error': False})
         try:
-            url = 'http://127.0.0.1:9001/index.html'
+            url = f'http://{SERVER_SUPERVISOR_URL}/index.html'
             if request.POST['status'] == 'start':
                 r = requests.get(f'{url}?processname=paypal-discord-bot-{request.user.username}&action=start',
                                  auth=('admin', '789456'))
