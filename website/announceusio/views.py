@@ -1,7 +1,6 @@
-import os
 import json
+import os
 import uuid
-import subprocess
 from shutil import copyfile
 
 import requests
@@ -20,7 +19,7 @@ from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.models import PayPalIPN
 
-from website.website.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
+from .credentials.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
 from .forms import MemberForm
 from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
 
