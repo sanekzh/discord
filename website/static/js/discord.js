@@ -167,6 +167,7 @@ $('form.user_profile').submit(function(e){
         data.append('user_email', $('#user_email').val());
         data.append('first_name', $('#first_name').val());
         data.append('last_name', $('#last_name').val());
+        data.append('company', $('#company').val());
         console.log(data);
         $.ajax({
             url: links.user_settings,
@@ -202,6 +203,7 @@ $('form.bot_settings').submit(function(e){
         data.append('discord_channel_id', $('#id_discord_channel_id').val());
         data.append('discord_server_id', $('#id_discord_server_id').val());
         data.append('bot_token', $('#id_bot_token').val());
+        data.append('member_role', $('#id_member_role').val());
         $.ajax({
             url: links.bot_settings,
             type: 'post',

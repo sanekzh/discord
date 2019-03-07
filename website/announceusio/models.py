@@ -6,6 +6,11 @@ from django.contrib.auth.models import AbstractUser, Group, User
 from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 
 
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    company = models.CharField(max_length=64, blank=True, null=True, default='')
+
+
 class Member(models.Model):
     """
     This is member class for members.

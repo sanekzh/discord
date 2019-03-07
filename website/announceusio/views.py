@@ -21,7 +21,7 @@ from paypal.standard.ipn.models import PayPalIPN
 
 from .credentials.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
 from .forms import MemberForm, PayPalForm
-from .models import Member, Billing, EmailSettings, BotSettings, BotMessage
+from .models import Member, Billing, EmailSettings, BotSettings, BotMessage, UserProfile
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -274,11 +274,13 @@ class UserSettingsView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             user = User.objects.get(username=request.user)
+            user_profile = UserProfile.objects.get(user=user)
             form = {
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'email': user.email,
-                'username': user.username
+                'username': user.username,
+                'company': user_profile.company
             }
             data = {'menu': 'User settings', 'form': form}
             return render(request, self.template_name, data)
@@ -293,11 +295,15 @@ class UserSettingsView(View):
                 user.last_name = request.POST['last_name']
                 user.email = request.POST['user_email']
                 user.save()
+                user_profile = UserProfile.objects.get(user=user)
+                user_profile.company = request.POST['company']
+                user_profile.save()
                 form = {
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'email': user.email,
-                    'username': user.username
+                    'username': user.username,
+                    'company': user_profile.company
                 }
             except Exception as e:
                 pass
@@ -371,7 +377,8 @@ class BotSettingsView(View):
                 form = {
                     'discord_channel_id': bot_settings.discord_channel_id,
                     'discord_server_id': bot_settings.discord_server_id,
-                    'bot_token': bot_settings.bot_token
+                    'bot_token': bot_settings.bot_token,
+                    'member_role': bot_settings.member_role
                 }
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Bot settings', 'form': form})
@@ -387,7 +394,8 @@ class BotSettingsView(View):
             bot_settings = {
                 'discord_channel_id': request.POST['discord_channel_id'],
                 'discord_server_id': request.POST['discord_server_id'],
-                'bot_token': request.POST['bot_token']
+                'bot_token': request.POST['bot_token'],
+                'member_role': request.POST['member_role']
             }
             user = User.objects.get(username=request.user)
             if BotSettings.objects.filter(user=user).exists():
@@ -461,6 +469,8 @@ class OwnerView(View):
                 form.save()
                 super_admin = User.objects.get(username=request.user.username)
                 owner = User.objects.get(username=request.POST['username'])
+                user_profile = UserProfile.objects.create(user=owner)
+                user_profile.save()
                 bot_settings = BotSettings.objects.get(user=super_admin)
                 bot_settings.pk = None
                 bot_settings.user = owner

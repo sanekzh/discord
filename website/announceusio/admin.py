@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage
+from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage, UserProfile
 
 
 @admin.register(Member)
@@ -17,7 +17,7 @@ class AdminSiteSettings(admin.ModelAdmin):
 
 @admin.register(BotSettings)
 class AdminBotSettings(admin.ModelAdmin):
-    list_display = ("user", "discord_channel_id", "discord_server_id", "bot_token")
+    list_display = ("user", "discord_channel_id", "discord_server_id", "bot_token", "member_role")
 
 
 @admin.register(EmailSettings)
@@ -35,3 +35,7 @@ class AdminBotMessage(admin.ModelAdmin):
     list_display = ("user",  'help_message_body', 'wrong_email', 'already_activated', 'activated', 'before_expiration',
                     'should_activate', 'renewal_link', 'buy_membership')
 
+
+@admin.register(UserProfile)
+class AdminUserProfile(admin.ModelAdmin):
+    list_display = ("user",  'company')
