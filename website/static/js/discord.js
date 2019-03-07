@@ -55,51 +55,42 @@ var $members_table = $('#table_of_members').DataTable({
             oLanguage: {sProcessing: "<div id='loader'></div>"},
             "columnDefs": [
                 {
-                    'targets': 0,
-                    'visible': false
-
+                    'targets': 5,
+                    'visible': false,
+                    'render': function (data, type, full, meta) {
+                        return setCheckBoxValue(data);
+                        }
                 },
                 {
-                    'targets': 1,
-                    'visible': false
-
+                    'targets': 6,
+                    'visible': false,
+                    'render': function (data, type, full, meta) {
+                        return setCheckBoxValue(data);
+                        }
                 },
                 {
-                    'targets': 3,
-                    'visible': false
+                    'targets': 7,
+                    'visible': false,
+                    'render': function (data, type, full, meta) {
+                        return setCheckBoxValue(data);
+                        }
                 },
                 {
-                'targets': 4,
-                'render': function (data, type, full, meta) {
-                    return setCheckBoxValue(data);
-                    }
+                    'targets': 8,
+                    'visible': false,
+                    'render': function (data, type, full, meta) {
+                        return setCheckBoxValue(data);
+                        }
                 },
                 {
-                'targets': 5,
-                'render': function (data, type, full, meta) {
-                    return setCheckBoxValue(data);
-                    }
-                },
-                {
-                'targets': 6,
-                'render': function (data, type, full, meta) {
-                    return setCheckBoxValue(data);
-                    }
-                },
-                {
-                'targets': 7,
-                'render': function (data, type, full, meta) {
-                    return setCheckBoxValue(data);
-                    }
-                },
-                {
-                'targets': 8,
-                'render': function (data, type, full, meta) {
-                    return setCheckBoxValue(data);
-                    }
+                    'targets': 9,
+                    'visible': false,
+                    'render': function (data, type, full, meta) {
+                        return setCheckBoxValue(data);
+                        }
                 },
                {
-                'targets': 9,
+                'targets': 10,
                 'render': function (data, type, full, meta) {
                      return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
                             '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
@@ -109,15 +100,15 @@ var $members_table = $('#table_of_members').DataTable({
         });
 
 function setModalValues(data) {
-        $('#id_discord_username').val(data[0]);
-        $('#id_discord_id').val(data[1]);
-        $('#id_email').val(data[2]);
+        $('#id_discord_username').val(data[1]);
+        $('#id_discord_id').val(data[2]);
+        $('#id_email').val(data[0]);
         $('#id_subscription_date_expire').val(data[3]);
-        $("#id_notify_3").prop( "checked", data[4]);
-        $("#id_notify_7").prop( "checked", data[5]);
-        $("#id_notify_24h").prop( "checked", data[6]);
-        $("#id_is_invited").prop( "checked", data[7]);
-        $("#id_is_activated").prop( "checked", data[8]);
+        $("#id_notify_3").prop( "checked", data[5]);
+        $("#id_notify_7").prop( "checked", data[6]);
+        $("#id_notify_24h").prop( "checked", data[7]);
+        $("#id_is_invited").prop( "checked", data[8]);
+        $("#id_is_activated").prop( "checked", data[9]);
     }
 
 $members_table.on('click', '.update', function() {

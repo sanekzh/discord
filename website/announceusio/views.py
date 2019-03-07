@@ -107,7 +107,7 @@ class LoginFormView(FormView):
 class LogoutFormView(View):
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect(reverse('announceusio:index'))
+        return HttpResponseRedirect(reverse('announceusio:login'))
 
 
 class DashboardView(View):
@@ -128,7 +128,7 @@ class DashboardView(View):
                     'total_income': total_income
                     }
             return render(request, self.template_name, data)
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
 
 class AddMemberView(View):
@@ -170,10 +170,12 @@ class AddMemberView(View):
             for member in members[start:start + length]:
                 ajax_response['aaData'].append(
                     [
+                        member.email,
                         member.discord_username if member.discord_username != member.email else '',
                         member.discord_id if member.discord_id != member.email else '',
-                        member.email,
-                        str((member.subscription_date_expire).strftime('%m/%d/%Y')) if member.subscription_date_expire else '',
+                        str((member.subscription_date_expire).strftime('%B %d, %Y, %I:%M')
+                            + member.subscription_date_expire.strftime(' %p').lower()) if member.subscription_date_expire else '',
+                        str((member.created_on).strftime('%B %d, %Y, %I:%M') + member.created_on.strftime(' %p').lower()),
                         member.notify_7,
                         member.notify_3,
                         member.notify_24h,
@@ -228,7 +230,7 @@ class MembersView(View):
         if request.user.is_authenticated:
             form = MemberForm()
             return render(request=request, template_name=self.template_name, context={'menu': 'Members', 'form': form})
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
 
 class BotMessagesView(View):
@@ -243,11 +245,11 @@ class BotMessagesView(View):
                 form = {}
             data = {'menu': 'Bot messages', 'form': form}
             return render(request, self.template_name, data)
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+            return render(request, reverse_lazy('announceusio:login'), {'error': False})
         body = dict()
         body['help_message_body'] = (request.POST['help_message_body']).strip()
         body['wrong_email'] = (request.POST['wrong_email']).strip()
@@ -280,7 +282,7 @@ class UserSettingsView(View):
             }
             data = {'menu': 'User settings', 'form': form}
             return render(request, self.template_name, data)
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request):
         if request.user.is_authenticated and request.POST:
@@ -334,11 +336,11 @@ class BillingSettingsView(View):
             except Exception as e:
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Billing', 'form': {}, 'form_paypal': {}})
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request):
         if not request.user.is_authenticated and request.method != 'POST':
-            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+            return render(request, reverse_lazy('announceusio:login'), {'error': False})
         try:
             billing_settings = {
                 'price': request.POST['price'],
@@ -417,11 +419,11 @@ class EmailSettingsView(View):
             except Exception as e:
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Email settings', 'form': {}})
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request):
         if not request.user.is_authenticated and request.method != 'POST':
-            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+            return render(request, reverse_lazy('announceusio:login'), {'error': False})
         try:
             email_settings = {
                 'email': request.POST['email'],
@@ -447,11 +449,11 @@ class OwnerView(View):
         if request.user.is_authenticated:
             form = UserCreationForm()
             return render(request, self.template_name, {'menu': 'Owner', 'form': form})
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+            return render(request, reverse_lazy('announceusio:login'), {'error': False})
         form = UserCreationForm(request.POST)
         print(request.POST['username'])
         if form.is_valid():
@@ -495,7 +497,7 @@ class BotStatusView(View):
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated and request.method != 'POST':
-            return render(request, reverse_lazy('announceusio:index'), {'error': False})
+            return render(request, reverse_lazy('announceusio:login'), {'error': False})
         try:
             url = f'http://{SERVER_SUPERVISOR_URL}/index.html'
             if request.POST['status'] == 'start':
@@ -522,7 +524,7 @@ class PayPalIPNView(View):
         if request.user.is_authenticated:
             form = PayPalForm()
             return render(request, self.template_name, {'menu': 'PayPal settings', 'form': form})
-        return render(request, reverse_lazy('announceusio:index'), {'error': False})
+        return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
 
 class PayPalTableView(View):
@@ -571,7 +573,8 @@ class PayPalTableView(View):
                         paypal_ipn.invoice,
                         paypal_ipn.custom,
                         paypal_ipn.payment_status,
-                        str((paypal_ipn.created_at).strftime('%m/%d/%Y'))
+                        str((paypal_ipn.created_at).strftime('%B %d, %Y, %I:%M')
+                            + paypal_ipn.created_at.strftime(' %p').lower())
                     ])
             return HttpResponse(json.dumps(ajax_response), content_type='application/json')
         except Exception as e:
