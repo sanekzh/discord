@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'CONN_MAX_AGE': 3000, 
         # 'NAME': 'db_django',
-        'NAME': 'discord_db',
+        'NAME': 'db_discord',
         'USER': 'root',
         # 'PASSWORD': 'aw@ewq2zAd',
         'PASSWORD': '789456',
@@ -151,7 +151,7 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_ROOT = '/home/discord/website/static/'
+STATIC_ROOT = '/home/discord/discord/website/admin/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
