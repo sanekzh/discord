@@ -219,6 +219,8 @@ def payment_received_succes(sender, **kwargs):
         member.save()
     else:
         # Saving starting point of Member.
+        print("Add new Member...")
+
         billing = Billing.objects.get(paypal_email=ipn_obj.bussines)
         new_member = Member(user=billing.user,
                             email=ipn_obj.payer_email)
