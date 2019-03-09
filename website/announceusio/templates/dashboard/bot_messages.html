@@ -14,6 +14,26 @@
               </div>
               <div class="card-body">
                 <div class="row">
+                  <div class="col-md-10">
+                    <div class="card card-plain">
+                      <div class="card-header">
+                        <h5 class="card-title">Join message</h5>
+                      </div>
+                      <div class="card-body">
+                          <div id="div_id_join_message" class="form-group">
+                            <label for="id_join_message" class="col-form-label  requiredField">
+                                Message body<span class="asteriskField">*</span>
+                            </label>
+                            <div class="">
+                                <textarea name="message_body" cols="40" rows="50"
+                                          class="textarea form-control" required=""
+                                          style="max-height: 125px"
+                                          id="id_join_message" style="max-height: 225px">{{ form.join_message }}</textarea>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-5">
                     <div class="card card-plain">
                       <div class="card-header">
@@ -33,7 +53,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-5">
                     <div class="card card-plain">
                       <div class="card-header">
                         <h5 class="card-title">!activate</h5>
@@ -111,7 +131,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-5">
                     <div class="card card-plain">
                       <div class="card-header">
                         <h5 class="card-title">!renew</h5>
@@ -138,6 +158,63 @@
                                     <input type="text" maxlength="300"
                                            class="form-control" required=""
                                            id="id_buy_membership" value="{{ form.buy_membership }}">
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card card-plain">
+                      <div class="card-header">
+                        <h5 class="card-title">Reminder</h5>
+                      </div>
+                      <div class="card-body">
+                          <div class="form-group">
+                            <div id="div_id_first_reminder" class="form-group">
+                                <label for="id_first_reminder" class="col-form-label  requiredField">
+                                    First reminder<span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                    <input type="text" maxlength="300"
+                                           class="form-control" required=""
+                                           id="id_first_reminder" value="{{ form.first_reminder }}">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div id="div_id_second_reminder" class="form-group">
+                                <label for="id_second_reminder" class="col-form-label  requiredField">
+                                     Second reminder<span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                    <input type="text" maxlength="300"
+                                           class="form-control" required=""
+                                           id="id_second_reminder" value="{{ form.second_reminder }}">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div id="div_id_finely_reminder" class="form-group">
+                                <label for="id_finely_reminder" class="col-form-label  requiredField">
+                                     Finely reminder<span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                    <input type="text" maxlength="300"
+                                           class="form-control" required=""
+                                           id="id_finely_reminder" value="{{ form.finely_reminder }}">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div id="div_id_expired_reminder" class="form-group">
+                                <label for="id_expired_reminder" class="col-form-label  requiredField">
+                                     Expired reminder<span class="asteriskField">*</span>
+                                </label>
+                                <div class="">
+                                    <input type="text" maxlength="300"
+                                           class="form-control" required=""
+                                           id="id_expired_reminder" value="{{ form.expired_reminder }}">
                                 </div>
                             </div>
                           </div>

@@ -114,7 +114,13 @@ BEFORE_EXPIRATION = "You have {} hours left before expiration!"
 SHOULD_ACTIVATE = "You should activate your membership with command !activate example@example.com"
 RENEW_LINK = "Renewal link http://announceus.io/renew/?email={}"
 BUY_MEMBERSHIP = "Please buy membership http://announceus.io"
-
+FIRST_REMINDER = "Hello {}, This is your 1st reminder that your Premium Membership expires in 7 days. To renew your membership use !renew command."
+SECOND_REMINDER = "Hello {}, This is your 2nd reminder that your Premium Membership expires in 3 days. To renew your membership use !renew command."
+FINELY_REMINDER = "Hello {}, This is your Final Reminder your membership expires in 24 hours. To renew your membership use !renew command."
+EXPIRED_REMINDER = "Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io"
+JOIN_MESSAGE = """Hello, {} Welcome to announceus.io discord server. Please use following Commands:
+            {}
+"""
 
 class BotMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, unique=True)
@@ -130,6 +136,11 @@ class BotMessage(models.Model):
     # !renew
     renewal_link = models.TextField(default=RENEW_LINK, blank=False, null=False)
     buy_membership = models.TextField(default=BUY_MEMBERSHIP, blank=False, null=False)
+    first_reminder = models.TextField(default=FIRST_REMINDER, blank=False, null=False)
+    second_reminder = models.TextField(default=SECOND_REMINDER, blank=False, null=False)
+    finely_reminder = models.TextField(default=FINELY_REMINDER, blank=False, null=False)
+    expired_reminder = models.TextField(default=EXPIRED_REMINDER, blank=False, null=False)
+    join_message = models.TextField(default=JOIN_MESSAGE, blank=False, null=False)
 
 
 class SiteSettings(models.Model):

@@ -263,6 +263,12 @@ class BotMessagesView(View):
         body['should_activate'] = (request.POST['should_activate']).strip()
         body['renewal_link'] = (request.POST['renewal_link']).strip()
         body['buy_membership'] = (request.POST['buy_membership']).strip()
+        body['first_reminder'] = (request.POST['first_reminder']).strip()
+        body['second_reminder'] = (request.POST['second_reminder']).strip()
+        body['finely_reminder'] = (request.POST['finely_reminder']).strip()
+        body['expired_reminder'] = (request.POST['expired_reminder']).strip()
+        body['join_message'] = (request.POST['join_message']).strip()
+
         try:
             if BotMessage.objects.filter(user=User.objects.get(username=request.user)).exists():
                 BotMessage.objects.filter(user=User.objects.get(username=request.user)).update(**body)

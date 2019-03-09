@@ -345,7 +345,12 @@ $("#save_message_settings").on('click', function () {
                  before_expiration: $('#id_before_expiration').val(),
                  should_activate: $('#id_should_activate').val(),
                  renewal_link: $('#id_renewal_link').val(),
-                 buy_membership: $('#id_buy_membership').val()
+                 buy_membership: $('#id_buy_membership').val(),
+                 first_reminder: $('#id_first_reminder').val(),
+                 second_reminder: $('#id_second_reminder').val(),
+                 finely_reminder: $('#id_finely_reminder').val(),
+                 expired_reminder: $('#id_expired_reminder').val(),
+                 join_message: $('#id_join_message').val()
             },
              beforeSend: function (xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
