@@ -220,11 +220,13 @@ def payment_received_succes(sender, **kwargs):
     else:
         # Saving starting point of Member.
         print("Add new Member...")
-
-        billing = Billing.objects.get(paypal_email=ipn_obj.bussines)
-        new_member = Member(user=billing.user,
-                            email=ipn_obj.payer_email)
-        new_member.save()
+        try:
+            billing = Billing.objects.get(paypal_email=ipn_obj.bussines)
+            new_member = Member(user=billing.user,
+                                email=ipn_obj.payer_email)
+            new_member.save()
+        except Exception as e:
+            print("Error add new Member...", e.args)
 
 
 
