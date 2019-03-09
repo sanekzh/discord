@@ -268,6 +268,7 @@ $('form.email_settings').submit(function(e){
         data.append('email', $('#id_email').val());
         data.append('email_settings', $('#id_email_settings').val());
         data.append('message_body', $('#id_message_body').val());
+        data.append('email_subject', $('#id_email_subject').val());
         $.ajax({
             url: links.email_settings,
             type: 'post',

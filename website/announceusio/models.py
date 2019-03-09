@@ -95,6 +95,7 @@ class EmailSettings(models.Model):
                                     blank=False, null=False)
     email = models.EmailField(max_length=300, blank=False, null=False)
     email_password = models.CharField(max_length=255, blank=False, null=False)
+    email_subject = models.CharField(max_length=255, blank=False, null=False, default="Announceus.io Invite")
 
 
 HELP_MESSAGE = """```Supported commands:

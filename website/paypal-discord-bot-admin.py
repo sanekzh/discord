@@ -156,7 +156,7 @@ async def member_invite():
                 message = MIMEMultipart()
                 message['From'] = email_settings.email
                 message['To'] = member.email
-                message['Subject'] = "Announceus.io Invite"
+                message['Subject'] = email_settings.email_subject
                 message.attach(message_body)
                 smtp_client.sendmail(email_settings.email,
                                      member.email, message.as_string())

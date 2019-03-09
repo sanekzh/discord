@@ -430,7 +430,8 @@ class EmailSettingsView(View):
                 form = {
                     'email': email_settings.email,
                     'email_password': email_settings.email_password,
-                    'message_body': email_settings.message_body
+                    'message_body': email_settings.message_body,
+                    'email_subject': email_settings.email_subject
                 }
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Email settings', 'form': form})
@@ -446,7 +447,8 @@ class EmailSettingsView(View):
             email_settings = {
                 'email': request.POST['email'],
                 'email_password': request.POST['email_password'],
-                'message_body': request.POST['message_body']
+                'message_body': request.POST['message_body'],
+                'email_subject': request.POST['email_subject'],
             }
             user = User.objects.get(username=request.user)
             if EmailSettings.objects.filter(user=user).exists():
