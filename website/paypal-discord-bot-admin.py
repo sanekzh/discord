@@ -189,13 +189,15 @@ async def member_reminder():
                 print("7 days", member)
                 member.notify_7 = True
                 member.save()
-                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 1st reminder that your Premium Membership expires in 7 days. To renew your membership use !renew command.".format(member.discord_username)))
+                # await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 1st reminder that your Premium Membership expires in 7 days. To renew your membership use !renew command.".format(member.discord_username)))
+                await client.send_message(user, embed=embed_message("Reminder", str(bot_message.first_reminder).format(member.discord_username)))
 
             elif member.notify_3 is False and time_left.days <= 3 and time_left.seconds == 0:
                 print("3 days", member)
                 member.notify_3 = True
                 member.save()
-                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 2nd reminder that your Premium Membership expires in 3 days. To renew your membership use !renew command.".format(member.discord_username)))
+                # await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your 2nd reminder that your Premium Membership expires in 3 days. To renew your membership use !renew command.".format(member.discord_username)))
+                await client.send_message(user, embed=embed_message("Reminder", str(bot_message.second_reminder).format(member.discord_username)))
 
             # 24 hours = 86400 seconds. If I choose 1 day it will triger
             # reminder at 1 day and 23:59.
@@ -204,7 +206,10 @@ async def member_reminder():
                 print("24 hours", member)
                 member.notify_24h = True
                 member.save()
-                await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your Final Reminder your membership expires in 24 hours. To renew your membership use !renew command.".format(member.discord_username)))
+                # await client.send_message(user, embed=embed_message("Reminder", "Hello {}, This is your Final Reminder your membership expires in 24 hours. To renew your membership use !renew command.".format(member.discord_username)))
+                await client.send_message(user, embed=embed_message("Reminder", str(bot_message.finely_reminder).format(
+                                                                    member.discord_username)))
+
             elif member.is_activated and time_left.days <= 0:
                 print(time_left.seconds)
                 member.notify_3 = False
@@ -220,7 +225,8 @@ async def member_reminder():
                 role = discord.utils.get(server.roles, name=bot_settings.member_role)
                 await client.remove_roles(user, role)
 
-                await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
+                # await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
+                await client.send_message(user, embed=embed_message(str(bot_message.expired_reminder).format(member.discord_username)))
 
 
         await asyncio.sleep(2)
@@ -236,10 +242,12 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
+    # await client.send_message(member,
+    #                           embed=embed_message("Welcome", """Hello, {} Welcome to announceus.io discord server. Please use following Commands:
+    #                           {}
+    #                           """.format(member, help_message())))
     await client.send_message(member,
-                              embed=embed_message("Welcome", """Hello, {} Welcome to announceus.io discord server. Please use following Commands:
-                              {}
-                              """.format(member, help_message())))
+                              embed=embed_message("Welcome", str(bot_message.join_message).format(member, help_message())))
 
 
 @client.event
