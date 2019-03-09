@@ -193,14 +193,14 @@ def payment_received_succes(sender, **kwargs):
     ipn_obj = sender
 
     member = Member.objects.filter(email=ipn_obj.payer_email).exists()
-    get_member = Member.objects.filter(email=ipn_obj.payer_email).first()
-    billing = Billing.objects.filter(user=get_member.user).first()
     # settings = SiteSettings.objects.first()
     print("I am in valid ipn")
     print(ipn_obj)
 
 
     if member:
+        get_member = Member.objects.filter(email=ipn_obj.payer_email).first()
+        billing = Billing.objects.filter(user=get_member.user).first()
         print("I am here...")
         # If the user already exists in database we are just adding 30
         # days to her/him.
