@@ -115,12 +115,14 @@ class DashboardView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            members_active = Member.objects.filter(is_activated=True).count()
-            members_all = Member.objects.all().count()
+            members_active = Member.objects.filter(user=User.objects.get(username=request.user),
+                                                   is_activated=True).count()
+            members_all = Member.objects.filter(user=User.objects.get(username=request.user)).count()
+            owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
             income = PayPalIPN.objects. \
-                filter(created_at__gte=timezone.now().
+                filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
-            total_income = PayPalIPN.objects.aggregate(Sum('mc_gross'))
+            total_income = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list)).aggregate(Sum('mc_gross'))
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
@@ -189,9 +191,8 @@ class AddMemberView(View):
             pass
 
     def post(self, request):
-        if Member.objects.filter(email=request.POST['email']).exists():
+        if Member.objects.filter(user=User.objects.get(username=request.user), email=request.POST['email']).exists():
             subscription_date_expire = request.POST['subscription_date_expire']
-
             Member.objects.filter(email=request.POST['email']).update(
                 discord_username=request.POST['discord_username'],
                 discord_id=request.POST['discord_id'],
@@ -203,6 +204,9 @@ class AddMemberView(View):
                 is_activated=json.loads(request.POST.get('is_activated', 'false'))
             )
             return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+        elif Member.objects.filter(email=request.POST['email']).exists():
+            return HttpResponse(json.dumps({'status': 'NO', 'errors': 'This email exists'}),
+                                content_type='application/json')
         form = MemberForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -542,8 +546,8 @@ class PayPalTableView(View):
     def get(self, request, *args, **kwargs):
         try:
             ajax_response = {'sEcho': '', 'aaData': [], 'iTotalRecords': 0, 'iTotalDisplayRecords': 0}
-            user = request.user
-            paypal_ipns = PayPalIPN.objects.all()
+            owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
+            paypal_ipns = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list))
             if not paypal_ipns:
                 return HttpResponse(json.dumps(ajax_response), content_type='application/json')
             list_name = ['invoice', 'receiver_id', 'flag', 'flag_info', 'custom', 'payment_status',
