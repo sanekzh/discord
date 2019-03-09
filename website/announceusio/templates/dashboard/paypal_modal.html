@@ -3,7 +3,7 @@
 <div id="addMemberModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="owner" action="{% url 'announceusio:paypal' %}" method="post">
+            <form class="owner" action="{% url 'announceusio:paypal_page' %}" method="post">
             {% csrf_token %}
                 <div class="modal-header">
                     <h4 class="modal-title">Create Member</h4>

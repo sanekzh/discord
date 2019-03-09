@@ -28,6 +28,6 @@ urlpatterns = [
     path("user_settings/", login_required()(views.UserSettingsView.as_view()), name="user_settings"),
     path("billing/", login_required()(views.BillingSettingsView.as_view()), name="billing"),
     path("bot_status/", login_required()(views.BotStatusView.as_view()), name="bot_status"),
-    path("paypal/", login_required()(views.PayPalIPNView.as_view()), name="paypal"),
+    path("paypal_page/", login_required()(views.PayPalIPNView.as_view()), name="paypal_page"),
     path("paypal_table/", login_required()(views.PayPalTableView.as_view()), name="paypal_table"),
 ]

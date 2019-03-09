@@ -31,7 +31,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def index(request):
     """ Here we are displaying index page."""
-    settings = Billing.objects.first()
+    user = User.objects.get(username=request.user)
+    settings = Billing.objects.filter(user=user).first()
+    # settings = Billing.objects.first()
 
     # What you want the button to do.
     paypal_dict = {
@@ -39,9 +41,9 @@ def index(request):
         "amount": settings.price,
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": "https://announceus.io" + reverse('paypal-ipn'),
-        "return": "https://announceus.io" + reverse('announceusio:index'),
-        "cancel_return": "https://announceus.io" + reverse('announceusio:index'),
+        "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
+        "return": "https://cookstart.io" + reverse('announceusio:index'),
+        "cancel_return": "https://cookstart.io" + reverse('announceusio:index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 
@@ -52,16 +54,17 @@ def index(request):
 
 
 def renew(request):
-    settings = Billing.objects.first()
+    user = User.objects.get(username=request.user)
+    settings = Billing.objects.filter(user=user).first()
 
     paypal_dict = {
         "business": settings.paypal_email,
         "amount": settings.price,
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": "https://announceus.io" + reverse('paypal-ipn'),
-        "return": "https://announceus.io" + reverse('index'),
-        "cancel_return": "https://announceus.io" + reverse('index'),
+        "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
+        "return": "https://cookstart.io" + reverse('announceusio:index'),
+        "cancel_return": "https://cookstart.io" + reverse('announceusio:index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 
@@ -73,7 +76,8 @@ def renew(request):
 
 def payment(request):
     """ Here we are displaying index page."""
-    settings = Billing.objects.first()
+    user = User.objects.get(username=request.user)
+    settings = Billing.objects.filter(user=user).first()
 
     # What you want the button to do.
     paypal_dict = {
@@ -81,9 +85,9 @@ def payment(request):
         "amount": settings.price,
         "item_name": settings.item_name,
         "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": "http://announceus.io" + reverse('paypal-ipn'),
-        "return": "https://announceus.io" + reverse('index'),
-        "cancel_return": "https://announceus.io" + reverse('index'),
+        "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
+        "return": "https://cookstart.io" + reverse('announceusio:index'),
+        "cancel_return": "https://cookstart.io" + reverse('announceusio:index'),
         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
     }
 
@@ -352,7 +356,7 @@ class BillingSettingsView(View):
                     "amount": billing_settings.price,
                     "item_name": billing_settings.item_name,
                     "invoice": "{}".format(str(uuid.uuid4())),
-                    "notify_url": "http://cookstart.io" + reverse('paypal-ipn'),
+                    "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
                     "return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
                     "cancel_return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
                     "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
