@@ -352,9 +352,9 @@ class BillingSettingsView(View):
                     "amount": billing_settings.price,
                     "item_name": billing_settings.item_name,
                     "invoice": "{}".format(str(uuid.uuid4())),
-                    "notify_url": "http://announceus.io" + reverse('paypal-ipn'),
-                    "return": "https://announceus.io" + str(reverse_lazy('announceusio:index')),
-                    "cancel_return": "https://announceus.io" + str(reverse_lazy('announceusio:index')),
+                    "notify_url": "http://cookstart.io" + reverse('paypal-ipn'),
+                    "return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
+                    "cancel_return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
                     "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
                 }
                 form_paypal = PayPalPaymentsForm(initial=paypal_dict)
