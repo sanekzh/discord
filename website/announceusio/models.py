@@ -211,7 +211,7 @@ def payment_received_succes(sender, **kwargs):
             member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
-        is_activated = True
+        member.is_activated = True
         member.notify_7 = False
         member.notify_3 = False
         member.notify_24h = False
@@ -219,7 +219,9 @@ def payment_received_succes(sender, **kwargs):
         member.save()
     else:
         # Saving starting point of Member.
-        new_member = Member(email=ipn_obj.payer_email)
+        billing = Billing.objects.get(paypal_email=ipn_obj.bussines)
+        new_member = Member(user=billing.user,
+                            email=ipn_obj.payer_email)
         new_member.save()
 
 
