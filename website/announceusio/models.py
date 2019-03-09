@@ -193,7 +193,9 @@ def payment_received_succes(sender, **kwargs):
     ipn_obj = sender
 
     member = Member.objects.filter(email=ipn_obj.payer_email).exists()
-    settings = SiteSettings.objects.first()
+    get_member = Member.objects.filter(email=ipn_obj.payer_email).first()
+    billing = Billing.objects.filter(user=get_member.user).first()
+    # settings = SiteSettings.objects.first()
     print("I am in valid ipn")
     print(ipn_obj)
 
@@ -204,9 +206,9 @@ def payment_received_succes(sender, **kwargs):
         # days to her/him.
         member = Member.objects.filter(email=ipn_obj.payer_email).first()
         if member.subscription_date_expire is not None:
-            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=settings.sub_days)
+            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
         else:
-            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=settings.sub_days)
+            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
         is_activated = True
