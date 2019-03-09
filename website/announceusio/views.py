@@ -9,7 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import Sum, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -183,6 +183,7 @@ class AddMemberView(View):
                         member.notify_24h,
                         member.is_invited,
                         member.is_activated,
+                        member.id,
                         member.id
                     ])
             # json_data = serializers.serialize('json', members)
@@ -225,6 +226,16 @@ class AddMemberView(View):
             return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
         return HttpResponse(json.dumps({'status': 'NO', 'errors': [(v[0]) for k, v in form.errors.items()]}),
                             content_type='application/json')
+
+    def delete(self, request):
+        try:
+            get_body = QueryDict(request.body)
+            memberid = get_body['memberid']
+            Member.objects.filter(user=User.objects.get(username=request.user), id=memberid).delete()
+        except Exception as e:
+            return HttpResponse(json.dumps({'status': 'NO', 'errors': e.args}),
+                                content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
 
 
 class MembersView(View):

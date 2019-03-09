@@ -90,14 +90,72 @@ var $members_table = $('#table_of_members').DataTable({
                         }
                 },
                {
-                'targets': 10,
-                'render': function (data, type, full, meta) {
-                     return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
-                            '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
+                    'targets': 10,
+                    'render': function (data, type, full, meta) {
+                         return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
+                                '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
+                        }
+                },
+                {
+                    'targets': 11,
+                    'render': function (data, type, full, meta) {
+                     return '<button data-toggle="confirmation" data-memberid ="'+ data +'" class="btn btn-danger btn-sm delete pull-center">' +
+                            '<i class="fa fa-trash"></i></button>';
                     }
+                    // "mRender": function (data, type, row) {
+                    //     row.status_filter = '<button data-toggle="confirmation" class="btn btn-danger btn-sm delete pull-right">' +
+                    //         '<i class="fa fa-trash"></i></button>';
+                    //     return row.status_filter;
+                    // },
+                    // "aTargets": [6],
+                    // "orderable": false,
+                    // "width": "100px"
                 }
+
+
+
             ]
         });
+
+function deleteMember(memberid){
+    console.log(memberid);
+    $.ajax({
+            url: links.members,
+            method: 'DELETE',
+            dataType: 'json',
+            data: {
+                "memberid": memberid
+            },
+            beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+            },
+
+            success: function (data) {
+                if (data['status'] == 'OK'){
+                    alert('Passed successfully!');
+                    $members_table.ajax.reload();
+                }
+                else if (data['status'] == 'NO'){
+                    alert('Error!!!')
+                }
+
+            }
+        })
+}
+
+$('#table_of_members').confirmation({
+        rootSelector: '#table_of_members',
+        selector: '[data-toggle=confirmation]',
+        placement: 'top',
+        btnOkClass: "btn btn-sm btn-warning",
+        btnCancelClass: "btn btn-sm btn-primary",
+        onConfirm: function() {
+            deleteMember($(this).data('memberid'));
+        },
+        popout: true
+    });
 
 function setModalValues(data) {
         $('#id_discord_username').val(data[1]);
