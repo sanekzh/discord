@@ -570,7 +570,9 @@ class PayPalTableView(View):
         try:
             ajax_response = {'sEcho': '', 'aaData': [], 'iTotalRecords': 0, 'iTotalDisplayRecords': 0}
             owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
-            paypal_ipns = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list))
+            user = User.objects.get(username=request.user)
+            billing = Billing.objects.get(user=user)
+            paypal_ipns = PayPalIPN.objects.filter(business=billing.paypal_email)
             if not paypal_ipns:
                 return HttpResponse(json.dumps(ajax_response), content_type='application/json')
             list_name = ['invoice', 'receiver_id', 'flag', 'flag_info', 'custom', 'payment_status',
