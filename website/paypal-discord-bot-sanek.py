@@ -20,7 +20,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-OWNER_ID = 1
+OWNER_ID = 9
 
 client = discord.Client()
 settings = BotSettings.objects.get(user_id=OWNER_ID)
@@ -30,7 +30,7 @@ def renew_membership(discord_id):
     """ Here we are generating paypal transaction link
         using it user will buy membership."""
 
-    member = Member.objects.filter(user_id=OWNER_ID, discord_id=discord_id).first()
+    member = Member.objects.filter(discord_id=discord_id).first()
     if member:
         # message = "Renewal link http://announceus.io/renew/?email={}".format(member.email)
         message = str(bot_message.renewal_link).format(member.email)
@@ -46,7 +46,7 @@ def get_status(discord_id):
         how many days he/she has left before their membership ends."""
 
     # Getting from database member
-    member = Member.objects.filter(user_id=OWNER_ID, discord_id=discord_id).first()
+    member = Member.objects.filter(discord_id=discord_id).first()
 
     # Checking if member does exists.
     if member:
@@ -87,7 +87,7 @@ def activate_user(author, email):
     """ We here are activating user email address."""
 
     message = None
-    member = Member.objects.filter(user_id=OWNER_ID).filter(Q(email=email) | Q(discord_id=author.id)).first()
+    member = Member.objects.filter(Q(email=email) | Q(discord_id=author.id)).first()
 
     # Checking if user is trying to use different email...
     if member and member.email != email:

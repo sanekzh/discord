@@ -50,10 +50,10 @@ class Member(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     email = models.EmailField(max_length=200, blank=True,
-                              null=True, unique=True)
+                              null=True)
     discord_username = models.CharField(max_length=200, blank=True,
-                                        null=True, unique=True)
-    discord_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
+                                        null=True)
+    discord_id = models.CharField(max_length=255, blank=True, null=True)
 
     subscription_date_expire = models.DateTimeField(blank=True, null=True)
 
@@ -192,19 +192,20 @@ def payment_received_succes(sender, **kwargs):
 
     ipn_obj = sender
 
-    member = Member.objects.filter(email=ipn_obj.payer_email).exists()
+    billing = Billing.objects.get(paypal_email=ipn_obj.receiver_email)
+    member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).exists()
     # settings = SiteSettings.objects.first()
     print("I am in valid ipn")
     print(ipn_obj)
 
 
     if member:
-        get_member = Member.objects.filter(email=ipn_obj.payer_email).first()
-        billing = Billing.objects.filter(user=get_member.user).first()
+        member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).first()
+        # billing = Billing.objects.filter(user=get_member.user).first()
         print("I am here...")
         # If the user already exists in database we are just adding 30
         # days to her/him.
-        member = Member.objects.filter(email=ipn_obj.payer_email).first()
+        # member = Member.objects.filter(email=ipn_obj.payer_email).first()
         if member.subscription_date_expire is not None:
             member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
         else:

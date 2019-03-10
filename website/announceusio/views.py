@@ -209,9 +209,9 @@ class AddMemberView(View):
                 is_activated=json.loads(request.POST.get('is_activated', 'false'))
             )
             return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
-        elif Member.objects.filter(email=request.POST['email']).exists():
-            return HttpResponse(json.dumps({'status': 'NO', 'errors': 'This email exists'}),
-                                content_type='application/json')
+        # elif Member.objects.filter(email=request.POST['email']).exists():
+        #     return HttpResponse(json.dumps({'status': 'NO', 'errors': 'This email exists'}),
+        #                         content_type='application/json')
         form = MemberForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
