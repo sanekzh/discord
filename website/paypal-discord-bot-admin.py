@@ -270,7 +270,7 @@ async def on_message(message):
             if activate_status[0]:
 
                 # settings = SiteSettings.objects.first()
-                bot_settings = BotSettings.objects.filter(user_id=OWNER_ID)
+                bot_settings = BotSettings.objects.filter(user_id=OWNER_ID).first()
                 server = client.get_server(bot_settings.discord_server_id)
                 user = server.get_member(message.author.id)
                 role = discord.utils.get(server.roles, name=bot_settings.member_role)
