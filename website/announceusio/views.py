@@ -131,7 +131,7 @@ class DashboardView(View):
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
-                    'total_income': total_income
+                    'total_income': total_income,
                     }
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
@@ -299,16 +299,19 @@ class UserSettingsView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             user = User.objects.get(username=request.user)
-            user_profile = UserProfile.objects.get(user=user)
-            form = {
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email': user.email,
-                'username': user.username,
-                'company': user_profile.company
-            }
-            data = {'menu': 'User settings', 'form': form}
-            return render(request, self.template_name, data)
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+                form = {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                    'username': user.username,
+                    'company': user_profile.company
+                }
+                data = {'menu': 'User settings', 'form': form}
+                return render(request, self.template_name, data)
+            except Exception as e:
+                pass
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
     def post(self, request):
@@ -562,7 +565,7 @@ class PayPalIPNView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             form = PayPalForm()
-            return render(request, self.template_name, {'menu': 'PayPal settings', 'form': form})
+            return render(request, self.template_name, {'menu': 'PayPal IPN', 'form': form})
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
 

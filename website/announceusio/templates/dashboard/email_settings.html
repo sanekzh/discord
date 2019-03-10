@@ -47,12 +47,15 @@
                                     <div class="form-group">
                                         <div id="div_id_email_subject" class="form-group">
                                             <label for="id_email_subject" class="col-form-label  requiredField">
-                                                Email<span class="asteriskField">*</span>
+                                                Subject<span class="asteriskField">*</span>
                                             </label>
                                             <div class="">
-                                                <input type="text" name="email_subject" maxlength="255"
-                                                       class="textinput textInput form-control" required=""
-                                                       id="id_email_subject" value="{{ form.email_subject }}">
+                                                <textarea name="message_body" cols="40" rows="10"
+                                                      class="textarea form-control" required=""
+                                                      id="id_email_subject">{{ form.email_subject }}</textarea>
+                                                <!--<input type="text" name="email_subject" maxlength="255"-->
+                                                       <!--class="textinput textInput form-control" required=""-->
+                                                       <!--id="id_email_subject" value="{{ form.email_subject }}">-->
                                             </div>
                                         </div>
                                     </div>
