@@ -139,7 +139,9 @@
                      <hr>
 
                      {% for member in members %}
-                         <div class="col-sm-12">{{ member.discord_username }}</div>
+                         {% if member.discord_username != member.email %}
+                            <div class="col-sm-12">{{ member.discord_username }}</div>
+                         {% endif %}
                     {% endfor %}
                  </div>
               </div>
