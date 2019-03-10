@@ -123,6 +123,7 @@ class DashboardView(View):
                                                    is_activated=True).count()
             members_all = Member.objects.filter(user=User.objects.get(username=request.user)).count()
             owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
+            members = Member.objects.filter(user=User.objects.get(username=request.user)).order_by('-id')[:10]
             user = User.objects.get(username=request.user)
             billing = Billing.objects.get(user=user)
             income = PayPalIPN.objects.filter(business=billing.paypal_email, created_at__gte=timezone.now(). \
@@ -138,6 +139,7 @@ class DashboardView(View):
                     'members_all': members_all,
                     'income': income,
                     'total_income': total_income,
+                    'members': members
                     }
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
