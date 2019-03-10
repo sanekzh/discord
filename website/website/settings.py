@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'paypal.standard.ipn',
     'announceusio',
+    'website'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -187,5 +188,5 @@ BOWER_INSTALLED_APPS = [
 
 # Paypal
 
-PAYPAL_RECEIVER_EMAIL = "lastrit@hotmail.com"
-PAYPAL_TEST = False
+#PAYPAL_RECEIVER_EMAIL = "lastrit@hotmail.com"
+PAYPAL_TEST = True
