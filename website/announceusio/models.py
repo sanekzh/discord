@@ -48,7 +48,7 @@ class Member(models.Model):
     created_on - the date when made record to database.
     """
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT, default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     email = models.EmailField(max_length=200, blank=True,
                               null=True, unique=True)
     discord_username = models.CharField(max_length=200, blank=True,

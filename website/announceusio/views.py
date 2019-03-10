@@ -618,8 +618,19 @@ class PayPalTableView(View):
                         paypal_ipn.custom,
                         paypal_ipn.payment_status,
                         str((paypal_ipn.created_at).strftime('%B %d, %Y, %I:%M')
-                            + paypal_ipn.created_at.strftime(' %p').lower())
+                            + paypal_ipn.created_at.strftime(' %p').lower()),
+                        paypal_ipn.id
                     ])
             return HttpResponse(json.dumps(ajax_response), content_type='application/json')
         except Exception as e:
             pass
+
+    def delete(self, request):
+        try:
+            get_body = QueryDict(request.body)
+            paypal_id = get_body['id']
+            PayPalIPN.objects.filter(id=paypal_id).delete()
+        except Exception as e:
+            return HttpResponse(json.dumps({'status': 'NO', 'errors': e.args}),
+                                content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
