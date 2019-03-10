@@ -345,6 +345,7 @@ class BillingSettingsView(View):
             try:
                 user = User.objects.get(username=request.user)
                 billing_settings = Billing.objects.filter(user=user).first()
+                user_profile = UserProfile.objects.get(user=user)
                 form = {
                     'price': billing_settings.price,
                     'item_name': billing_settings.item_name,
@@ -357,8 +358,8 @@ class BillingSettingsView(View):
                     "item_name": billing_settings.item_name,
                     "invoice": "{}".format(str(uuid.uuid4())),
                     "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
-                    "return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
-                    "cancel_return": "https://cookstart.io" + str(reverse_lazy('announceusio:index')),
+                    "return": "https://" + user_profile.company + str(reverse_lazy('announceusio:index')),
+                    "cancel_return": "https://" + user_profile.company + str(reverse_lazy('announceusio:index')),
                     "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
                 }
                 form_paypal = PayPalPaymentsForm(initial=paypal_dict)
