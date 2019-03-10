@@ -135,12 +135,11 @@
               </div>
               <div class="card-body ">
                  <div class="row">
-                     <div class="col-sm-6" style="color: #9A9A9A">Email</div>
-                     <div class="col-sm-6" style="color: #9A9A9A">Discord ID</div>
+                     <div class="col-sm-12" style="color: #9A9A9A">Name</div>
                      <hr>
+
                      {% for member in members %}
-                         <div class="col-sm-6">{{ member.email }}</div>
-                         <div class="col-sm-6">{{ member.discord_id }}</div>
+                         <div class="col-sm-12">{{ member.discord_username }}</div>
                     {% endfor %}
                  </div>
               </div>
