@@ -123,10 +123,16 @@ class DashboardView(View):
                                                    is_activated=True).count()
             members_all = Member.objects.filter(user=User.objects.get(username=request.user)).count()
             owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
-            income = PayPalIPN.objects. \
-                filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
+            user = User.objects.get(username=request.user)
+            billing = Billing.objects.get(user=user)
+            income = PayPalIPN.objects.filter(business=billing.paypal_email, created_at__gte=timezone.now(). \
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
-            total_income = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list)).aggregate(Sum('mc_gross'))
+            total_income = PayPalIPN.objects.filter(business=billing.paypal_email).aggregate(Sum('mc_gross'))
+
+            # income = PayPalIPN.objects. \
+            #     filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
+            #            replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
+            # total_income = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list)).aggregate(Sum('mc_gross'))
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
