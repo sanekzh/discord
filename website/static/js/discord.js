@@ -439,24 +439,31 @@ var $paypal_table = $('#table_paypal').DataTable({
             },
             oLanguage: {sProcessing: "<div id='loader'></div>"},
             "columnDefs": [
+                {'targets': 0, "render": function(){return '';}, "orderable": false},
                 {
-                    'targets': 1,
+                    'targets': 2,
                     'render': function (data, type, full, meta) {
                         return setCheckBoxValue(data);
                         }
                 },
+                 {
+                    "targets": 8,
+                    "checkboxes": {
+                        "selectRow": true
+                    },
+                    "orderable": false
+                },
                 {
-                    'targets': 7,
+                    'targets': 9,
                     'render': function (data, type, full, meta) {
-                     return '<button data-toggle="confirmation" data-id ="'+ data +'" class="btn btn-danger btn-sm delete pull-center">' +
-                            '<i class="fa fa-trash"></i></button>';
+                     return '';
                     }
                 }
             ]
         });
 
 function deletePayPalIPN(id){
-    console.log(id);
+    // console.log(id);
     $.ajax({
             url: links.paypal_table,
             method: 'DELETE',
@@ -491,7 +498,18 @@ $('#table_paypal').confirmation({
         btnOkClass: "btn btn-sm btn-warning",
         btnCancelClass: "btn btn-sm btn-primary",
         onConfirm: function() {
-            deletePayPalIPN($(this).data('id'));
+            var selectedRows = $paypal_table.rows({selected: true}).data();
+            if (selectedRows.length < 1) {
+                var row = $(this).parents('tr'),
+                    rowData = $paypal_table.row(row).data();
+                deletePayPalIPN(rowData[0]);
+            } else {
+                var selectedIds = [];
+                $.each(selectedRows, function (i, item) {
+                    selectedIds.push(item[0]);
+                });
+                deletePayPalIPN(selectedIds);
+            }
         },
         popout: true
     });

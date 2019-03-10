@@ -590,7 +590,7 @@ class PayPalTableView(View):
                     Q(invoice__icontains=search) | Q(flag_info__icontains=search)
                     | Q(custom__icontains=search) | Q(payment_status__icontains=search))
             # Sorting
-            sort_column = list_name[int(request.GET.get('order[0][column]', 0))]
+            sort_column = list_name[int(request.GET.get('order[1][column]', 0))]
             if request.GET.get('order[0][dir]', None) == 'desc':
                 sort_column = '-{}'.format(sort_column)
             paypal_ipns = paypal_ipns.order_by(sort_column)
@@ -611,6 +611,7 @@ class PayPalTableView(View):
             for paypal_ipn in paypal_ipns[start:start + length]:
                 ajax_response['aaData'].append(
                     [
+                        paypal_ipn.id,
                         str(paypal_ipn.__unicode__()).replace('<', '< '),
                         paypal_ipn.flag,
                         paypal_ipn.flag_info,
@@ -619,6 +620,7 @@ class PayPalTableView(View):
                         paypal_ipn.payment_status,
                         str((paypal_ipn.created_at).strftime('%B %d, %Y, %I:%M')
                             + paypal_ipn.created_at.strftime(' %p').lower()),
+                        paypal_ipn.id,
                         paypal_ipn.id
                     ])
             return HttpResponse(json.dumps(ajax_response), content_type='application/json')
@@ -628,8 +630,15 @@ class PayPalTableView(View):
     def delete(self, request):
         try:
             get_body = QueryDict(request.body)
-            paypal_id = get_body['id']
-            PayPalIPN.objects.filter(id=paypal_id).delete()
+            if get_body.get('id', False):
+                paypal_id = get_body.get('id')
+                paypal_model = PayPalIPN.objects.get(id=paypal_id)
+            elif get_body.getlist('id[]', False):
+                paypal_ids_list = [int(i) for i in get_body.getlist('id[]')]
+                paypal_model = PayPalIPN.objects.filter(id__in=paypal_ids_list)
+            else:
+                return HttpResponse(json.dumps({'status': 'NO'}), content_type='application/json')
+            paypal_model.delete()
         except Exception as e:
             return HttpResponse(json.dumps({'status': 'NO', 'errors': e.args}),
                                 content_type='application/json')
