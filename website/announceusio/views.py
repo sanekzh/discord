@@ -352,14 +352,15 @@ class BillingSettingsView(View):
                     'paypal_email': billing_settings.paypal_email,
                     'sub_days': billing_settings.sub_days,
                 }
+                url = user_profile.company if user_profile.company else ''
                 paypal_dict = {
                     "business": billing_settings.paypal_email,
                     "amount": billing_settings.price,
                     "item_name": billing_settings.item_name,
                     "invoice": "{}".format(str(uuid.uuid4())),
                     "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
-                    "return": "https://" + user_profile.company + str(reverse_lazy('announceusio:index')),
-                    "cancel_return": "https://" + user_profile.company + str(reverse_lazy('announceusio:index')),
+                    "return": "https://" + url + str(reverse_lazy('announceusio:index')),
+                    "cancel_return": "https://" + url + str(reverse_lazy('announceusio:index')),
                     "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
                 }
                 form_paypal = PayPalPaymentsForm(initial=paypal_dict)
