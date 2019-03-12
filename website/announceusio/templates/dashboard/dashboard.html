@@ -1,6 +1,7 @@
 {% extends "dashboard/dashboard_base.html" %}
 {% load static %}
 {% block content %}
+    <link href="{% static '/css/style.css' %}" rel="stylesheet"/>
       <div class="content">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
@@ -109,6 +110,42 @@
           </div>
         </div>
         <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-5 col-md-4">
+                    <div class="icon-big text-center icon-warning">
+                        <i>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="robot" style="height: 43px; color: cornflowerblue;" class="svg-inline--fa fa-robot fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M0 256v128c0 17.7 14.3 32 32 32h32V224H32c-17.7 0-32 14.3-32 32zM464 96H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H176c-44.2 0-80 35.8-80 80v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-44.2-35.8-80-80-80zM256 416h-64v-32h64v32zm-32-120c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm128 120h-64v-32h64v32zm96 0h-64v-32h64v32zm-32-120c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm192-72h-32v192h32c17.7 0 32-14.3 32-32V256c0-17.7-14.3-32-32-32z"></path></svg>
+                        </i>
+                    </div>
+                  </div>
+                  <div class="col-7 col-md-8">
+                    <div class="numbers">
+                      <p class="card-category">State</p>
+                        {% if status == 'running' %}
+                            <p class="card-title statusrunning">running</p>
+                        {% elif status == 'stopped' %}
+                            <p class="card-title statusnominal">stopped</p>
+                        {% elif status == 'fatal' %}
+                            <p class="card-title statuserror">fatal</p>
+                        {% else %}
+                             <p class="card-title statusunknown">unknown</p>
+                        {% endif %}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                  <i class="fa fa-refresh"></i> Update Now
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-12">
             <div class="card " style="display: none;">
               <div class="card-header ">
@@ -127,6 +164,9 @@
             </div>
           </div>
         </div>
+
+
+
         <div class="row">
           <div class="col-md-4">
             <div class="card ">

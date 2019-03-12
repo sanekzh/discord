@@ -4,6 +4,7 @@ import uuid
 from shutil import copyfile
 
 import requests
+from bs4 import BeautifulSoup
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
@@ -119,6 +120,7 @@ class DashboardView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
+            status = 'unknown'
             members_active = Member.objects.filter(user=User.objects.get(username=request.user),
                                                    is_activated=True).count()
             members_all = Member.objects.filter(user=User.objects.get(username=request.user)).count()
@@ -130,6 +132,17 @@ class DashboardView(View):
             income = PayPalIPN.objects.filter(business=billing.paypal_email, created_at__gte=timezone.now(). \
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
             total_income = PayPalIPN.objects.filter(business=billing.paypal_email).aggregate(Sum('mc_gross'))
+            url = f'http://{SERVER_SUPERVISOR_URL}/index.html'
+            response = requests.get(url, auth=(SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD))
+            soup = BeautifulSoup(response.text, 'html.parser')
+            rows = soup.findAll('tr')
+            for tr in rows[1:]:
+                cols = tr.findAll('td')
+                if 'status' in cols[0]['class']:
+                    state, uptime, bot, temp = [c.text for c in cols]
+                    if bot == f"paypal-discord-bot-{user.username}":
+                        status = state
+                        break
 
             # income = PayPalIPN.objects. \
             #     filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
@@ -140,7 +153,8 @@ class DashboardView(View):
                     'members_all': members_all,
                     'income': income,
                     'total_income': total_income,
-                    'members': members
+                    'members': members,
+                    'status': status
                     }
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
