@@ -538,6 +538,16 @@ class OwnerView(View):
                 f = open(new_bot, 'w')
                 f.write(new_data)
                 f.close()
+                bot = BASE_DIR + "/paypal-discord-bot-admin.conf"
+                new_bot = BASE_DIR + f"/paypal-discord-bot-{request.POST['username']}.conf"
+                copyfile(bot, new_bot)
+                f = open(new_bot, 'r')
+                file_data = f.read()
+                f.close()
+                new_data = file_data.replace("paypal-discord-bot-admin", f"paypal-discord-bot-{owner.username}")
+                f = open(new_bot, 'w')
+                f.write(new_data)
+                f.close()
                 return render(request, self.template_name, {'form': form, 'success': 'Passed successfully!'})
             except Exception as e:
                 form = UserCreationForm()
