@@ -3,21 +3,21 @@
 .statusnominal {
     background-color: #EFF18C;
     text-align: center;
-    color: aliceblue;
+    color: #2e2f32;
 }
 .statusrunning {
     background-color: #8ce282;
     text-align: center;
-    color: aliceblue;
+    color: #2e2f32;
 }
 .statuserror {
     background-color: #E48D92;
     text-align: center;
-    color: aliceblue;
+    color: #2e2f32;
 }
 
 .statusunknown {
     background-color: #bfb8bd;
     text-align: center;
-    color: aliceblue;
+    color: #2e2f32;
 }
