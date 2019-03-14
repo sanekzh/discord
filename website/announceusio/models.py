@@ -79,6 +79,7 @@ class Billing(models.Model):
     sub_days = models.IntegerField(default=30, blank=False, null=False)
     item_name = models.CharField(default="announceus.io - PREMIUM", max_length=255, blank=False, null=False)
     paypal_email = models.EmailField(max_length=300, default="some@mail.com", blank=False, null=False)
+    stripe_token = models.CharField(default="", max_length=512, blank=False, null=False)
 
 
 class BotSettings(models.Model):
@@ -182,6 +183,13 @@ class SiteSettings(models.Model):
         return "{} {} {}".format(self.price, self.item_name, self.email)
 
 
+class Stripe(models.Model):
+    stripe_token = models.CharField(max_length=64, blank=True, null=True)
+    stripe_token_type = models.CharField(max_length=16, blank=True, null=True)
+    payer_email = models.EmailField(max_length=300, blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+
 def payment_received_succes(sender, **kwargs):
     """ This is callback handler for valid_ipn_received signal.
 
@@ -238,3 +246,50 @@ def invalid_payment(sender, **kwargs):
 
 invalid_ipn_received.connect(invalid_payment)
 valid_ipn_received.connect(payment_received_succes)
+
+
+def payment_stripe_received_succes(sender, user):
+    """ This is callback handler for valid_ipn_received signal.
+
+    We are here checking whether payer_email is already
+    in database or not. We are creating members here after
+    transaction was successfully.
+    """
+
+    ipn_obj = sender
+
+    billing = Billing.objects.get(user=user)
+    member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).exists()
+    # settings = SiteSettings.objects.first()
+    print("I am in valid ipn")
+    print(ipn_obj)
+
+
+    if member:
+        member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).first()
+        # billing = Billing.objects.filter(user=get_member.user).first()
+        print("I am here...")
+        # If the user already exists in database we are just adding 30
+        # days to her/him.
+        # member = Member.objects.filter(email=ipn_obj.payer_email).first()
+        if member.subscription_date_expire is not None:
+            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
+        else:
+            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
+
+
+        member.is_activated = True
+        member.notify_7 = False
+        member.notify_3 = False
+        member.notify_24h = False
+
+        member.save()
+    else:
+        # Saving starting point of Member.
+        print("Add new Member...")
+        try:
+            new_member = Member(user=billing.user,
+                                email=ipn_obj.payer_email)
+            new_member.save()
+        except Exception as e:
+            print("Error add new Member...", e.args)

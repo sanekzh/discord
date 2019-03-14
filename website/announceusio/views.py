@@ -20,10 +20,14 @@ from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm, PayPalStandardBaseForm
 from paypal.standard.ipn.models import PayPalIPN
 
-from .credentials.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD
+from .credentials.credentials import SERVER_SUPERVISOR_URL, SERVER_SUPERVISOR_LOGIN, SERVER_SUPERVISOR_PASSWORD, \
+    TEST_STRIPE_SECRET_KEY, TEST_STRIPE_PUBLISHABLE_KEY
 from .forms import MemberForm, PayPalForm
-from .models import Member, Billing, EmailSettings, BotSettings, BotMessage, UserProfile
+from .models import Member, Billing, EmailSettings, BotSettings, BotMessage, UserProfile, Stripe, \
+    payment_received_succes, payment_stripe_received_succes
 
+import stripe
+stripe.api_key = TEST_STRIPE_SECRET_KEY
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -377,6 +381,7 @@ class BillingSettingsView(View):
                     'item_name': billing_settings.item_name,
                     'paypal_email': billing_settings.paypal_email,
                     'sub_days': billing_settings.sub_days,
+                    'stripe_token': billing_settings.stripe_token,
                 }
                 url = user_profile.company if user_profile.company else ''
                 paypal_dict = {
@@ -390,8 +395,20 @@ class BillingSettingsView(View):
                     "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
                 }
                 form_paypal = PayPalPaymentsForm(initial=paypal_dict)
+                if billing_settings.stripe_token:
+                    email_settings = EmailSettings.objects.filter(user=user).first()
+                    form_stripe = {
+                        'token': billing_settings.stripe_token,
+                        'company': user_profile.company,
+                        'email': email_settings.email,
+                        'price': (float(billing_settings.price) )
+                    }
+                else:
+                    form_stripe = {}
+
                 return render(request=request, template_name=self.template_name,
-                              context={'menu': 'Billing', 'form': form, 'form_paypal': form_paypal})
+                              context={'menu': 'Billing', 'form': form, 'form_paypal': form_paypal,
+                                       'form_stripe': form_stripe})
             except Exception as e:
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Billing', 'form': {}, 'form_paypal': {}})
@@ -406,6 +423,7 @@ class BillingSettingsView(View):
                 'item_name': request.POST['item_name'],
                 'paypal_email': request.POST['paypal_email'],
                 'sub_days': request.POST['sub_days'],
+                'stripe_token': request.POST['stripe_token']
             }
             user = User.objects.get(username=request.user)
             if Billing.objects.filter(user_id=user.id).exists():
@@ -676,3 +694,27 @@ class PayPalTableView(View):
             return HttpResponse(json.dumps({'status': 'NO', 'errors': e.args}),
                                 content_type='application/json')
         return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
+
+
+class StripeView(View):
+    template_name = 'dashboard/dashboard.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            user = User.objects.get(username=request.user)
+            billing_settings = Billing.objects.filter(user=user).first()
+            user_profile = UserProfile.objects.get(user=user)
+            charge = stripe.Charge.create(
+                amount=int(billing_settings.price)*100,
+                currency='usd',
+                description='A Django charge',
+                source=request.POST['stripeToken']
+            )
+            stripe_new = Stripe(
+                stripe_token=request.POST['stripeToken'],
+                stripe_token_type=request.POST['stripeTokenType'],
+                payer_email=request.POST['stripeEmail']
+            )
+            stripe_new.save()
+            payment_stripe_received_succes(stripe_new, user)
+            return render(request, self.template_name)

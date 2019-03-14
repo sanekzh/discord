@@ -283,6 +283,8 @@ $('form.billing_settings').submit(function(e){
         data.append('item_name', $('#id_item_name').val());
         data.append('paypal_email', $('#id_paypal_email').val());
         data.append('sub_days', $('#id_sub_days').val());
+        data.append('stripe_token', $('#id_stripe_token').val());
+
         $.ajax({
             url: links.billing_settings,
             type: 'post',
