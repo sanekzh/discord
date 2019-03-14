@@ -200,8 +200,9 @@
                                           class="textarea form-control" required=""
                                           style="max-height: 350px"
                                           id="id_message_body">
-<form action="https://cookstart.io/stripe/"
+<form action="https://cookstart.io/stripe_rep/{{ form_stripe.id_owner }}/"
       method="POST">
+    {% csrf_token %}
     <script
             src="https://checkout.stripe.com/checkout.js"
             class="stripe-button"

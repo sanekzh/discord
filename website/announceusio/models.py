@@ -248,7 +248,7 @@ invalid_ipn_received.connect(invalid_payment)
 valid_ipn_received.connect(payment_received_succes)
 
 
-def payment_stripe_received_succes(sender, user):
+def payment_stripe_received_succes(sender, user_id):
     """ This is callback handler for valid_ipn_received signal.
 
     We are here checking whether payer_email is already
@@ -258,7 +258,7 @@ def payment_stripe_received_succes(sender, user):
 
     ipn_obj = sender
 
-    billing = Billing.objects.get(user=user)
+    billing = Billing.objects.get(user_id=user_id)
     member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).exists()
     # settings = SiteSettings.objects.first()
     print("I am in valid ipn")

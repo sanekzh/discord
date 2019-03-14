@@ -401,7 +401,8 @@ class BillingSettingsView(View):
                         'token': billing_settings.stripe_token,
                         'company': user_profile.company,
                         'email': email_settings.email,
-                        'price': (float(billing_settings.price) )
+                        'price': (float(billing_settings.price) ),
+                        'id_owner': user.id
                     }
                 else:
                     form_stripe = {}
@@ -699,7 +700,7 @@ class PayPalTableView(View):
 class StripeView(View):
     template_name = 'dashboard/dashboard.html'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, id_owner=None, *args, **kwargs):
         if request.method == 'POST':
             user = User.objects.get(username=request.user)
             billing_settings = Billing.objects.filter(user=user).first()
@@ -716,5 +717,5 @@ class StripeView(View):
                 payer_email=request.POST['stripeEmail']
             )
             stripe_new.save()
-            payment_stripe_received_succes(stripe_new, user)
+            payment_stripe_received_succes(stripe_new, id_owner)
             return render(request, self.template_name)
