@@ -190,4 +190,4 @@ BOWER_INSTALLED_APPS = [
 # Paypal
 
 #PAYPAL_RECEIVER_EMAIL = "lastrit@hotmail.com"
-PAYPAL_TEST = True
+PAYPAL_TEST = False
