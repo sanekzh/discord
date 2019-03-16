@@ -384,6 +384,7 @@ class BillingSettingsView(View):
                     'paypal_email': billing_settings.paypal_email,
                     'sub_days': billing_settings.sub_days,
                     'stripe_token': billing_settings.stripe_token,
+                    'stripe_url': billing_settings.stripe_webhook
                 }
                 url = user_profile.company if user_profile.company else ''
                 paypal_dict = {

@@ -192,32 +192,13 @@
                                                          class="form-group">
                                                         <label for="id_message_body"
                                                                class="col-form-label  requiredField">
-                                                            Copy this code in your website
-                                                            <span class="asteriskField">*</span>
+                                                            Url for Stripe Webhooks
                                                         </label>
                                                         <div class="">
-                                <textarea name="message_body" cols="40" rows="40"
-                                          class="textarea form-control" required=""
-                                          style="max-height: 350px"
-                                          id="id_message_body">
-<form action="https://cookstart.io/stripe_rep/{{ form_stripe.id_owner }}/"
-      method="POST">
-    {% csrf_token %}
-    <script
-            src="https://checkout.stripe.com/checkout.js"
-            class="stripe-button"
-            data-key="{{ form_stripe.token }}"
-            data-amount="{{ form_stripe.price }}"
-            data-name="{{ form_stripe.company }}"
-            data-description="{{ form_stripe.email }}"
-            data-image="{% static 'images/favicon.ico' %}"
-            data-locale="auto">
-    </script>
-</form>
-
-
-
-                                </textarea>
+                                                            <input type="text" name="stripe_url" maxlength="300"
+                                                                   class="emailinput form-control" required=""
+                                                                   id="id_stripe_url"
+                                                                   value="{{ form.stripe_url }}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
