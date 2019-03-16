@@ -15,6 +15,8 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from paypal.standard.forms import PayPalPaymentsForm, PayPalStandardBaseForm
@@ -397,11 +399,12 @@ class BillingSettingsView(View):
                 form_paypal = PayPalPaymentsForm(initial=paypal_dict)
                 if billing_settings.stripe_token:
                     email_settings = EmailSettings.objects.filter(user=user).first()
+                    price = int(billing_settings.price) * 100
                     form_stripe = {
                         'token': billing_settings.stripe_token,
                         'company': user_profile.company,
                         'email': email_settings.email,
-                        'price': (float(billing_settings.price) ),
+                        'price': price,
                         'id_owner': user.id
                     }
                 else:
@@ -700,22 +703,36 @@ class PayPalTableView(View):
 class StripeView(View):
     template_name = 'dashboard/dashboard.html'
 
-    def post(self, request, id_owner=None, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             user = User.objects.get(username=request.user)
             billing_settings = Billing.objects.filter(user=user).first()
             user_profile = UserProfile.objects.get(user=user)
+            price = int(billing_settings.price)*100
             charge = stripe.Charge.create(
-                amount=int(billing_settings.price)*100,
+                amount=price,
                 currency='usd',
-                description='A Django charge',
+                description=user.email,
                 source=request.POST['stripeToken']
             )
+            return render(request, self.template_name)
+
+
+@require_POST
+@csrf_exempt
+def stripe_webhook(request):
+    event_json = json.loads(request.body.decode())
+    if event_json['type'] == 'charge.succeeded':
+        owner_email = event_json['data']['object']['description']
+        owner = User.objects.get(email=owner_email)
+        member_email = event_json['data']['object']['source']['name']
+        if Stripe.objects.filter(id_transaction=event_json['id']).exists():
             stripe_new = Stripe(
-                stripe_token=request.POST['stripeToken'],
-                stripe_token_type=request.POST['stripeTokenType'],
-                payer_email=request.POST['stripeEmail']
+                amount=str(int(event_json['data']['object']['amount'])/100),
+                id_transaction=event_json['id'],
+                status=event_json['data']['object']['status'],
+                payer_email=member_email
             )
             stripe_new.save()
-            payment_stripe_received_succes(stripe_new, id_owner)
-            return render(request, self.template_name)
+            payment_stripe_received_succes(stripe_new, owner.id)
+    return HttpResponse(status=200)

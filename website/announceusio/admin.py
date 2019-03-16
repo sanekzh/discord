@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage, UserProfile
+from .models import Member, SiteSettings, BotSettings, EmailSettings, Billing, BotMessage, UserProfile, Stripe
 
 
 @admin.register(Member)
@@ -39,3 +39,8 @@ class AdminBotMessage(admin.ModelAdmin):
 @admin.register(UserProfile)
 class AdminUserProfile(admin.ModelAdmin):
     list_display = ("user",  'company')
+
+
+@admin.register(Stripe)
+class AdminStripe(admin.ModelAdmin):
+    list_display = ("amount", "id_transaction", "status", "payer_email", "created_on")

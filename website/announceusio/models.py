@@ -184,8 +184,9 @@ class SiteSettings(models.Model):
 
 
 class Stripe(models.Model):
-    stripe_token = models.CharField(max_length=64, blank=True, null=True)
-    stripe_token_type = models.CharField(max_length=16, blank=True, null=True)
+    amount = models.CharField(max_length=64, blank=True, null=True)
+    id_transaction = models.CharField(max_length=16, blank=True, null=True)
+    status = models.CharField(max_length=16, blank=True, null=True)
     payer_email = models.EmailField(max_length=300, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
 

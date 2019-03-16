@@ -94,14 +94,16 @@ var $members_table = $('#table_of_members').DataTable({
                     'render': function (data, type, full, meta) {
                          return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
                                 '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
-                        }
+                        },
+                    'orderable': false
                 },
                 {
                     'targets': 11,
                     'render': function (data, type, full, meta) {
                      return '<button data-toggle="confirmation" data-memberid ="'+ data +'" class="btn btn-danger btn-sm delete pull-center">' +
                             '<i class="fa fa-trash"></i></button>';
-                    }
+                    },
+                    'orderable': false
                 }
             ]
         });
