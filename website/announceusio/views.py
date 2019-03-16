@@ -709,11 +709,12 @@ class StripeView(View):
             user = User.objects.get(username=request.user)
             billing_settings = Billing.objects.filter(user=user).first()
             user_profile = UserProfile.objects.get(user=user)
+            email_settings = EmailSettings.objects.get(user=user)
             price = int(billing_settings.price)*100
             charge = stripe.Charge.create(
                 amount=price,
                 currency='usd',
-                description=user.email,
+                description=email_settings.email,
                 source=request.POST['stripeToken']
             )
             return render(request, self.template_name)
@@ -725,8 +726,7 @@ def stripe_webhook(request):
     event_json = json.loads(request.body.decode())
     if event_json['type'] == 'charge.succeeded':
         owner_email = event_json['data']['object']['description']
-        email_settings = EmailSettings.objects.get(email=owner_email)
-        owner = User.objects.get(user=email_settings.user)
+        owner = User.objects.get(email=owner_email)
         member_email = event_json['data']['object']['source']['name']
         if Stripe.objects.filter(id_transaction=event_json['id']).exists():
             stripe_new = Stripe(

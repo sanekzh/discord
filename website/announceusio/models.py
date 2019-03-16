@@ -80,7 +80,7 @@ class Billing(models.Model):
     item_name = models.CharField(default="announceus.io - PREMIUM", max_length=255, blank=False, null=False)
     paypal_email = models.EmailField(max_length=300, default="some@mail.com", blank=False, null=False)
     stripe_token = models.CharField(default="", max_length=512, blank=False, null=False)
-    stripe_webhook = models.CharField(default="http://cookstart.io/stripe/webhooks/", max_length=512, blank=False, null=False)
+    stripe_webhook = models.CharField(default="https://cookstart.io/stripe/webhooks/", max_length=512, blank=False, null=False)
 
 
 class BotSettings(models.Model):
