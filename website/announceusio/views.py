@@ -717,7 +717,25 @@ class StripeView(View):
                 description=email_settings.email,
                 source=request.POST['stripeToken']
             )
-            return render(request, self.template_name)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@require_POST
+@csrf_exempt
+def stripe_charge(request, id_owner=None):
+    if request.method == 'POST':
+        user = User.objects.get(pk=id_owner)
+        billing_settings = Billing.objects.filter(user=user).first()
+        user_profile = UserProfile.objects.get(user=user)
+        email_settings = EmailSettings.objects.get(user=user)
+        price = int(billing_settings.price)*100
+        charge = stripe.Charge.create(
+            amount=price,
+            currency='usd',
+            description=email_settings.email,
+            source=request.POST['stripeToken']
+        )
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @require_POST

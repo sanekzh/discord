@@ -202,6 +202,40 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-lg-12">
+                                                    <div id="div_id_message_body"
+                                                         class="form-group">
+                                                        <label for="id_message_body"
+                                                               class="col-form-label  requiredField">
+                                                            Copy this code in your website
+                                                            <span class="asteriskField">*</span>
+                                                        </label>
+                                                        <div class="">
+                                <textarea name="message_body" cols="40" rows="40"
+                                          class="textarea form-control" required=""
+                                          style="max-height: 350px"
+                                          id="id_message_body">
+
+<form action="https://cookstart.io/stripe/{{ form_stripe.id_owner }}/" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+   data-key="{{ form_stripe.token }}"
+   data-amount="{{ form_stripe.price }}"
+   data-name="{{ form_stripe.company }}"
+   data-description="{{ form_stripe.email }}"
+   data-image="https://cookstart.io/images/favicon.ico"
+   data-locale="auto">
+  </script>
+</form>
+
+
+                                </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
 
