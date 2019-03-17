@@ -727,7 +727,7 @@ def stripe_webhook(request):
     if event_json['type'] == 'charge.succeeded':
         owner_email = event_json['data']['object']['description']
         email_settings = EmailSettings.objects.get(email=owner_email)
-        owner = User.objects.get(user=email_settings.user)
+        owner = User.objects.get(username=email_settings.user.username)
         member_email = event_json['data']['object']['source']['name']
         if Stripe.objects.filter(id_transaction=event_json['id']).exists():
             stripe_new = Stripe(
