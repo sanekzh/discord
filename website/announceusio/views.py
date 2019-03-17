@@ -717,7 +717,7 @@ class StripeView(View):
                 description=email_settings.email,
                 source=request.POST['stripeToken']
             )
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        return HttpResponseRedirect('https://cookstart.io/billing/')
 
 
 @require_POST
