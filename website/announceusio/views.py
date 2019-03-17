@@ -404,7 +404,7 @@ class BillingSettingsView(View):
                     form_stripe = {
                         'token': billing_settings.stripe_token,
                         'company': user_profile.company,
-                        'email': email_settings.email,
+                        'email': billing_settings.item_name,
                         'price': price,
                         'id_owner': user.id
                     }
@@ -717,7 +717,7 @@ class StripeView(View):
                 description=email_settings.email,
                 source=request.POST['stripeToken']
             )
-        return HttpResponseRedirect('https://cookstart.io/billing/')
+        return HttpResponseRedirect('https://cookstart.io/billing/', '/')
 
 
 @require_POST
