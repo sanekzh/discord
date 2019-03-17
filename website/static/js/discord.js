@@ -286,6 +286,7 @@ $('form.billing_settings').submit(function(e){
         data.append('paypal_email', $('#id_paypal_email').val());
         data.append('sub_days', $('#id_sub_days').val());
         data.append('stripe_token', $('#id_stripe_token').val());
+        data.append('stripe_secret_token', $('#id_stripe_secret_token').val());
 
         $.ajax({
             url: links.billing_settings,

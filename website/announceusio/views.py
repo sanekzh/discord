@@ -29,7 +29,6 @@ from .models import Member, Billing, EmailSettings, BotSettings, BotMessage, Use
     payment_received_succes, payment_stripe_received_succes
 
 import stripe
-stripe.api_key = TEST_STRIPE_SECRET_KEY
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -384,6 +383,7 @@ class BillingSettingsView(View):
                     'paypal_email': billing_settings.paypal_email,
                     'sub_days': billing_settings.sub_days,
                     'stripe_token': billing_settings.stripe_token,
+                    'stripe_secret_token': billing_settings.stripe_secret_token,
                     'stripe_url': billing_settings.stripe_webhook
                 }
                 url = user_profile.company if user_profile.company else ''
@@ -428,7 +428,8 @@ class BillingSettingsView(View):
                 'item_name': request.POST['item_name'],
                 'paypal_email': request.POST['paypal_email'],
                 'sub_days': request.POST['sub_days'],
-                'stripe_token': request.POST['stripe_token']
+                'stripe_token': request.POST['stripe_token'],
+                'stripe_secret_token': request.POST['stripe_secret_token']
             }
             user = User.objects.get(username=request.user)
             if Billing.objects.filter(user_id=user.id).exists():
@@ -711,6 +712,8 @@ class StripeView(View):
             user_profile = UserProfile.objects.get(user=user)
             email_settings = EmailSettings.objects.get(user=user)
             price = int(billing_settings.price)*100
+            api_key = billing_settings.stripe_secret_token
+            stripe.api_key = billing_settings.stripe_secret_token
             charge = stripe.Charge.create(
                 amount=price,
                 currency='usd',
@@ -729,6 +732,7 @@ def stripe_charge(request, id_owner=None):
         user_profile = UserProfile.objects.get(user=user)
         email_settings = EmailSettings.objects.get(user=user)
         price = int(billing_settings.price)*100
+        stripe.api_key = billing_settings.stripe_secret_token
         charge = stripe.Charge.create(
             amount=price,
             currency='usd',

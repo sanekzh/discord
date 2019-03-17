@@ -86,6 +86,21 @@
                                             </div>
                                         </div>
                                         <div class="col-md-10">
+                                            <div class="form-group">
+                                                <div id="div_id_stripe_secret_token" class="form-group">
+                                                    <label for="id_stripe_secret_token" class="col-form-label">
+                                                        Stripe publishable key
+                                                    </label>
+                                                    <div class="">
+                                                        <input type="text" name="stripe_secret_token" maxlength="300"
+                                                               class="emailinput form-control"
+                                                               id="id_stripe_secret_token"
+                                                               value="{{ form.stripe_secret_token }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
                                             <div class="modal-footer left-side">
                                                 <button id="save_billing" type="submit" class="btn btn-success">Save
                                                 </button>
