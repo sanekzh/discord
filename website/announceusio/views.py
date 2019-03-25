@@ -32,31 +32,33 @@ import stripe
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# def index(request):
-#     return render(request, "announceusio/index.html")
-
 def index(request):
-    """ Here we are displaying index page."""
-    user = User.objects.get(username=request.user)
-    settings = Billing.objects.filter(user=user).first()
-    # settings = Billing.objects.first()
+    return render(request, "announceusio/index.html")
 
-    # What you want the button to do.
-    paypal_dict = {
-        "business": settings.paypal_email,
-        "amount": settings.price,
-        "item_name": settings.item_name,
-        "invoice": "{}".format(str(uuid.uuid4())),
-        "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
-        "return": "https://cookstart.io" + reverse('announceusio:index'),
-        "cancel_return": "https://cookstart.io" + reverse('announceusio:index'),
-        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
-    }
+# def index(request):
+#     """ Here we are displaying index page."""
+#     user = User.objects.get(username=request.user)
+#     settings = Billing.objects.filter(user=user).first()
+#     # settings = Billing.objects.first()
+#
+#     # What you want the button to do.
+#     paypal_dict = {
+#         "business": settings.paypal_email,
+#         "amount": settings.price,
+#         "item_name": settings.item_name,
+#         "invoice": "{}".format(str(uuid.uuid4())),
+#         "notify_url": "https://cookstart.io" + reverse('paypal-ipn'),
+#         "return": "https://cookstart.io" + reverse('announceusio:index'),
+#         "cancel_return": "https://cookstart.io" + reverse('announceusio:index'),
+#         "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+#     }
+#
+#     # Create the instance.
+#     form = PayPalPaymentsForm(initial=paypal_dict)
+#     context = {"form": form}
+#     return render(request, "announceusio/index.html", context)
 
-    # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "announceusio/index.html", context)
+
 
 
 def renew(request):
