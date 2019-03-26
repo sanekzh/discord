@@ -28,13 +28,13 @@ sudo systemctl start supervisor
 sudo apt-get install python3-virtualenv
 
 4. Adding user into ubuntu. We do not need to run our project under root user as it is not safe. `boards` is username you can change it.
-adduser boards
+adduser discord
 
 5. adding newly created user to sudoes. for using sudo command.
-gpasswd -a boards sudo
+gpasswd -a discord sudo
 
 6. login to in to new user.
-sudo su - boards
+sudo su - discord
 
 7. Creating virtualenvirmoment. We install python3 packages into it.
 virtualenv venv -p python3
@@ -103,3 +103,13 @@ The database configuration is under file website/website/settings.py change cred
 If something goes wrong and does not work just check in config files if you have written right passes to files. 
 
 When everything is setup on main page there might appear some error. Just go in yourdomain.com/admin and login there. Configure your SiteSettings and everything goes well after that.
+
+
+Add new bots to the supervisorctl config
+sudo su discord
+cp ../home/discord/discord/website/paypal-discord-bot-[new owner name].conf ../etc/supervisor/conf.d/
+    (e.g. cp ../home/discord/discord/website/paypal-discord-bot-anonymoushustle.conf ../etc/supervisor/conf.d/ )
+cd ../home/discord/
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl restart website
