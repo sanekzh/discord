@@ -108,7 +108,7 @@ When everything is setup on main page there might appear some error. Just go in 
 Add new bots to the supervisorctl config
 sudo su discord
 cp ../home/discord/discord/website/paypal-discord-bot-[new owner name].conf ../etc/supervisor/conf.d/
-    (e.g. cp ../home/discord/discord/website/paypal-discord-bot-anonymoushustle.conf ../etc/supervisor/conf.d/ )
+    (e.g. cp ../home/discord/discord/website/paypal-discord-bot-anonymous.conf ../etc/supervisor/conf.d/ )
 cd ../home/discord/
 sudo supervisorctl reread
 sudo supervisorctl update
