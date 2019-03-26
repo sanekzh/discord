@@ -27,7 +27,7 @@ sudo systemctl start supervisor
 3. installing virtualenv. This is virtualenvirmoment for python.
 sudo apt-get install python3-virtualenv
 
-4. Adding user into ubuntu. We do not need to run our project under root user as it is not safe. `boards` is username you can change it.
+4. Adding user into ubuntu. We do not need to run our project under root user as it is not safe. `discord` is username you can change it.
 adduser discord
 
 5. adding newly created user to sudoes. for using sudo command.
@@ -98,18 +98,18 @@ python3 manage.py collectstatic
 24. creating superuser for the admin page access. just write following command and enter what it requests.
 python3 manage.py createsuperuser
 
-The database configuration is under file website/website/settings.py change credintinals with yours. it is under varianble ENGINES. In this file is located ALLOWED_HOSTS you should put there your domain. So change announceus.io with new one if you wish. In this file on last 2 lines you see PAYPAL_RECEIVER_EMAIL variable. Change it if needed. Alse PAYPAL_TEST = False. If you set it to true you are going to use sandbox.
+The database configuration is under file website/website/settings.py change credintinals with yours. it is under varianble ENGINES. In this file is located ALLOWED_HOSTS you should put there your domain. So change cookstart.io with new one if you wish. In this file on last 2 lines you see PAYPAL_RECEIVER_EMAIL variable. Change it if needed. Alse PAYPAL_TEST = False. If you set it to true you are going to use sandbox.
 
 If something goes wrong and does not work just check in config files if you have written right passes to files. 
 
-When everything is setup on main page there might appear some error. Just go in yourdomain.com/admin and login there. Configure your SiteSettings and everything goes well after that.
+When everything is setup on main page there might appear some error. Just go in yourdomain.com/admin and login there.
 
-
-Add new bots to the supervisorctl config
+25. Add new bots to the supervisorctl config
 sudo su discord
 cp ../home/discord/discord/website/paypal-discord-bot-[new owner name].conf ../etc/supervisor/conf.d/
     (e.g. cp ../home/discord/discord/website/paypal-discord-bot-anonymous.conf ../etc/supervisor/conf.d/ )
 cd ../home/discord/
+26. Update supervisorctl
 sudo supervisorctl reread
 sudo supervisorctl update
 sudo supervisorctl restart website
