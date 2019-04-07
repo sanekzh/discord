@@ -1,3 +1,4 @@
+var member_id = null;
 
 function csrfSafeMethod(method) {
 // these HTTP methods do not require CSRF protection
@@ -25,6 +26,8 @@ function getURLParameter(name) {
 }
 
 $('#member_add').on('click', function(){
+    member_id = null;
+    setDefaultValues();
    $("#addMemberModal").modal('show');
 });
 
@@ -147,7 +150,19 @@ $('#table_of_members').confirmation({
         },
         popout: true
     });
-var member_id = null;
+
+function setDefaultValues() {
+        $('#id_discord_username').val('');
+        $('#id_discord_id').val('');
+        $('#id_email').val('');
+        $('#id_subscription_date_expire').val('');
+        $("#id_notify_3").prop( "checked", false);
+        $("#id_notify_7").prop( "checked", false);
+        $("#id_notify_24h").prop( "checked", false);
+        $("#id_is_invited").prop( "checked", false);
+        $("#id_is_activated").prop( "checked", false);
+    }
+
 function setModalValues(data) {
         $('#id_discord_username').val(data[1]);
         $('#id_discord_id').val(data[2]);
@@ -175,9 +190,9 @@ $('form.add_member').submit(function(e){
         var discord_username = $('#id_discord_username').val();
         var discord_id =$('#id_discord_id').val();
         var email = $('#id_email').val();
-        data.append('discord_username', discord_username != '' ? discord_username : email);
-        data.append('discord_id', discord_id != '' ? discord_id : email);
-        data.append('email', $('#id_email').val());
+        data.append('discord_username', discord_username);
+        data.append('discord_id', discord_id);
+        data.append('email', email);
         data.append('subscription_date_expire', $('#id_subscription_date_expire').val());
         data.append('notify_3', $('#id_notify_3')[0].checked);
         data.append('notify_7', $('#id_notify_7')[0].checked);

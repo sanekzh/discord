@@ -226,7 +226,7 @@ class AddMemberView(View):
             pass
 
     def post(self, request):
-        if Member.objects.filter(id=int(request.POST['member_id'])).exists():
+        if 'member_id' in request.POST and Member.objects.filter(id=int(request.POST['member_id'])).exists():
             subscription_date_expire = request.POST['subscription_date_expire']
             Member.objects.filter(id=int(request.POST['member_id'])).update(
                 email=request.POST['email'],
@@ -240,9 +240,9 @@ class AddMemberView(View):
                 is_activated=json.loads(request.POST.get('is_activated', 'false'))
             )
             return HttpResponse(json.dumps({'status': 'OK'}), content_type='application/json')
-        # elif Member.objects.filter(email=request.POST['email']).exists():
-        #     return HttpResponse(json.dumps({'status': 'NO', 'errors': 'This email exists'}),
-        #                         content_type='application/json')
+        elif Member.objects.filter(email=request.POST['email']).exists():
+            return HttpResponse(json.dumps({'status': 'NO', 'errors': 'This email exists'}),
+                                content_type='application/json')
         form = MemberForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
