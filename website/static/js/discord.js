@@ -147,7 +147,7 @@ $('#table_of_members').confirmation({
         },
         popout: true
     });
-
+var member_id = null;
 function setModalValues(data) {
         $('#id_discord_username').val(data[1]);
         $('#id_discord_id').val(data[2]);
@@ -164,6 +164,7 @@ $members_table.on('click', '.update', function() {
         var row = $(this).parents('tr'),
             rowData = $members_table.row(row).data();
         $("#addMemberModal").modal('show');
+        member_id = $(this).data('memberid');
         setModalValues(rowData, $(this).data('memberid'));
     });
 
@@ -183,6 +184,9 @@ $('form.add_member').submit(function(e){
         data.append('notify_24h', $('#id_notify_24h')[0].checked);
         data.append('is_invited', $('#id_is_invited')[0].checked);
         data.append('is_activated', $('#id_is_activated')[0].checked);
+        if (member_id){
+            data.append('member_id', member_id);
+        }
         $.ajax({
             url: links.members,
             method: 'POST',

@@ -226,9 +226,10 @@ class AddMemberView(View):
             pass
 
     def post(self, request):
-        if Member.objects.filter(user=User.objects.get(username=request.user), email=request.POST['email']).exists():
+        if Member.objects.filter(id=int(request.POST['member_id'])).exists():
             subscription_date_expire = request.POST['subscription_date_expire']
-            Member.objects.filter(email=request.POST['email']).update(
+            Member.objects.filter(id=int(request.POST['member_id'])).update(
+                email=request.POST['email'],
                 discord_username=request.POST['discord_username'],
                 discord_id=request.POST['discord_id'],
                 subscription_date_expire=subscription_date_expire if subscription_date_expire else None,
