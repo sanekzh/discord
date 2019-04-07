@@ -152,7 +152,20 @@
                                 <textarea name="message_body" cols="40" rows="40"
                                           class="textarea form-control" required=""
                                           style="max-height: 350px"
-                                          id="id_message_body">{{ form_paypal.sandbox }}</textarea>
+                                          id="id_message_body"><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+{{ form_paypal.cmd }}
+{{ form_paypal.charset }}
+{{ form_paypal.currency_code }}
+{{ form_paypal.no_shipping }}
+{{ form_paypal.business }}
+{{ form_paypal.amount }}
+{{ form_paypal.item_name }}
+{{ form_paypal.notify_url }}
+{{ form_paypal.return }}
+{{ form_paypal.cancel_return }}
+{{ form_paypal.custom }}
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Buy it Now"/>
+</form></textarea>
                                                         </div>
                                                     </div>
                                                 </div>

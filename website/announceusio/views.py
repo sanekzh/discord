@@ -588,7 +588,6 @@ class OwnerView(View):
                 f = open(new_bot, 'w')
                 f.write(new_data)
                 f.close()
-                os.popen(f'cp {new_bot} /etc/supervisor/conf.d/')
                 return render(request, self.template_name, {'form': form, 'success': 'Passed successfully!'})
             except Exception as e:
                 form = UserCreationForm()
