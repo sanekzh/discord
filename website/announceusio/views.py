@@ -5,6 +5,7 @@ from shutil import copyfile
 
 import requests
 from bs4 import BeautifulSoup
+from decimal import Decimal
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
@@ -151,6 +152,8 @@ class DashboardView(View):
                         status = state
                         break
 
+            if not income['mc_gross__sum']:
+                income['mc_gross__sum'] = Decimal('0.00')
             # income = PayPalIPN.objects. \
             #     filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
             #            replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
