@@ -154,6 +154,8 @@ class DashboardView(View):
 
             if not income['mc_gross__sum']:
                 income['mc_gross__sum'] = Decimal('0.00')
+            if not total_income['mc_gross__sum']:
+                total_income['mc_gross__sum'] = Decimal('0.00')
             stripe = Stripe.objects. \
                 filter(owner=user, created_on__gte=timezone.now().
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0))
