@@ -186,6 +186,7 @@ class SiteSettings(models.Model):
 
 
 class Stripe(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None, blank=True, null=True)
     amount = models.CharField(max_length=64, blank=True, null=True)
     id_transaction = models.CharField(max_length=1024, blank=True, null=True)
     status = models.CharField(max_length=64, blank=True, null=True)

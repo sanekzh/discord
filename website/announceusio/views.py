@@ -154,15 +154,25 @@ class DashboardView(View):
 
             if not income['mc_gross__sum']:
                 income['mc_gross__sum'] = Decimal('0.00')
-            # income = PayPalIPN.objects. \
-            #     filter(payer_email__in=list(owner_members_email_list), created_at__gte=timezone.now().
-            #            replace(day=1, hour=0, minute=0, second=0, microsecond=0)).aggregate(Sum('mc_gross'))
-            # total_income = PayPalIPN.objects.filter(payer_email__in=list(owner_members_email_list)).aggregate(Sum('mc_gross'))
+            stripe = Stripe.objects. \
+                filter(owner=user, created_on__gte=timezone.now().
+                       replace(day=1, hour=0, minute=0, second=0, microsecond=0))
+            income_stripe = 0
+            for income in stripe:
+                income_stripe += float(income.amount)
+            total_stripe = Stripe.objects.filter(owner=user)
+            total_income_stripe = 0
+            for income in total_stripe:
+                total_income_stripe += float(income.amount)
+            stripe_payment = True if income_stripe or total_income_stripe else False
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
                     'total_income': total_income,
+                    'income_stripe': income_stripe,
+                    'total_income_stripe': total_income_stripe,
+                    'stripe_payment': stripe_payment,
                     'members': members,
                     'status': status
                     }
@@ -755,11 +765,12 @@ def stripe_webhook(request):
     event_json = json.loads(request.body.decode())
     if event_json['type'] == 'charge.succeeded':
         owner_email = event_json['data']['object']['description']
-        email_settings = EmailSettings.objects.get(email=owner_email)
+        email_settings = EmailSettings.objects.filter(email=owner_email).first()
         owner = User.objects.get(username=email_settings.user.username)
         member_email = event_json['data']['object']['source']['name']
         if not Stripe.objects.filter(id_transaction=event_json['id']).exists():
             stripe_new = Stripe(
+                owner=owner,
                 amount=str(int(event_json['data']['object']['amount'])/100),
                 id_transaction=event_json['id'],
                 status=event_json['data']['object']['status'],
