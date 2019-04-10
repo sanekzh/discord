@@ -69,7 +69,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Income</p>
-                      <p class="card-title">$ {{ income.mc_gross__sum }}
+                      <p class="card-title">$ {{ total_income.mc_gross__sum }}
                         <p>
                     </div>
                   </div>
@@ -90,13 +90,13 @@
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
 {#                      <i class="fa fa-dollar text-primary"></i>#}
-                        <img src="{% static 'images/icons8-paypal-48.png' %}">
+                        <img src="{% static 'images/stripelogo.png' %}" width="48" height="48">
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Total Income</p>
-                      <p class="card-title">$ {{ total_income.mc_gross__sum }}
+                      <p class="card-category">Income</p>
+                      <p class="card-title">$ {{ total_income_stripe }}
                         <p>
                     </div>
                   </div>
@@ -148,88 +148,6 @@
               </div>
             </div>
           </div>
-        <div class="col-lg-3 col-md-6 col-sm-6" >
-{#            <div class="card card-stats">#}
-{#              <div class="card-body ">#}
-{#                <div class="row">#}
-{#                  <div class="col-5 col-md-4">#}
-{#                    <div class="icon-big text-center icon-warning">#}
-{#                      <i class="fa fa-dollar text-primary"></i>#}
-{#                    </div>#}
-{#                  </div>#}
-{#                  <div class="col-7 col-md-8">#}
-{#                    <div class="numbers">#}
-{#                      <p class="card-category">Total Income</p>#}
-{#                      <p class="card-title">$ {{ total_income.mc_gross__sum }}#}
-{#                        <p>#}
-{#                    </div>#}
-{#                  </div>#}
-{#                </div>#}
-{#              </div>#}
-{#              <div class="card-footer ">#}
-{#                <hr>#}
-{#                <div class="stats">#}
-{#                  <i class="fa fa-refresh"></i> Update Now#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-          </div>
-        {% if stripe_payment %}
-        <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-{#                      <i class="fa fa-dollar text-primary"></i>#}
-                       <img src="{% static 'images/stripelogo.png' %}" width="48" height="48">
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Income</p>
-                      <p class="card-title">$ {{ income_stripe }}
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-refresh"></i> Update Now
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-{#                      <i class="fa fa-dollar text-primary"></i>#}
-                        <img src="{% static 'images/stripelogo.png' %}" width="48" height="48">
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Income</p>
-                      <p class="card-title">$ {{ total_income_stripe }}
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-refresh"></i> Update Now
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endif %}
 {#          <div class="col-md-12">#}
 {#            <div class="card " style="display: none;">#}
 {#              <div class="card-header ">#}

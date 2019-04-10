@@ -166,7 +166,6 @@ class DashboardView(View):
             total_income_stripe = 0
             for income in total_stripe:
                 total_income_stripe += float(income.amount)
-            stripe_payment = True if income_stripe or total_income_stripe else False
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
@@ -174,7 +173,6 @@ class DashboardView(View):
                     'total_income': total_income,
                     'income_stripe': income_stripe,
                     'total_income_stripe': total_income_stripe,
-                    'stripe_payment': stripe_payment,
                     'members': members,
                     'status': status
                     }
