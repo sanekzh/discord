@@ -1,0 +1,797 @@
+/* ================================================== 
+*	Project Name 	:  CookStart
+*	File 			:  Responsive CSS Base
+*	Version 		:  1.0.0
+*	Last change 	:  18 April 2019
+*	Author 			:  ----------
+*	Developer:		:  Rakibul Islam Dewan
+
+*	css code for responsive layout To make Responsive
+================================================== */
+
+/* ==================================================
+*	1 - media screen and (max-width: 1440px)
+*	2 - media screen and (max-width: 1199px)
+*	3 - media screen and (max-width: 991px)
+*	4 - media screen and (max-width: 767px)
+*	5 - media screen and (max-width: 680px)
+*	6 - media screen and (max-width: 480px)
+*	7 - media screen and (max-width: 320px)
+================================================== */
+
+
+
+
+
+/*  ====================================================================================================
+1 - media screen and (max-width: 1440px) - start
+==================================================================================================== */
+
+@media screen and (max-width: 1440px) {
+
+	/* login page - start */
+	.login-section .item-container .login-form {
+		width: 450px;
+		padding: 30px 50px;
+	}
+	.login-section .item-container .phone-image {
+		width: 250px;
+	}
+	.login-section .item-container .login-form .form-title {
+		font-size: 30px;
+		margin-bottom: 40px;
+	}
+	.login-section .item-container .login-form .login-item {
+		margin-bottom: 40px;
+	}
+	.login-section .item-container .login-form .btns-group {
+		margin-bottom: 40px;
+	}
+	.login-section:before {
+		width: 25%;
+	}
+	/* login page - end */
+
+	/* dashboard page - start */
+	.counter-section .counter-item {
+		padding: 20px;
+	}
+	.counter-section .counter-item .item-icon {
+		height: 150px;
+		font-size: 48px;
+		line-height: 150px;
+		padding-right: 20px;
+	}
+	.counter-section .counter-item .item-content {
+		padding-left: 25px;
+	}
+	.counter-section .counter-item .item-content h3 {
+		font-size: 42px;
+	}
+	.counter-section .counter-item .item-content h3 .counter-text {
+		font-size: 42px;
+	}
+
+	.status-section .boost-status {
+		padding: 30px;
+	}
+	.status-section .boost-status .item-icon {
+		height: 230px;
+		font-size: 100px;
+		line-height: 230px;
+		padding-right: 30px;
+	}
+	.status-section .boost-status .item-content {
+		padding-left: 50px;
+	}
+	.status-section .members-table .table {
+		min-height: 240px;
+	}
+	/* dashboard page - end */
+
+	/* sidebar menu - start */
+	.sidebar .main-menubar > ul > li > a {
+		font-size: 14px;
+		padding: 20px 0px;
+		padding-left: 5px;
+	}
+	.sidebar .main-menubar > ul > li > a .icon {
+		font-size: 30px;
+	}
+
+	.body-active .sidebar .main-menubar > ul > li > a {
+		font-size: 14px;
+		padding: 20px 0px;
+		padding-left: 5px;
+	}
+	.body-active .sidebar .main-menubar > ul > li > a .icon {
+		font-size: 24px;
+		margin: -20px 0px;
+		margin-right: 10px;
+	}
+	/* sidebar menu - end */
+
+	.sec-plr-45 {
+		padding: 0px 30px;
+	}
+
+	/* member page - start */
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li .search-bar input[type=search] {
+		width: 200px;
+		height: 53px;
+	}
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li {
+		margin-right: 20px;
+		&:last-child {
+			margin-right: 0px;
+		}
+	}
+	/* member page - end */
+
+	/* billing info page - start */
+	.settings-section .billing-info-form .form-item {
+		width: 100%;
+	}
+	.settings-section .form-settings .paypal-form .item-icon,
+	.settings-section .form-settings .stripe-form .item-icon {
+		width: 130px;
+	}
+	.settings-section .form-settings .paypal-form,
+	.settings-section .form-settings .stripe-form {
+		padding: 30px;
+	}
+	/* billing info page - end */
+
+}
+
+/* ====================================================================================================
+1 - media screen and (max-width: 1440px) - end
+==================================================================================================== */
+
+
+
+
+
+/*  ====================================================================================================
+2 - media screen and (max-width: 1199px) - start
+==================================================================================================== */
+
+@media screen and (max-width: 1199px) {
+
+	/* sidebar menu - start */
+	.sidebar {
+		width: 300px;
+		left: -310px;
+		bottom: 0px;
+		height: 100vh;
+		transition: $default-transition;
+		#dismiss {
+			display: table;
+		}
+		.main-menubar {
+			padding-top: 0px;
+			>ul {
+				>li {
+					>a {
+						width: 100%;
+						display: table;
+						font-size: 16px;
+						text-align: left;
+						padding: 20px 30px;
+						.icon {
+							float: left;
+							width: 50px;
+							height: 50px;
+							font-size: 24px;
+							line-height: 50px;
+							margin: -15px 0px;
+							text-align: center;
+							margin-right: 15px;
+						}
+					}
+				}
+			}
+		}
+	}
+	.body-active {
+		.sidebar {
+			left: 0px;
+			bottom: 0px;
+			width: 300px;
+			height: 100vh;
+			.main-menubar {
+				>ul {
+					>li {
+						>a {
+							width: 100%;
+							display: table;
+							font-size: 16px;
+							text-align: left;
+							padding: 20px 30px;
+							.icon {
+								float: left;
+								width: 50px;
+								height: 50px;
+								font-size: 24px;
+								line-height: 50px;
+								margin: -15px 0px;
+								text-align: center;
+								margin-right: 15px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/* sidebar menu - end */
+
+	/* body wrapper - start */
+	.body-wrapper {
+		width: 100%;
+		float: none;
+		display: table;
+	}
+	.body-active {
+		.body-wrapper {
+			width: 100%;
+			float: none;
+			display: table;
+		}
+	}
+	/* body wrapper - end */
+
+	/* dashboard page - start */
+	.counter-section .counter-item .item-icon {
+		height: 95px;
+		border: none;
+		font-size: 48px;
+		line-height: 95px;
+		padding-right: 0;
+	}
+	.counter-section .counter-item .item-content {
+		padding: 0px;
+		padding-left: 15px;
+		text-align: left !important;
+	}
+	.counter-section .counter-item .item-content .item-title {
+		margin-bottom: 20px;
+	}
+	.counter-section .counter-item .item-content h3 {
+		font-size: 30px;
+	}
+	.counter-section .counter-item .item-content h3 .counter-text {
+		font-size: 30px;
+	}
+
+	.status-section .boost-status {
+		padding: 30px 20px;
+	}
+	.status-section .boost-status .item-icon {
+		height: auto;
+		float: none;
+		border: none;
+		line-height: 1;
+		display: table;
+		font-size: 100px;
+		padding-right: 0px;
+		margin: 0 auto 30px;
+	}
+	.status-section .boost-status .item-content {
+		width: 100%;
+		padding: 0px;
+	}
+	.status-section .boost-status .item-content .sub-title {
+		font-size: 42px;
+		margin-bottom: 30px;
+	}
+
+	.status-section .members-table .table {
+		min-height: 217px;
+	}
+	.status-section .members-table .table-title {
+		font-size: 30px;
+	}
+	/* dashboard page - end */
+
+	/* header section - start */
+	.header-section > ul > li .intro-text > p {
+		font-size: 24px;
+	}
+	/* header section - end */
+
+	/* member page - start */
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li {
+		width: 50%;
+		margin-right: 0px;
+		&:first-child {
+			width: 100%;
+			margin-right: 0px;
+			margin-bottom: 15px;
+		}
+		.search-bar input[type=search] {
+			width: 100%;
+			height: 53px;
+		}
+	}
+	.members-table-section .members-board .members-table {
+		overflow: scroll;
+	}
+	/* member page - end */
+
+	/* bot message page - start */
+	.compos-section .compos-item {
+		padding: 30px;
+	}
+	.breadcrumb-section .breadcrumb-content .breadcrumb-title {
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.breadcrumb-section .breadcrumb-content .btns-group > ul {
+		float: none;
+		display: table;
+		margin: 0 auto;
+	}
+	/* bot message page - end */
+
+	/* breadcrumb section - start */
+	.breadcrumb-section .breadcrumb-content .breadcrumb-title .title-text {
+		font-size: 42px;
+	}
+	/* breadcrumb section - end */
+
+	/* billing info page - start */
+	.settings-section .form-settings .paypal-form .item-icon,
+	.settings-section .form-settings .stripe-form .item-icon {
+		float: none;
+		width: 100%;
+		height: auto;
+		border: none;
+		line-height: 1;
+		font-size: 143px;
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.settings-section .form-settings .paypal-form .item-content,
+	.settings-section .form-settings .stripe-form .item-content {
+		width: 100%;
+		padding: 0px;
+		display: table;
+		text-align: center;
+	}
+	/* billing info page - end */
+
+	/* paypal pin page - satrt */
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li .select-options {
+		font-size: 18px;
+	}
+	/* paypal pin page - end */
+
+}
+
+/* ====================================================================================================
+2 - media screen and (max-width: 1199px) - end
+==================================================================================================== */
+
+
+
+
+
+/* ====================================================================================================
+3 - media screen and (max-width: 991px) - start --->>>for medium device
+==================================================================================================== */
+
+@media screen and (max-width: 991px) {
+
+	/* login page - start */
+	.login-section {
+		&:before {
+			width: 50%;
+		}
+		.item-container {
+			width: 100%;
+			display: flex;
+			height: 100vh;
+			&:last-child {
+				display: none;
+			}
+		}
+	}
+	/* login page - end */
+
+	/* dashboard page - start */
+	.counter-section .counter-item {
+		padding: 30px;
+		margin-bottom: 30px;
+	}
+	.counter-section .counter-item .item-content {
+		padding-left: 40px;
+	}
+
+	.status-section .boost-status {
+		margin-bottom: 30px;
+	}
+	/* dashboard page - end */
+
+	/* header section - start */
+	.header-section > ul > li .intro-text > p {
+		font-size: 20px;
+	}
+	.header-section > ul > li .site-admin {
+		font-size: 20px;
+	}
+	.header-section > ul > li .site-admin .dropdown-toggle {
+		padding: 39px 30px;
+	}
+	/* header section - end */
+
+	/* member page - start */
+	.members-table-section .members-board .top-bar .board-title {
+		margin-bottom: 30px !important;
+	}
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li:first-child {
+		margin-bottom: 20px;
+	}
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li {
+		width: 100%;
+		margin: 0px;
+		text-align: center;
+		margin-bottom: 30px;
+		&:last-child {
+			margin-bottom: 30px;
+		}
+	}
+
+	.members-table-section .members-board .members-table .table thead tr {
+		font-size: 14px;
+	}
+	.members-table-section .members-board .members-table .table tbody tr {
+		font-size: 12px;
+	}
+	/* member page - end */
+
+	/* bot message page - start */
+	.compos-section .compos-item {
+		margin-bottom: 30px;
+	}
+	/* bot message page - end */
+
+	/* billing info page - start */
+	.settings-section .form-settings > .form-title {
+		font-size: 36px;
+		margin-bottom: 40px;
+	}
+	/* billing info page - end */
+
+	.sec-plr-45 {
+		padding: 0px 0px;
+	}
+
+	/* paypal pin page - satrt */
+	.members-table-section .members-board .top-bar .board-title {
+		text-align: center;
+	}
+	.members-table-section .members-board .top-bar .topbar-items-list > ul {
+		float: none;
+		display: table;
+		margin: 0 auto;
+	}
+	/* paypal pin page - end */
+
+}
+
+/* ====================================================================================================
+3 - media screen and (max-width: 991px) - end --->>>for medium device
+==================================================================================================== */
+
+
+
+
+
+/* ====================================================================================================
+4 - media screen and (max-width: 767px) - start --->>>For Mobile Device
+==================================================================================================== */
+
+@media screen and (max-width: 767px) {
+
+	/* header-section - start */
+	.header-section > ul > li .intro-text > p {
+		font-size: 16px;
+	}
+	.header-section > ul > li .site-admin .dropdown-toggle {
+		padding: 39px 20px;
+	}
+	.header-section > ul > li .site-admin {
+		font-size: 16px;
+	}
+	/* header-section - end */
+
+}
+
+/* ====================================================================================================
+4 - media screen and (max-width: 767px) - end --->>>For Mobile Device
+==================================================================================================== */
+
+
+
+
+
+/* ====================================================================================================
+5 - media screen and (max-width: 680px) - start
+==================================================================================================== */
+
+@media screen and (max-width: 680px) {
+
+	/* header-section - start */
+	.header-section > ul > li {
+		width: 50%;
+		&:nth-child(2) {
+			display: none;
+		}
+	}
+	/* header-section - end */
+
+	/* bot settings - start */
+	.breadcrumb-section .breadcrumb-content .btns-group > ul > li {
+		width: 100%;
+		margin: 0px;
+		text-align: center;
+		margin-bottom: 20px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+	}
+	/* bot settings - end */
+
+}
+
+/* ====================================================================================================
+5 - media screen and (max-width: 680px) - end
+==================================================================================================== */
+
+
+
+
+
+/* ====================================================================================================
+6 - media screen and (max-width: 480px) - start
+==================================================================================================== */
+
+@media screen and (max-width: 480px) {
+
+	/* login page - start */
+	.login-section {
+		padding: 0px 15px;
+		&:before {
+			display: none;
+		}
+		.item-container {
+			.login-form {
+				width: 100%;
+				padding: 30px 20px;
+				.form-title {
+					font-size: 24px;
+					margin-bottom: 30px;
+				}
+				.helper-content {
+					text-align: center;
+					.forgot-password {
+						margin-top: 15px;
+						text-align: center !important;
+					}
+				}
+				.btns-group {
+					>ul {
+						>li {
+							margin-right: 20px;
+							&:last-child {
+								margin-right: 0px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.login-section .item-container .login-form .btns-group ul {
+		display: table;
+		margin: 0 auto;
+	}
+	/* login page - end */
+
+	/* header section - start */
+	.header-section > ul > li {
+		width: 50%;
+		&:nth-child(2) {
+			display: none;
+		}
+		&:last-child {
+			padding-right: 15px;
+		}
+	}
+	.header-section > ul > li .site-admin .dropdown-toggle {
+		padding: 39px 12px;
+	}
+	.header-section > ul > li .site-admin .dropdown-toggle .admin-image {
+		width: 35px;
+		height: 35px;
+		margin: -4px 0px;
+		margin-right: 15px;
+	}
+	.header-section > ul > li .site-admin {
+		font-size: 14px;
+	}
+	/* header section - end */
+
+	/* dashboard page - start */
+	.status-section .boost-status .item-icon {
+		font-size: 72px;
+	}
+	.status-section .boost-status .item-content .sub-title {
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+	.status-section .boost-status .item-content .big-title {
+		font-size: 60px;
+	}
+	.status-section .members-table {
+		width: 100%;
+		min-width: 100%;
+		overflow-x: scroll;
+	}
+	.status-section .members-table .table {
+		width: 460px;
+		min-height: auto;
+	}
+	/* dashboard page - end */
+
+	/* member page - start */
+	.members-table-section .members-board .top-bar .topbar-items-list > ul > li {
+		width: 100%;
+		margin: 0px;
+		margin-bottom: 40px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+	}
+	.members-table-section .members-board .members-table {
+		width: 230px;
+		height: 250px;
+		margin: 0 auto;
+		overflow: scroll;
+	}
+	.members-table-section .members-board .top-bar .board-title {
+		font-size: 36px;
+	}
+	/* member page - end */
+
+	/* bot message page - start */
+	.breadcrumb-section .breadcrumb-content .btns-group > ul > li {
+		width: 100%;
+		display: table;
+		text-align: center;
+		margin-right: 0px;
+		margin-bottom: 15px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+	}
+	/* bot message page - end */
+
+	/* breadcrumb section - start */
+	.breadcrumb-section .breadcrumb-content {
+		padding: 30px 50px;
+	}
+	.breadcrumb-section .breadcrumb-content .breadcrumb-title .title-text {
+		font-size: 30px;
+	}
+	.settings-section .form-settings {
+		padding: 30px;
+	}
+	/* breadcrumb section - end */
+
+	/* email settings page - start */
+	.settings-section .form-settings > .form-title {
+		font-size: 30px;
+		margin-bottom: 50px;
+	}
+	/* email settings page - end */
+
+	.custom-btn,
+	.custom-btn-bordered {
+		height: 45px;
+		font-size: 14px;
+		padding: 0px 30px;
+		line-height: 45px;
+	}
+
+}
+
+/* ====================================================================================================
+6 - media screen and (max-width: 480px) - end
+==================================================================================================== */
+
+
+
+
+
+/* ====================================================================================================
+7 - media screen and (max-width: 320px) - start
+==================================================================================================== */
+
+@media screen and (max-width: 320px) {
+
+	/* login page - start */
+	.login-section {
+		padding: 0px;
+		.item-container {
+			width: 100%;
+			height: auto;
+			display: table;
+			.login-form {
+				width: 100%;
+				width: 100%;
+				padding: 30px;
+				box-shadow: none;
+				border-radius: 0px;
+				.btns-group {
+					>ul {
+						>li {
+							width: 100%;
+							display: table;
+							margin-right: 0px;
+							margin-bottom: 10px;
+							>a {
+								width: 100%;
+								display: block;
+							}
+							&:last-child {
+								margin-bottom: 0px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/* login page - end */
+
+	/* header section - start */
+	.header-section > ul > li .site-admin {
+		width: 180px;
+		text-align: left;
+	}
+	.header-section > ul > li .site-admin .dropdown-toggle {
+		text-align: left;
+	}
+	/* header section - end */
+
+	/* member page - start */
+	.members-table-section .members-board .top-bar .board-title {
+		font-size: 36px;
+	}
+	/* member page - end */
+
+	/* breadcrumb section - start */
+	.breadcrumb-section .breadcrumb-content {
+		padding: 30px;
+	}
+	.breadcrumb-section .breadcrumb-content .breadcrumb-title .title-text {
+		font-size: 30px;
+	}
+	.settings-section .form-settings {
+		padding: 30px;
+	}
+	/* breadcrumb section - end */
+
+	/* user settings - start */
+	.settings-section .form-settings > .form-title {
+		font-size: 28px;
+	}
+	/* user settings - end */
+
+}
+
+/* ====================================================================================================
+7 - media screen and (max-width: 320px) - end
+==================================================================================================== */

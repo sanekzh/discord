@@ -1,0 +1,244 @@
+{% load static %}
+{#<!DOCTYPE html>#}
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>CookStart - Dashboard</title>
+		<link rel="shortcut icon" href="{% static 'assets_new/images/logo/favourite-icon.png' %}">
+
+		<!-- fraimwork - css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_new/css/bootstrap.min.css' %}">
+
+		<!-- icon - css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_new/css/fontawesome-all.css' %}">
+
+		<!-- popup - css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_new/css/magnific-popup.css' %}">
+
+		<!-- custom - css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_new/css/style.css' %}">
+
+{#        <link href="{% static '/assets/css/bootstrap.min.css' %}" rel="stylesheet"/>#}
+{#        <link href="{% static '/assets/css/paper-dashboard.css' %}" rel="stylesheet"/>#}
+{#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"#}
+{#          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+{#        <link href="{% static '/css/datatables.min.css' %}" rel="stylesheet"/>#}
+{#        <link href="{% static '/css/dataTables.checkboxes.css' %}" rel="stylesheet"/>#}
+	</head>
+
+	<body>
+		
+		<span class="shape-img-1">
+			<img src="{% static 'assets_new/images/shape-1.png' %}" alt="Image_not_found">
+		</span>
+		<span class="shape-img-2">
+			<img src="{% static 'assets_new/images/shape-2.png' %}" alt="Image_not_found">
+		</span>
+		<span class="shape-img-3">
+			<img src="{% static 'assets_new/images/shape-3.png' %}" alt="Image_not_found">
+		</span>
+
+
+		<!-- sidebar-menu - start
+		================================================== -->
+		<div id="sidebar" class="sidebar">
+			<div class="brand-logo clearfix">
+				<a href="#" class="brand-link">
+					<img src="{% static 'assets_new/images/logo/logo-1.png' %}" alt="Image_not_found">
+				</a>
+			</div>
+			<button type="button" id="dismiss">
+				<i class="fas fa-arrow-left"></i>
+			</button>
+			<div class="main-menubar ul-li-block clearfix">
+				<ul class="clearfix">
+					<li class="active">
+						<a href="">
+							<span class="icon"><i class="fas fa-tools"></i></span>
+							Dashboard
+						</a>
+					</li>
+{#                    {% if user.is_superuser %}#}
+{#                     <li>#}
+{#                        <a id="owner" href="{% url 'announceusio:owner' %}">#}
+{#                            <i class="nc-icon nc-single-02"></i>#}
+{#                            <p>Owner</p>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    {% endif %}#}
+					<li>
+						<a href="member.html">
+							<span class="icon"><i class="far fa-user-circle"></i></span>
+							Members
+						</a>
+					</li>
+					<li>
+						<a href="bot-messages.html">
+							<span class="icon"><i class="far fa-envelope"></i></span>
+							Bot Messages
+						</a>
+					</li>
+					<li>
+						<a href="bot-settings.html">
+							<span class="icon"><i class="fas fa-robot"></i></span>
+							Bot Settings
+						</a>
+					</li>
+					<li>
+						<a href="email-settings.html">
+							<span class="icon"><i class="fas fa-at"></i></span>
+							Email Settings
+						</a>
+					</li>
+					<li>
+						<a href="billing-info.html">
+							<span class="icon"><i class="far fa-file-alt"></i></span>
+							Billing Info
+						</a>
+					</li>
+					<li>
+						<a href="user-settings.html">
+							<span class="icon"><i class="fas fa-cogs"></i></span>
+							User Settings
+						</a>
+					</li>
+					<li>
+						<a href="paypal-pin.html">
+							<span class="icon"><i class="fab fa-paypal"></i></span>
+							Paypal PIN
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- sidebar-menu - start
+		================================================== -->
+
+		<div class="body-wrapper clearfix">
+
+			<!-- header-section - start
+			================================================== -->
+			<header id="header-section" class="header-section ul-li mb-50 clearfix">
+				<ul class="clearfix">
+
+					<li>
+						<button type="button" id="sidebarCollapse" class="trigger-btn">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+					</li>
+
+					<li>
+						<div class="intro-text text-center">
+							<p class="mb-0">Welcome Back, Ryan Cooks!</p>
+						</div>
+					</li>
+
+					<li>
+						<div class="site-admin">
+							<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="admin-image">
+									<img src="{% static 'assets_new/images/meta/img-1.png' %}" alt="Image_not_found">
+								</span>
+								Ryan Chung
+							</button>
+							<div class="dropdown-menu ul-li-block clearfix">
+								<ul class="clearfix">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="dropdown-divider"></li>
+									<li><a href="#">Separated link</a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+
+				</ul>
+			</header>
+			<!-- header-section - end
+			================================================== -->
+
+        {% block content %}
+
+        {% endblock %}
+
+
+			<!-- footer-section - start
+			================================================== -->
+			<footer id="footer-section" class="footer-section clearfix">
+				<p class="mb-0">Copyright © CookStart.io All Right Reserved  </p>
+			</footer>
+			<!-- footer-section - end
+			================================================== -->
+
+		</div>
+
+
+
+
+
+		<!-- fraimwork - jquery include -->
+		<script src="{% static 'assets_new/js/jquery-1.12.4.min.js' %}"></script>
+		<script src="{% static 'assets_new/js/popper.min.js' %}"></script>
+		<script src="{% static 'assets_new/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/datatable/datatables.min.js' %}"></script>
+
+        <script src="{% static 'js/bootstrap-confirmation.min.js' %}"></script>
+        <script src="{% static 'js/datatable/dataTables.select.js' %}"></script>
+        <script src="{% static 'js/datatable/dataTables.checkboxes.js' %}"></script>
+
+		<!-- sidebar menu - jquery include -->
+		<script src="{% static 'assets_new/js/mCustomScrollbar.js' %}"></script>
+
+		<!-- popup - jquery include -->
+		<script src="{% static 'assets_new/js/magnific-popup.min.js' %}"></script>
+
+		<!-- counter up - jquery include -->
+		<script src="{% static 'assets_new/js/counterup.min.js' %}"></script>
+		<script src="{% static 'assets_new/js/waypoints.min.js' %}"></script>
+
+		<!-- google map -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhrdEzlfpnsnfq4MgU1e1CCsrvVx2d59s"></script>
+        <script src="{% static 'assets_new/js/gmaps.js' %}"></script>
+
+		<!-- custom - jquery include -->
+		<script src="{% static 'assets_new/js/custom.js' %}"></script>
+
+        <script>
+            var links = {
+                members: "{% url 'announceusio:add_member' %}",
+                list_members: "{% url 'announceusio:members' %}",
+                user_settings: "{% url 'announceusio:user_settings' %}",
+                bot_settings: "{% url 'announceusio:bot_settings' %}",
+                billing_settings: "{% url 'announceusio:billing' %}",
+                bot_status: "{% url 'announceusio:bot_status' %}",
+                bot_messages: "{% url 'announceusio:bot_messages' %}",
+                paypal_table: "{% url 'announceusio:paypal_table' %}"
+            }
+        </script>
+        <script src="{% static 'js/discord.js' %}"></script>
+
+        <script>
+            var username = '{{ username }}';
+            var menu = '{{ menu }}';
+            var elements = document.querySelectorAll('.sidebar-wrapper ul li');
+            for (var i = 0; i < elements.length; i++) {
+                if ($(elements[i]).find('p').text() === menu) {
+                    $(elements[i]).addClass('active');
+                }
+                else {
+                    $(elements[i]).removeClass('active');
+                }
+
+            }
+        </script>
+
+	</body>
+</html>

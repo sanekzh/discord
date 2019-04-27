@@ -1,0 +1,30 @@
+/* breadcrumb section - start
+==================================================================================================== */
+.breadcrumb-section {
+	.breadcrumb-content {
+		padding: 35px 60px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.breadcrumb-title {
+			.title-text {
+				font-size: 50px;
+				font-weight: $fw-regular;
+			}
+		}
+
+		.btns-group {
+			padding: 5px 0px;
+			>ul {
+				>li {
+					margin-right: 30px;
+					&:last-child {
+						margin-right: 0px;
+					}
+				}
+			}
+		}
+	}
+}
+/* breadcrumb section - end
+==================================================================================================== */

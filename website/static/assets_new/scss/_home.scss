@@ -1,0 +1,459 @@
+/* home page - start
+==================================================================================================== */
+.body-wrapper {
+	z-index: 1;
+	width: 90%;
+	float: right;
+	position: relative;
+	padding-bottom: 100px;
+	transition: $default-transition;
+}
+
+.body-active {
+	.body-wrapper {
+		width: 85%;
+	}
+}
+
+
+
+/* login (index page) - start
+================================================== */
+.index-page {
+	width: 100%;
+	background: linear-gradient(to bottom left, #7c3880, #ca2c5f);
+}
+
+.login-section {
+	z-index: 1;
+	position: relative;
+	&:before {
+		z-index: -1;
+		top: 0px;
+		left: 0px;
+		bottom: 0px;
+		width: 500px;
+		content: '';
+		position: absolute;
+		background-color: $pure-white;
+	}
+	.item-container {
+		width: 50%;
+		float: left;
+		display: flex;
+		height: 100vh;
+
+		.login-form {
+			margin: auto;
+			width: 590px;
+			display: table;
+			padding: 60px 80px;
+			border-radius: 10px;
+			background-color: $pure-white;
+			box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+			.form-title {
+				font-size: 42px;
+				margin-bottom: 70px;
+			}
+
+			.login-item {
+				position: relative;
+				margin-bottom: 50px;
+				input {
+					width: 100%;
+					height: 45px;
+					border: none;
+					transition: $default-transition;
+					border-bottom: 2px solid $default-color;
+					&:focus {
+						outline: none;
+						border-color: #753a88;
+						+label {
+							top: -22px;
+						}
+					}
+				}
+				label {
+					top: 11px;
+					left: 0px;
+					margin: 0px;
+					cursor: text;
+					font-size: 16px;
+					position: absolute;
+					transition: $default-transition;
+				}
+			}
+
+			.helper-content {
+				.remember-item {
+					label {
+						font-size: 16px;
+						margin-left: 8px;
+						margin-bottom: 0px;
+						color: $default-black;
+					}
+				}
+				.forgot-password {
+					>a {
+						font-size: 16px;
+						-webkit-background-clip: text !important;
+						-webkit-text-fill-color: transparent !important;
+						background: linear-gradient(to bottom left, #7c3880, #ca2c5f);
+					}
+				}
+			}
+
+			.btns-group {
+				margin-bottom: 80px;
+				>ul {
+					>li {
+						margin-right: 30px;
+						&:last-child {
+							margin-right: 0px;
+						}
+					}
+				}
+			}
+		}
+
+		.phone-image {
+			width: 355px;
+			margin: auto;
+		}
+
+	}
+}
+/* login (index page) - start
+================================================== */
+
+
+
+/* counter section - start
+================================================== */
+.counter-section {
+	.counter-item {
+		padding: 20px 35px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.item-icon {
+			float: left;
+			height: 170px;
+			font-size: 70px;
+			line-height: 170px;
+			padding-right: 39px;
+			border-right: 1px solid $default-color;
+			>i {
+				-webkit-background-clip: text !important;
+				-webkit-text-fill-color: transparent !important;
+				background: linear-gradient(to bottom left, #7c3880, #ca2c5f);
+			}
+		}
+		.item-content {
+			display: table;
+			padding-top: 15px;
+			padding-left: 30px;
+			.item-title {
+				margin-bottom: 35px;
+				display: inline-block;
+			}
+			h3 {
+				font-size: 66px;
+				margin-bottom: 0px;
+				font-weight: $fw-regular;
+				.counter-text {
+					font-size: 66px;
+				}
+			}
+		}
+	}
+}
+/* counter section - end
+================================================== */
+
+
+
+/* status-section - start
+================================================== */
+.status-section {
+	.boost-status {
+		padding: 30px 40px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.item-icon {
+			float: left;
+			height: 294px;
+			font-size: 156px;
+			line-height: 294px;
+			padding-right: 60px;
+			border-right: 1px solid $default-color;
+			>i {
+				-webkit-background-clip: text !important;
+				-webkit-text-fill-color: transparent !important;
+				background: linear-gradient(to bottom left, #7c3880, #ca2c5f);
+			}
+		}
+		.item-content {
+			display: table;
+			padding-top: 15px;
+			text-align: center;
+			padding-left: 135px;
+			.sub-title {
+				font-size: 42px;
+				margin-bottom: 50px;
+				display: inline-block;
+			}
+			.big-title {
+				font-size: 84px;
+				margin-bottom: 0px;
+				font-weight: $fw-bold;
+				-webkit-background-clip: text !important;
+				-webkit-text-fill-color: transparent !important;
+				background: linear-gradient(to right, #773987, #ca2b5f);
+			}
+		}
+	}
+
+	.members-table {
+		padding: 35px 20px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.table-title {
+			font-size: 42px;
+			margin-bottom: 25px;
+			font-weight: $fw-regular;
+		}
+		.table {
+			min-height: 290px;
+			thead {
+				th {
+					font-size: 16px;
+					border-bottom: none;
+					color: $default-color;
+					font-weight: $fw-regular;
+				}
+			}
+			tbody {
+				tr {
+					font-size: 16px;
+					color: $default-black;
+				}
+			}
+		}
+	}
+}
+/* status-section - end
+================================================== */
+
+
+
+/* members-table-section - start
+================================================== */
+.members-table-section {
+	.members-board {
+		padding: 40px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.top-bar {
+			.board-title {
+				font-size: 52px;
+			}
+			.topbar-items-list {
+				>ul {
+					>li {
+						margin-right: 30px;
+						&:last-child {
+							margin-right: 0px;
+						}
+						.search-bar {
+							input[type=search] {
+								width: 442px;
+								height: 53px;
+								border: none;
+								padding: 0px 20px;
+								text-align: center;
+								border-radius: 10px;
+								background-color: $pure-white;
+								box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+								&:focus {
+									outline: none;
+								}
+							}
+						}
+						.select-options {
+							font-size: 20px;
+							color: $default-black;
+							select {
+								height: 53px;
+								border: none;
+								min-width: 65px;
+								margin: 0px 10px;
+								padding: 0px 20px;
+								border-radius: 10px;
+								background-color: $pure-white;
+								box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+								&:focus {
+									outline: none;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.members-table {
+			width: 100%;
+			height: 390px;
+			.table {
+				thead {
+					tr {
+						font-size: 20px;
+						color: $default-black;
+						font-weight: $fw-regular;
+						border-bottom: 1px solid $default-color;
+					}
+				}
+				th {
+					border-top: none;
+				}
+			}
+		}
+	}
+}
+/* members-table-section - end
+================================================== */
+
+
+
+/* compos-section - start
+================================================== */
+.compos-section {
+	.compos-item {
+		padding: 60px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+
+		.textarea-title {
+			width: 100%;
+			display: table;
+			font-size: 16px;
+			margin-bottom: 15px;
+		}
+		textarea {
+			width: 100%;
+			padding: 30px;
+			min-height: 315px;
+			border-radius: 10px;
+			background-color: transparent;
+			border: 1px solid $default-black;
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.form-item {
+			&:last-child {
+				margin-bottom: 0px;
+			}
+		}
+	}
+}
+/* compos-section - end
+================================================== */
+
+
+
+/* settings-section - start
+================================================== */
+.settings-section {
+	.form-settings {
+		padding: 60px;
+		border-radius: 10px;
+		background-color: rgba(255,255,255,0.75);
+		box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+		.breadcrumb-section {
+			margin-bottom: 80px;
+			.breadcrumb-content {
+				padding: 0px;
+				box-shadow: none;
+				background-color: transparent;
+			}
+		}
+		>.form-title {
+			font-size: 50px;
+			font-weight: 400;
+			margin-bottom: 80px;
+		}
+		.form-item {
+			input {
+				border: none;
+				height: 60px;
+				padding: 0px 30px;
+				background-color: $pure-white;
+				box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+			}
+		}
+		.form-textarea {
+			textarea {
+				border: none;
+				padding: 30px;
+				background-color: $pure-white;
+				box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+			}
+		}
+		.save-btn {
+			padding-top: 30px;
+			border-top: 1px solid $default-color;
+		}
+
+		.paypal-form,
+		.stripe-form {
+			padding: 60px;
+			margin-bottom: 40px;
+			border-radius: 10px;
+			background-color: rgba(255,255,255,0.75);
+			box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+			.item-icon {
+				float: left;
+				width: 140px;
+				height: 320px;
+				font-size: 143px;
+				line-height: 320px;
+				border-right: 1px solid $default-color;
+				>i {
+					-webkit-background-clip: text !important;
+					-webkit-text-fill-color: transparent !important;
+					background: linear-gradient(to bottom left, #7c3880, #ca2c5f);
+				}
+			}
+			.item-content {
+				display: table;
+				padding-left: 30px;
+			}
+		}
+
+		.stripe-form {
+			.form-textarea {
+				textarea {
+					min-height: 130px;
+				}
+			}
+		}
+	}
+
+	.billing-info-form {
+		.form-item {
+			width: 380px;
+		}
+	}
+}
+/* settings-section - end
+================================================== */
+
+/* home page - end
+==================================================================================================== */

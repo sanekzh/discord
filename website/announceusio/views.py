@@ -124,7 +124,7 @@ class LogoutFormView(View):
 
 
 class DashboardView(View):
-    template_name = 'dashboard/dashboard.html'
+    template_name = 'dashboard_new/dashboard.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:

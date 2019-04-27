@@ -1,0 +1,60 @@
+/* counter section - start
+==================================================================================================== */
+/* counter section - end
+==================================================================================================== */
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-perspective: 1500px;
+  perspective: 1500px; }
+
+#sidebar {
+  min-width: 225px;
+  max-width: 225px;
+  background: #7386D5;
+  color: #fff;
+  -webkit-transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+  -o-transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+  transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+  -webkit-transform-origin: center left;
+  -ms-transform-origin: center left;
+  transform-origin: center left; }
+
+#sidebar.active {
+  /* margin-left: -250px;
+	transform: rotateY(100deg); */ }
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+    -webkit-transform: rotateY(100deg);
+    transform: rotateY(100deg); }
+  #sidebar.active {
+    margin-left: 0;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none; }
+  #sidebarCollapse span:first-of-type,
+  #sidebarCollapse span:nth-of-type(2),
+  #sidebarCollapse span:last-of-type {
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+    opacity: 1;
+    margin: 5px auto; }
+  #sidebarCollapse.active span {
+    margin: 0 auto; }
+  #sidebarCollapse.active span:first-of-type {
+    -webkit-transform: rotate(45deg) translate(2px, 2px);
+    -ms-transform: rotate(45deg) translate(2px, 2px);
+    transform: rotate(45deg) translate(2px, 2px); }
+  #sidebarCollapse.active span:nth-of-type(2) {
+    opacity: 0; }
+  #sidebarCollapse.active span:last-of-type {
+    -webkit-transform: rotate(-45deg) translate(1px, -1px);
+    -ms-transform: rotate(-45deg) translate(1px, -1px);
+    transform: rotate(-45deg) translate(1px, -1px); } }
