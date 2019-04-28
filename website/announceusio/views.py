@@ -174,7 +174,7 @@ class DashboardView(View):
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
-                    'total_income': int(total_income),
+                    'total_income': total_income,
                     'income_stripe': income_stripe,
                     'total_income_stripe': int(total_income_stripe),
                     'members': members_list,
