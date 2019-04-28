@@ -174,7 +174,7 @@ class DashboardView(View):
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
-                    'total_income': int(total_income) if total_income else 0,
+                    'total_income': total_income if total_income else 0,
                     'income_stripe': income_stripe,
                     'total_income_stripe': int(total_income_stripe),
                     'members': members_list,
