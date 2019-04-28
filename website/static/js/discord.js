@@ -50,13 +50,26 @@ var $members_table = $('#table_of_members').DataTable({
             "ordering": true,
             "order": [[1, "asc" ]],
             "bInfo": true,
-            "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+            "dom": '<"right class-flex"<"member-text"><"top"f><"top class-right"l><"member-button">>trip',
+            "lengthMenu": [[10, 25, 50, 100, 250], [10, 25, 50, 100, 250]],
             "iDisplayLength": 10,
             "select": {
                 "style": "multi"
             },
-            oLanguage: {sProcessing: "<div id='loader'></div>"},
+
+            language: { search: '', searchPlaceholder: "Search...",
+            sProcessing: "<div id='loader'></div>"},
             "columnDefs": [
+                {
+                    'targets': 1,
+                    'width': "20%"
+
+                },
+                 {
+                    'targets': 2,
+                    'width': "20%"
+
+                },
                 {
                     'targets': 5,
                     'visible': false,
@@ -94,6 +107,7 @@ var $members_table = $('#table_of_members').DataTable({
                 },
                {
                     'targets': 10,
+                    'width': "5px",
                     'render': function (data, type, full, meta) {
                          return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
                                 '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
@@ -102,6 +116,7 @@ var $members_table = $('#table_of_members').DataTable({
                 },
                 {
                     'targets': 11,
+                    'width': "5px",
                     'render': function (data, type, full, meta) {
                      return '<button data-toggle="confirmation" data-memberid ="'+ data +'" class="btn btn-danger btn-sm delete pull-center">' +
                             '<i class="fa fa-trash"></i></button>';
@@ -112,7 +127,6 @@ var $members_table = $('#table_of_members').DataTable({
         });
 
 function deleteMember(memberid){
-    console.log(memberid);
     $.ajax({
             url: links.members,
             method: 'DELETE',
@@ -236,7 +250,6 @@ $('form.user_profile').submit(function(e){
         data.append('first_name', $('#first_name').val());
         data.append('last_name', $('#last_name').val());
         data.append('company', $('#company').val());
-        console.log(data);
         $.ajax({
             url: links.user_settings,
             type: 'post',
@@ -456,12 +469,16 @@ var $paypal_table = $('#table_paypal').DataTable({
             "ordering": true,
             "order": [[1, "asc" ]],
             "bInfo": true,
+            "dom": '<"right class-flex"<"paypal-text"><"top"f><"top class-right"l>>trip',
+
             "lengthMenu": [[10, 25, 50], [10, 25, 50]],
             "iDisplayLength": 10,
             "select": {
                 "style": "multi"
             },
-            oLanguage: {sProcessing: "<div id='loader'></div>"},
+            language: { search: '', searchPlaceholder: "Search...", sProcessing: "<div id='loader'></div>"},
+
+            // oLanguage: {sProcessing: "<div id='loader'></div>"},
             "columnDefs": [
                 {'targets': 0, "render": function(){return '';}, "orderable": false},
                 {
@@ -487,7 +504,6 @@ var $paypal_table = $('#table_paypal').DataTable({
         });
 
 function deletePayPalIPN(id){
-    // console.log(id);
     $.ajax({
             url: links.paypal_table,
             method: 'DELETE',
@@ -513,6 +529,10 @@ function deletePayPalIPN(id){
             }
         })
 }
+
+$('.member-text').html('<h2 class="board-title mb-0">Members</h2>');
+$('.member-button').html('<button id="member_add2" type="button" class="custom-btn bg-gradient-purple" hidden>Add Member</button>');
+$('.paypal-text').html('<h2 class="board-title mb-0">PayPal IPN</h2>');
 
 
 $('#table_paypal').confirmation({

@@ -1572,3 +1572,96 @@ button {
 .icon i{
   margin-top: 17px;
 }
+.item-icon i{
+  margin-top: 50px;
+}
+
+.pagination {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-radius: 0px;
+  border-top: 0px solid #7a7f83;
+}
+
+input[type='search']{
+    width: 442px;
+    height: 53px;
+    border: none;
+    padding: 0px 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+    box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+}
+
+select[name="table_of_members_length"]{
+    height: 53px;
+    border: none;
+    min-width: 65px;
+    margin: 0px 10px;
+    padding: 0px 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+    box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+}
+
+.dataTables_length{
+  padding-top: 10px;
+}
+.dataTables_length label{
+    display: flex;
+    font-size: 20px;
+    color: #343d46;
+    vertical-align: middle;
+}
+.dataTables_length label select[name='table_of_members_length'],
+.dataTables_length label select[name='table_paypal_length']{
+    margin-top: -10px !important;
+    height: 53px !important;
+    border: none;
+    min-width: 65px;
+    margin: 0px 10px;
+    padding: 0px 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+    box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
+}
+.class-flex {
+  display: flex;
+  margin-bottom: 40px;
+}
+.class-right{
+  margin-left: 20px;
+}
+.member-text, .paypal-text{
+  width: 43%;
+}
+.member-text h2, .paypal-text h2{
+  font-size: 50px;
+}
+.member-button{
+  margin-left: 30px;
+}
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #c92c5e;
+  border-color: #c92c5e;
+}
+.page-link{
+  color: #c92c5e;
+}
+.page-link:hover{
+  color: #c92c5e;
+}
+
+.modal-backdrop {
+  position: inherit;
+}
+/*display: flex;*/
+    /*font-size: 20px;*/
+    /*color: #343d46;*/
+    /*vertical-align: middle;*/

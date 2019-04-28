@@ -108,7 +108,7 @@ def payment(request):
 
 class LoginFormView(FormView):
     form_class = AuthenticationForm
-    template_name = "login.html"
+    template_name = "dashboard_new/index.html"
     success_url = reverse_lazy('announceusio:dashboard')
 
     def form_valid(self, form):
@@ -134,7 +134,16 @@ class DashboardView(View):
             members_all = Member.objects.filter(user=User.objects.get(username=request.user)).count()
             owner_members_email_list = Member.objects.filter(user=User.objects.get(username=request.user)).values_list('email', flat=True)
             members = Member.objects.filter(user=User.objects.get(username=request.user),
-                                            discord_username__isnull=False).order_by('-id')[:10]
+                                            discord_username__isnull=False).order_by('-id')[:5]
+            members_list = []
+            for member in members:
+                member_dict = {
+                    'email': member.email,
+                    'discord_username': member.discord_username,
+                    'date': str((member.subscription_date_expire).strftime('%m/%d/%Y %I:%M')
+                            + member.subscription_date_expire.strftime(' %p').lower()) if member.subscription_date_expire else '',
+                }
+                members_list.append(member_dict)
             user = User.objects.get(username=request.user)
             billing = Billing.objects.get(user=user)
             income = PayPalIPN.objects.filter(business=billing.paypal_email, created_at__gte=timezone.now(). \
@@ -153,9 +162,9 @@ class DashboardView(View):
                         break
 
             if not income['mc_gross__sum']:
-                income['mc_gross__sum'] = Decimal('0.00')
+                income['mc_gross__sum'] = Decimal('0')
             if not total_income['mc_gross__sum']:
-                total_income['mc_gross__sum'] = Decimal('0.00')
+                total_income['mc_gross__sum'] = Decimal('0')
             stripe = Stripe.objects. \
                 filter(owner=user, created_on__gte=timezone.now().
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0))
@@ -166,14 +175,15 @@ class DashboardView(View):
             total_income_stripe = 0
             for income in total_stripe:
                 total_income_stripe += float(income.amount)
+            print(members)
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
                     'total_income': total_income,
                     'income_stripe': income_stripe,
-                    'total_income_stripe': total_income_stripe,
-                    'members': members,
+                    'total_income_stripe': int(total_income_stripe),
+                    'members': members_list,
                     'status': status
                     }
             return render(request, self.template_name, data)
@@ -288,17 +298,20 @@ class AddMemberView(View):
 
 
 class MembersView(View):
-    template_name = 'dashboard/members.html'
+    template_name = 'dashboard_new/members.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             form = MemberForm()
-            return render(request=request, template_name=self.template_name, context={'menu': 'Members', 'form': form})
+            user = User.objects.get(username=request.user)
+            return render(request=request, template_name=self.template_name, context={'menu': 'Member',
+                                                                                      'form': form,
+                                                                                      'user_name': user.username})
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
 
 class BotMessagesView(View):
-    template_name = 'dashboard/bot_messages.html'
+    template_name = 'dashboard_new/bot-messages.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -307,7 +320,7 @@ class BotMessagesView(View):
                 form = bot_message
             else:
                 form = {}
-            data = {'menu': 'Bot messages', 'form': form}
+            data = {'menu': 'Bot Messages', 'form': form}
             return render(request, self.template_name, data)
         return render(request, reverse_lazy('announceusio:login'), {'error': False})
 
@@ -339,7 +352,7 @@ class BotMessagesView(View):
 
 
 class UserSettingsView(View):
-    template_name = 'dashboard/user_settings.html'
+    template_name = 'dashboard_new/user-settings.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -353,7 +366,7 @@ class UserSettingsView(View):
                     'username': user.username,
                     'company': user_profile.company
                 }
-                data = {'menu': 'User settings', 'form': form}
+                data = {'menu': 'User Settings', 'form': form}
                 return render(request, self.template_name, data)
             except Exception as e:
                 pass
@@ -375,18 +388,17 @@ class UserSettingsView(View):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'email': user.email,
-                    'username': user.username,
                     'company': user_profile.company
                 }
             except Exception as e:
                 pass
-            data = {'menu': 'User settings', 'form': form, 'status': 'OK'}
+            data = {'menu': 'User Settings', 'form': form, 'status': 'OK'}
             return HttpResponse(json.dumps(data), content_type='application/json')
         return render(request, self.template_name, {})
 
 
 class BillingSettingsView(View):
-    template_name = 'dashboard/billing.html'
+    template_name = 'dashboard_new/billing-info.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -461,7 +473,7 @@ class BillingSettingsView(View):
 
 
 class BotSettingsView(View):
-    template_name = 'dashboard/bot_settings.html'
+    template_name = 'dashboard_new/bot-settings.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -475,7 +487,7 @@ class BotSettingsView(View):
                     'member_role': bot_settings.member_role
                 }
                 return render(request=request, template_name=self.template_name,
-                              context={'menu': 'Bot settings', 'form': form})
+                              context={'menu': 'Bot Settings', 'form': form})
             except Exception as e:
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Bot settings', 'form': {}})
@@ -504,7 +516,7 @@ class BotSettingsView(View):
 
 
 class EmailSettingsView(View):
-    template_name = 'dashboard/email_settings.html'
+    template_name = 'dashboard_new/email-settings.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -518,7 +530,7 @@ class EmailSettingsView(View):
                     'email_subject': email_settings.email_subject
                 }
                 return render(request=request, template_name=self.template_name,
-                              context={'menu': 'Email settings', 'form': form})
+                              context={'menu': 'Email Settings', 'form': form})
             except Exception as e:
                 return render(request=request, template_name=self.template_name,
                               context={'menu': 'Email settings', 'form': {}})
@@ -547,7 +559,7 @@ class EmailSettingsView(View):
 
 
 class OwnerView(View):
-    template_name = 'dashboard/owner.html'
+    template_name = 'dashboard_new/owner.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -634,7 +646,7 @@ class BotStatusView(View):
 
 
 class PayPalIPNView(View):
-    template_name = 'dashboard/paypal_ipn.html'
+    template_name = 'dashboard_new/paypal-pin.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -720,7 +732,7 @@ class PayPalTableView(View):
 
 
 class StripeView(View):
-    template_name = 'dashboard/dashboard.html'
+    template_name = 'dashboard_new/dashboard.html'
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':

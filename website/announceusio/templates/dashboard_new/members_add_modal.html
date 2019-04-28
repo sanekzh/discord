@@ -1,0 +1,52 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<div id="addMemberModal" class="modal fade" style="z-index: 2147483647">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="add_member" action="{% url 'announceusio:members' %}" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Member</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            id="dismiss_modal_import">
+                        <span style="font-size: xx-large;">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-lg-8">
+                            {% csrf_token %}
+                            {{ errors }}
+                            {{ form.discord_username|as_crispy_field }}
+                            {{ form.discord_id|as_crispy_field }}
+                            {{ form.email|as_crispy_field }}
+                            {{ form.subscription_date_expire |as_crispy_field }}
+                            <div class="form-inline">
+                                <div>{{ form.notify_3 }}</div>
+                                <label class="col-form-label " style="margin-left: 5px">notify_3</label>
+                            </div>
+                            <div class="form-inline">
+                                <div>{{ form.notify_7 }}</div>
+                                <label class="col-form-label " style="margin-left: 5px">notify_7</label>
+                            </div>
+                            <div class="form-inline">
+                                <div>{{ form.notify_24h }}</div>
+                                <label class="col-form-label " style="margin-left: 5px">notify_24h</label>
+                            </div>
+                            <div class="form-inline">
+                                <div>{{ form.is_invited }}</div>
+                                <label class="col-form-label " style="margin-left: 5px">is_invited</label>
+                            </div>
+                            <div class="form-inline">
+                                <div>{{ form.is_activated }}</div>
+                                <label class="col-form-label " style="margin-left: 5px">is_activated</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save_member" type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

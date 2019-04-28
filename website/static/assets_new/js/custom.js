@@ -48,3 +48,21 @@
 
   
 })(jQuery);
+
+$('#id_username').change(function () {
+   if($(this).val() != ""){
+      $('.login-item label[for="login-username"]').css('top', '-22px')
+   }
+   else {
+      $('.login-item label[for="login-username"]').css('top', '11px')
+   }
+});
+
+$('#id_password').change(function () {
+   if($(this).val() != ""){
+      $('.login-item label[for="login-password"]').css('top', '-22px')
+   }
+   else {
+      $('.login-item label[for="login-password"]').css('top', '11px')
+   }
+});

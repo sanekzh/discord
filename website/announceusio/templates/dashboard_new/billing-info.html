@@ -1,176 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-
-	<head>
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-		<title>CookStart - Billink Info</title>
-		<link rel="shortcut icon" href="assets/images/logo/favourite-icon.png">
-
-		<!-- fraimwork - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
-		<!-- icon - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/fontawesome-all.css">
-
-		<!-- popup - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
-
-		<!-- custom - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
-	</head>
-
-
-	<body>
-
-
-
-
-
-		<span class="shape-img-1">
-			<img src="assets/images/shape-1.png" alt="Image_not_found">
-		</span>
-		<span class="shape-img-2">
-			<img src="assets/images/shape-2.png" alt="Image_not_found">
-		</span>
-		<span class="shape-img-3">
-			<img src="assets/images/shape-3.png" alt="Image_not_found">
-		</span>
-
-
-
-
-
-		<!-- sidebar-menu - start
-		================================================== -->
-		<div id="sidebar" class="sidebar">
-			<div class="brand-logo clearfix">
-				<a href="#!" class="brand-link">
-					<img src="assets/images/logo/logo-1.png" alt="Image_not_found">
-				</a>
-			</div>
-			<button type="button" id="dismiss">
-				<i class="fas fa-arrow-left"></i>
-			</button>
-			<div class="main-menubar ul-li-block clearfix">
-				<ul class="clearfix">
-					<li>
-						<a href="dashboard.html">
-							<span class="icon"><i class="fas fa-tools"></i></span>
-							Dashboard
-						</a>
-					</li>
-					<li>
-						<a href="member.html">
-							<span class="icon"><i class="far fa-user-circle"></i></span>
-							Members
-						</a>
-					</li>
-					<li>
-						<a href="bot-messages.html">
-							<span class="icon"><i class="far fa-envelope"></i></span>
-							Bot Messages
-						</a>
-					</li>
-					<li>
-						<a href="bot-settings.html">
-							<span class="icon"><i class="fas fa-robot"></i></span>
-							Bot Settings
-						</a>
-					</li>
-					<li>
-						<a href="email-settings.html">
-							<span class="icon"><i class="fas fa-at"></i></span>
-							Email Settings
-						</a>
-					</li>
-					<li class="active">
-						<a href="billing-info.html">
-							<span class="icon"><i class="far fa-file-alt"></i></span>
-							Billing Info
-						</a>
-					</li>
-					<li>
-						<a href="user-settings.html">
-							<span class="icon"><i class="fas fa-cogs"></i></span>
-							User Settings
-						</a>
-					</li>
-					<li>
-						<a href="paypal-pin.html">
-							<span class="icon"><i class="fab fa-paypal"></i></span>
-							Paypal PIN
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!-- sidebar-menu - start
-		================================================== -->
-
-
-
-
-
-		<div class="body-wrapper clearfix">
-
-			<!-- header-section - start
-			================================================== -->
-			<header id="header-section" class="header-section ul-li mb-50 clearfix">
-				<ul class="clearfix">
-
-					<li>
-						<button type="button" id="sidebarCollapse" class="trigger-btn">
-							<span></span>
-							<span></span>
-							<span></span>
-						</button>
-					</li>
-
-					<li>
-						<div class="intro-text text-center">
-							<p class="mb-0">Welcome Back, Ryan Cooks!</p>
-						</div>
-					</li>
-
-					<li>
-						<div class="site-admin">
-							<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="admin-image">
-									<img src="assets/images/meta/img-1.png" alt="Image_not_found">
-								</span>
-								Ryan Chung
-							</button>
-							<div class="dropdown-menu ul-li-block clearfix">
-								<ul class="clearfix">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li class="dropdown-divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
-						</div>
-					</li>
-
-				</ul>
-			</header>
-			<!-- header-section - end
-			================================================== -->
-
-
-
+{% extends "dashboard_new/dashboard_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
 
 
 			<!-- settings-section - start
 			================================================== -->
 			<section id="settings-section" class="settings-section sec-plr-45 clearfix">
 				<div class="container">
-					<form action="#">
+					<form class="billing_settings" action="{% url 'announceusio:billing' %}" method="post">
 
 						<div class="form-settings billing-info-form">
 							<h2 class="form-title">Billing Info</h2>
@@ -178,38 +16,38 @@
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Price</span>
-										<input type="text">
+										<input name="price" type="text" id="id_price" value="{{ form.price }}" maxlength="20">
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Item Name</span>
-										<input type="text">
+										<input name="item_name" type="text" id="id_item_name" value="{{ form.item_name }}" maxlength="255">
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Sub-Date</span>
-										<input type="text">
+										<input name="sub_days" type="number" id="id_sub_days" value="{{ form.sub_days }}">
 									</div>
 								</div>
 
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Paypal Email</span>
-										<input type="email">
+										<input name="paypal_email" type="email" id="id_paypal_email" value="{{ form.paypal_email }}">
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Stripe Publishable Key</span>
-										<input type="text">
+										<input name="stripe_token" type="text" id="id_stripe_token" value="{{ form.stripe_token }}">
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-12 col-sm-12">
 									<div class="form-item">
 										<span class="form-label">Stripe Secret Key</span>
-										<input type="text">
+										<input name="stripe_secret_token" type="text" id="id_stripe_secret_token" value="{{ form.stripe_secret_token }}">
 									</div>
 								</div>
 
@@ -219,7 +57,20 @@
 										<div class="item-content">
 											<div class="form-textarea mb-0">
 												<span class="form-label">Copy This Code Into Your Website:</span>
-												<textarea></textarea>
+												<textarea name="message_body" id="id_message_body"><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+{{ form_paypal.cmd }}
+{{ form_paypal.charset }}
+{{ form_paypal.currency_code }}
+{{ form_paypal.no_shipping }}
+{{ form_paypal.business }}
+{{ form_paypal.amount }}
+{{ form_paypal.item_name }}
+{{ form_paypal.notify_url }}
+{{ form_paypal.return }}
+{{ form_paypal.cancel_return }}
+{{ form_paypal.custom }}
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Buy it Now"/>
+</form></textarea>
 											</div>
 										</div>
 									</div>
@@ -230,18 +81,29 @@
 										<div class="item-content">
 											<div class="form-textarea">
 												<span class="form-label">Copy This Code Into Your Website:</span>
-												<textarea></textarea>
+												<textarea id="id_message_body"><form action="https://cookstart.io/stripe/{{ form_stripe.id_owner }}/" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+   data-key="{{ form_stripe.token }}"
+   data-amount="{{ form_stripe.price }}"
+   data-name="{{ form_stripe.company }}"
+   data-description="{{ form_stripe.email }}"
+   data-image="https://cookstart.io/static/images/favicon.ico"
+   data-locale="auto">
+  </script>
+</form></textarea>
 											</div>
 											<div class="form-item mb-0">
 												<span class="form-label">URL For Stripe Webhooks</span>
-												<input type="text">
+												<input name="stripe_url" type="text" id="id_stripe_url" value="{{ form.stripe_url }}" maxlength="300" readonly>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="save-btn text-center clearfix">
-								<button type="submit" class="custom-btn bg-gradient-purple">save info</button>
+								<button id="save_billing" type="submit" class="custom-btn bg-gradient-purple">save info</button>
 							</div>
 						</div>
 
@@ -251,49 +113,4 @@
 			<!-- settings-section - end
 			================================================== -->
 
-
-
-
-
-			<!-- footer-section - start
-			================================================== -->
-			<footer id="footer-section" class="footer-section clearfix">
-				<p class="mb-0">Copyright © CookStart.io All Right Reserved  </p>
-			</footer>
-			<!-- footer-section - end
-			================================================== -->
-
-		</div>
-
-
-
-
-
-		<!-- fraimwork - jquery include -->
-		<script src="assets/js/jquery-1.12.4.min.js"></script>
-		<script src="assets/js/popper.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-
-		<!-- sidebar menu - jquery include -->
-		<script src="assets/js/mCustomScrollbar.js"></script>
-
-		<!-- popup - jquery include -->
-		<script src="assets/js/magnific-popup.min.js"></script>
-
-		<!-- counter up - jquery include -->
-		<script src="assets/js/counterup.min.js"></script>
-		<script src="assets/js/waypoints.min.js"></script>
-
-		<!-- google map -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhrdEzlfpnsnfq4MgU1e1CCsrvVx2d59s"></script>
-        <script src="assets/js/gmaps.js"></script>
-
-		<!-- custom - jquery include -->
-		<script src="assets/js/custom.js"></script>
-
-
-
-
-
-	</body>
-</html>
+{% endblock %}

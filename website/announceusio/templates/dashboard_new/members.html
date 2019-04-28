@@ -1,0 +1,80 @@
+{% extends "dashboard_new/dashboard_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+			<!-- members-table-section - start
+			================================================== -->
+			<section id="members-table-section" class="members-table-section sec-plr-45 clearfix">
+				<div class="container">
+					<div class="members-board" style="height: inherit;">
+
+						<div id="members_hidden" class="top-bar mb-50" style="    position: absolute;
+    margin-left: 80%;">
+							<div class="row">
+
+								<div class="col-lg-4 col-md-12 col-sm-12" hidden>
+									<h2 class="board-title mb-0">Members</h2>
+								</div>
+
+								<div class="col-lg-8 col-md-12 col-sm-12">
+									<div class="topbar-items-list ul-li-right">
+										<ul class="clearfix">
+											<li>
+												<div class="search-bar" hidden>
+													<form action="#">
+														<input type="search" placeholder="search">
+													</form>
+												</div>
+											</li>
+											<li>
+												<div class="select-options" hidden>
+													Show
+													<select>
+														<option selected>X</option>
+														<option value="1">Y</option>
+														<option value="2">Z</option>
+													</select>
+													Entris
+												</div>
+											</li>
+											<li><button id="member_add" type="button" class="custom-btn bg-gradient-purple">Add Member</button></li>
+										</ul>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="members-table" style="    height: inherit;">
+                            <table id="table_of_members" class="table table-hover " width="100%">
+                                <thead>
+                                <th scope="col">Mail</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Discord ID</th>
+                                <th scope="col">Expiration Date</th>
+                                <th scope="col">Creation Date</th>
+                                <th hidden>Notify 3</th>
+                                <th hidden>Notify 7</th>
+                                <th hidden>Notify 24h</th>
+                                <th hidden>Is Invited</th>
+                                <th hidden>Is Activated</th>
+                                <th></th>
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+						</div>
+                    </div>
+				</div>
+			</section>
+			<!-- members-table-section - end
+			================================================== -->
+
+            {% include "dashboard_new/members_add_modal.html" %}
+
+
+{% endblock %}
+
+

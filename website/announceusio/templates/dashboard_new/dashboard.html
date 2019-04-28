@@ -1,6 +1,8 @@
 {% extends "dashboard_new/dashboard_base.html" %}
 {% load static %}
 {% block content %}
+<link rel="shortcut icon" href="{% static 'assets_new/images/logo/favourite-icon.png' %}">
+
 
 			<!-- counter-section - start
 			================================================== -->
@@ -12,7 +14,7 @@
 								<div class="item-icon"><i class="fas fa-user-circle"></i></div>
 								<div class="item-content text-center">
 									<span class="item-title">Active Members</span>
-									<h3><small class="counter-text">1</small></h3>
+									<h3><small class="counter-text">{{ members_active }}</small></h3>
 								</div>
 							</div>
 						</div>
@@ -21,7 +23,7 @@
 								<div class="item-icon"><i class="fas fa-users"></i></div>
 								<div class="item-content text-center">
 									<span class="item-title">Total Members</span>
-									<h3><small class="counter-text">1</small></h3>
+									<h3><small class="counter-text">{{ members_all }}</small></h3>
 								</div>
 							</div>
 						</div>
@@ -30,7 +32,7 @@
 								<div class="item-icon"><i class="fab fa-paypal"></i></div>
 								<div class="item-content text-center">
 									<span class="item-title">Paypal Income</span>
-									<h3>$<small class="counter-text">100</small></h3>
+									<h3>$<small class="counter-text">{{ total_income.mc_gross__sum }}</small></h3>
 								</div>
 							</div>
 						</div>
@@ -39,7 +41,7 @@
 								<div class="item-icon"><i class="fab fa-stripe-s"></i></div>
 								<div class="item-content text-center">
 									<span class="item-title">Stripe Income</span>
-									<h3>$<small class="counter-text">100</small></h3>
+									<h3>$<small class="counter-text">{{ total_income_stripe }}</small></h3>
 								</div>
 							</div>
 						</div>
@@ -65,7 +67,11 @@
 								</div>
 								<div class="item-content">
 									<span class="sub-title">Bot Status</span>
-									<h3 class="big-title">online</h3>
+                                    {% if status == 'running' %}
+                                        <h3 class="big-title">online</h3>
+                                    {% else %}
+                                        <h3 class="big-title">offline</h3>
+                                    {% endif %}
 								</div>
 							</div>
 						</div>
@@ -82,11 +88,15 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>Ryan Chung</td>
-											<td>r_chung</td>
-											<td>09/22</td>
-										</tr>
+                                    {% for member in members %}
+                                        {% if member.discord_username != member.email %}
+                                            <tr>
+                                                <td>{{ member.email }}</td>
+                                                <td>{{ member.discord_username }}</td>
+                                                <td>{{ member.date }}</td>
+										    </tr>
+                                        {% endif %}
+                                    {% endfor %}
 									</tbody>
 								</table>
 							</div>

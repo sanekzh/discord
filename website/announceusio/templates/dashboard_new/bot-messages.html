@@ -1,170 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-	<head>
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-		<title>CookStart - Bot Message</title>
-		<link rel="shortcut icon" href="assets/images/logo/favourite-icon.png">
-
-		<!-- fraimwork - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
-		<!-- icon - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/fontawesome-all.css">
-
-		<!-- popup - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
-
-		<!-- custom - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
-	</head>
-
-
-	<body>
-
-
-
-
-
-		<span class="shape-img-1">
-			<img src="assets/images/shape-1.png" alt="Image_not_found">
-		</span>
-		<span class="shape-img-2">
-			<img src="assets/images/shape-2.png" alt="Image_not_found">
-		</span>
-		<span class="shape-img-3">
-			<img src="assets/images/shape-3.png" alt="Image_not_found">
-		</span>
-
-
-
-
-
-		<!-- sidebar-menu - start
-		================================================== -->
-		<div id="sidebar" class="sidebar">
-			<div class="brand-logo clearfix">
-				<a href="#!" class="brand-link">
-					<img src="assets/images/logo/logo-1.png" alt="Image_not_found">
-				</a>
-			</div>
-			<button type="button" id="dismiss">
-				<i class="fas fa-arrow-left"></i>
-			</button>
-			<div class="main-menubar ul-li-block clearfix">
-				<ul class="clearfix">
-					<li>
-						<a href="dashboard.html">
-							<span class="icon"><i class="fas fa-tools"></i></span>
-							Dashboard
-						</a>
-					</li>
-					<li>
-						<a href="member.html">
-							<span class="icon"><i class="far fa-user-circle"></i></span>
-							Members
-						</a>
-					</li>
-					<li class="active">
-						<a href="bot-messages.html">
-							<span class="icon"><i class="far fa-envelope"></i></span>
-							Bot Messages
-						</a>
-					</li>
-					<li>
-						<a href="bot-settings.html">
-							<span class="icon"><i class="fas fa-robot"></i></span>
-							Bot Settings
-						</a>
-					</li>
-					<li>
-						<a href="email-settings.html">
-							<span class="icon"><i class="fas fa-at"></i></span>
-							Email Settings
-						</a>
-					</li>
-					<li>
-						<a href="billing-info.html">
-							<span class="icon"><i class="far fa-file-alt"></i></span>
-							Billing Info
-						</a>
-					</li>
-					<li>
-						<a href="user-settings.html">
-							<span class="icon"><i class="fas fa-cogs"></i></span>
-							User Settings
-						</a>
-					</li>
-					<li>
-						<a href="paypal-pin.html">
-							<span class="icon"><i class="fab fa-paypal"></i></span>
-							Paypal PIN
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!-- sidebar-menu - start
-		================================================== -->
-
-
-
-
-
-		<div class="body-wrapper clearfix">
-
-			<!-- header-section - start
-			================================================== -->
-			<header id="header-section" class="header-section ul-li mb-50 clearfix">
-				<ul class="clearfix">
-
-					<li>
-						<button type="button" id="sidebarCollapse" class="trigger-btn">
-							<span></span>
-							<span></span>
-							<span></span>
-						</button>
-					</li>
-
-					<li>
-						<div class="intro-text text-center">
-							<p class="mb-0">Welcome Back, Ryan Cooks!</p>
-						</div>
-					</li>
-
-					<li>
-						<div class="site-admin">
-							<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="admin-image">
-									<img src="assets/images/meta/img-1.png" alt="Image_not_found">
-								</span>
-								Ryan Chung
-							</button>
-							<div class="dropdown-menu ul-li-block clearfix">
-								<ul class="clearfix">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li class="dropdown-divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
-						</div>
-					</li>
-
-				</ul>
-			</header>
-			<!-- header-section - end
-			================================================== -->
-
-
-
-
+{% extends "dashboard_new/dashboard_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
 
 			<!-- breadcrumb-section - start
 			================================================== -->
@@ -182,8 +19,8 @@
 							<div class="col-lg-8 col-md-12 col-sm-12">
 								<div class="btns-group ul-li-right clearfix">
 									<ul class="clearfix">
-										<li><a href="#!" class="custom-btn-bordered bg-gradient-purple"><span>Restart Bot</span></a></li>
-										<li><a href="#!" class="custom-btn bg-gradient-purple">Save Changes</a></li>
+										<li><a href="#!" id="restart_bot_message" class="custom-btn-bordered bg-gradient-purple"><span>Restart Bot</span></a></li>
+										<li><a href="#!" id="save_message_settings" class="custom-btn bg-gradient-purple">Save Changes</a></li>
 									</ul>
 								</div>
 							</div>
@@ -211,7 +48,7 @@
 									<div class="compos-item messages-form">
 										<h3 class="form-title mb-50">Join Message</h3>
 										<span class="textarea-title">Message Body:</span>
-										<textarea placeholder="Type Your Message"></textarea>
+										<textarea id="id_join_message" placeholder="Type Your Message">{{ form.join_message }}</textarea>
 									</div>
 								</div>
 
@@ -219,7 +56,7 @@
 									<div class="compos-item support-form">
 										<h3 class="form-title mb-50">!Help</h3>
 										<span class="textarea-title">Message Body:</span>
-										<textarea placeholder="Type Your Message"></textarea>
+										<textarea id="id_message_body" placeholder="Type Your Message">{{ form.help_message_body }}</textarea>
 									</div>
 								</div>
 							</div>
@@ -232,15 +69,15 @@
 										<h3 class="form-title mb-50">!Activate</h3>
 										<div class="form-item">
 											<span class="form-label">Wrong Email</span>
-											<input type="email">
+											<input id="id_wrong_email" type="text" value="{{ form.wrong_email }}">
 										</div>
 										<div class="form-item">
 											<span class="form-label">Already Activate</span>
-											<input type="email">
+											<input id="id_already_activated" type="text" value="{{ form.already_activated }}">
 										</div>
 										<div class="form-item">
 											<span class="form-label">Activated</span>
-											<input type="email">
+											<input id="id_activated" type="text" value="{{ form.activated }}">
 										</div>
 									</div>
 								</div>
@@ -250,11 +87,11 @@
 										<h3 class="form-title mb-50">!Status</h3>
 										<div class="form-item">
 											<span class="form-label">Before Expiration</span>
-											<input type="text">
+											<input type="text" id="id_before_expiration" value="{{ form.before_expiration }}">
 										</div>
 										<div class="form-item">
 											<span class="form-label">Should Activate</span>
-											<input type="text">
+											<input type="text" id="id_should_activate" value="{{ form.should_activate }}">
 										</div>
 									</div>
 								</div>
@@ -264,11 +101,11 @@
 										<h3 class="form-title mb-50">!Renew</h3>
 										<div class="form-item">
 											<span class="form-label">Renewal Link</span>
-											<input type="text">
+											<input type="text" id="id_renewal_link" value="{{ form.renewal_link }}">
 										</div>
 										<div class="form-item">
 											<span class="form-label">Buy Membership</span>
-											<input type="text">
+											<input type="text" id="id_buy_membership" value="{{ form.buy_membership }}">
 										</div>
 									</div>
 								</div>
@@ -279,19 +116,19 @@
 							<h3 class="form-title mb-50">!Reminders</h3>
 							<div class="form-item">
 								<span class="form-label">First Reminder</span>
-								<input type="text">
+								<input type="text" id="id_first_reminder" value="{{ form.first_reminder }}">
 							</div>
 							<div class="form-item">
 								<span class="form-label">Second Reminder</span>
-								<input type="text">
+								<input type="text" id="id_second_reminder" value="{{ form.second_reminder }}">
 							</div>
 							<div class="form-item">
 								<span class="form-label">Final Reminder</span>
-								<input type="text">
+								<input type="text" id="id_finely_reminder" value="{{ form.finely_reminder }}">
 							</div>
 							<div class="form-item">
 								<span class="form-label">Expired Reminder</span>
-								<input type="text">
+								<input type="text" id="id_expired_reminder" value="{{ form.expired_reminder }}">
 							</div>
 						</div>
 
@@ -301,49 +138,4 @@
 			<!-- compos-section - end
 			================================================== -->
 
-
-
-
-
-			<!-- footer-section - start
-			================================================== -->
-			<footer id="footer-section" class="footer-section clearfix">
-				<p class="mb-0">Copyright © CookStart.io All Right Reserved  </p>
-			</footer>
-			<!-- footer-section - end
-			================================================== -->
-
-		</div>
-
-
-
-
-
-		<!-- fraimwork - jquery include -->
-		<script src="assets/js/jquery-1.12.4.min.js"></script>
-		<script src="assets/js/popper.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-
-		<!-- sidebar menu - jquery include -->
-		<script src="assets/js/mCustomScrollbar.js"></script>
-
-		<!-- popup - jquery include -->
-		<script src="assets/js/magnific-popup.min.js"></script>
-
-		<!-- counter up - jquery include -->
-		<script src="assets/js/counterup.min.js"></script>
-		<script src="assets/js/waypoints.min.js"></script>
-
-		<!-- google map -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhrdEzlfpnsnfq4MgU1e1CCsrvVx2d59s"></script>
-        <script src="assets/js/gmaps.js"></script>
-
-		<!-- custom - jquery include -->
-		<script src="assets/js/custom.js"></script>
-
-
-
-
-
-	</body>
-</html>
+{% endblock %}
