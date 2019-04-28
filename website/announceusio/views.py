@@ -160,11 +160,6 @@ class DashboardView(View):
                     if bot == f"paypal-discord-bot-{user.username}":
                         status = state
                         break
-
-            if not income['mc_gross__sum']:
-                income['mc_gross__sum'] = Decimal('0')
-            if not total_income['mc_gross__sum']:
-                total_income['mc_gross__sum'] = Decimal('0')
             stripe = Stripe.objects. \
                 filter(owner=user, created_on__gte=timezone.now().
                        replace(day=1, hour=0, minute=0, second=0, microsecond=0))
@@ -179,7 +174,7 @@ class DashboardView(View):
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
-                    'total_income': total_income,
+                    'total_income': int(total_income),
                     'income_stripe': income_stripe,
                     'total_income_stripe': int(total_income_stripe),
                     'members': members_list,
