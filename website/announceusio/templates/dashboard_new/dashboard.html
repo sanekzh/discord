@@ -82,7 +82,6 @@
 								<table class="table mb-0">
 									<thead>
 										<tr>
-											<th scope="col">Member Name</th>
 											<th scope="col">Username</th>
 											<th scope="col">Expiration Date</th>
 										</tr>
@@ -91,7 +90,6 @@
                                     {% for member in members %}
                                         {% if member.discord_username != member.email %}
                                             <tr>
-                                                <td>{{ member.email }}</td>
                                                 <td>{{ member.discord_username }}</td>
                                                 <td>{{ member.date }}</td>
 										    </tr>
