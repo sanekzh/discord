@@ -170,11 +170,15 @@ class DashboardView(View):
             total_income_stripe = 0
             for income in total_stripe:
                 total_income_stripe += float(income.amount)
+            if total_income['mc_gross__sum']:
+                total_income['mc_gross__sum'] = int(total_income['mc_gross__sum'])
+            else:
+                total_income['mc_gross__sum'] = 0
             data = {'menu': 'Dashboard',
                     'members_active': members_active,
                     'members_all': members_all,
                     'income': income,
-                    'total_income': total_income if total_income else 0,
+                    'total_income': total_income,
                     'income_stripe': income_stripe,
                     'total_income_stripe': int(total_income_stripe),
                     'members': members_list,
