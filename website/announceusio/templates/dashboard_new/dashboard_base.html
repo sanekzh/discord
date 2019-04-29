@@ -155,9 +155,18 @@
 							</button>
 							<div class="dropdown-menu ul-li-block clearfix">
 								<ul class="clearfix">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
+                                    {% if user.is_superuser %}
+                                         <li>
+                                            <a id="owner" href="{% url 'announceusio:owner' %}">
+                                                Owner
+                                            </a>
+                                        </li>
+                                    {% endif %}
+									<li>
+                                        <a href="{% url 'announceusio:user_settings' %}">
+                                            User Settings
+                                        </a>
+                                    </li>
 									<li class="dropdown-divider"></li>
 									<li>
                                         <a class="nav-link btn-rotate" href="{% url 'announceusio:logout' %}">

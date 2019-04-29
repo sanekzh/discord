@@ -50,7 +50,7 @@ var $members_table = $('#table_of_members').DataTable({
             "ordering": true,
             "order": [[1, "asc" ]],
             "bInfo": true,
-            "dom": '<"right class-flex"<"member-text"><"top"f><"top class-right"l><"member-button">>trip',
+            "dom": 'fltrip',
             "lengthMenu": [[10, 25, 50, 100, 250], [10, 25, 50, 100, 250]],
             "iDisplayLength": 10,
             "select": {
@@ -469,8 +469,7 @@ var $paypal_table = $('#table_paypal').DataTable({
             "ordering": true,
             "order": [[1, "asc" ]],
             "bInfo": true,
-            "dom": '<"right class-flex"<"paypal-text"><"top"f><"top class-right"l>>trip',
-
+            "dom": 'fltrip',
             "lengthMenu": [[10, 25, 50], [10, 25, 50]],
             "iDisplayLength": 10,
             "select": {

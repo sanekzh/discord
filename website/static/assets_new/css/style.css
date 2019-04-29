@@ -838,7 +838,7 @@ button {
     font-size: 42px;
     margin-bottom: 25px;
     font-weight: 400; }
-  .status-section .members-table .table {
+  .status-section .members-table {
     min-height: 290px; }
     .status-section .members-table .table thead th {
       font-size: 16px;
@@ -1573,7 +1573,7 @@ button {
   margin-top: 17px;
 }
 .item-icon i{
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .pagination {
@@ -1584,7 +1584,8 @@ button {
 }
 
 input[type='search']{
-    width: 442px;
+
+    width: auto;
     height: 53px;
     border: none;
     padding: 0px 20px;
@@ -1606,15 +1607,23 @@ select[name="table_of_members_length"]{
     -webkit-box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
     box-shadow: 7px 5px 30px 0px rgba(72, 73, 121, 0.15);
 }
-
+tbody {
+  font-size: 10pt;
+}
 .dataTables_length{
   padding-top: 10px;
+  float: right;
+  margin-right: 10px;
 }
 .dataTables_length label{
     display: flex;
     font-size: 20px;
     color: #343d46;
     vertical-align: middle;
+}
+.dataTables_filter{
+  float: right;
+  margin-left: 20px;
 }
 .dataTables_length label select[name='table_of_members_length'],
 .dataTables_length label select[name='table_paypal_length']{

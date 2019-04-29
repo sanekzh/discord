@@ -32,7 +32,7 @@
 								<div class="item-icon"><i class="fab fa-paypal"></i></div>
 								<div class="item-content text-center">
 									<span class="item-title">Paypal Income</span>
-									<h3>$<small class="counter-text">{{ total_income.mc_gross__sum }}</small></h3>
+									<h3>${{ total_income.mc_gross__sum }}</h3>
 								</div>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 						<div class="col-lg-6 col-md-12 col-sm-12">
 							<div class="members-table text-center">
 								<h2 class="table-title">Latest Members</h2>
-								<table class="table mb-0">
+								<table id="latest_member" class="table mb-0">
 									<thead>
 										<tr>
 											<th scope="col">Username</th>
@@ -89,7 +89,7 @@
 									<tbody>
                                     {% for member in members %}
                                         {% if member.discord_username != member.email %}
-                                            <tr>
+                                            <tr style="max-height: 10px !important;">
                                                 <td>{{ member.discord_username }}</td>
                                                 <td>{{ member.date }}</td>
 										    </tr>
