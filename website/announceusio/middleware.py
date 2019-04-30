@@ -10,7 +10,7 @@ class GetCompany(MiddlewareMixin):
 
             user_profile = UserProfile.objects.filter(user=User.objects.get(username=request.user)).first()
             url = user_profile.company if user_profile.company else ''
-            request.url = url
+            request.company = url
             return None
         except Exception as e:
             return None
@@ -19,8 +19,9 @@ class GetCompany(MiddlewareMixin):
 class GetUsername(MiddlewareMixin):
     def process_request(self, request):
         try:
-            user_profile = UserProfile.objects.filter(user=User.objects.get(username=request.user)).first()
-            request.user_name = user_profile.company if user_profile.company else ''
+            # user_profile = UserProfile.objects.filter(user=User.objects.get(username=request.user)).first()
+            user = User.objects.get(username=request.user)
+            request.user_name = user.first_name + ' ' + user.last_name
             return None
         except Exception as e:
             return None
