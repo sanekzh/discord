@@ -1612,18 +1612,14 @@ tbody {
 }
 .dataTables_length{
   padding-top: 10px;
-  float: right;
-  margin-right: 10px;
+  /*float: right;*/
+  /*margin-right: 10px;*/
 }
 .dataTables_length label{
     display: flex;
     font-size: 20px;
     color: #343d46;
     vertical-align: middle;
-}
-.dataTables_filter{
-  float: right;
-  margin-left: 20px;
 }
 .dataTables_length label select[name='table_of_members_length'],
 .dataTables_length label select[name='table_paypal_length']{
@@ -1674,3 +1670,12 @@ tbody {
     /*font-size: 20px;*/
     /*color: #343d46;*/
     /*vertical-align: middle;*/
+
+/*@media only screen and (max-width: 600px) {*/
+  /*#members_hidden {*/
+    /*position: inherit !important;*/
+  /*}*/
+  /*#table_of_members_filter{*/
+    /*margin-right: 0%;*/
+  /*}*/
+/*}*/

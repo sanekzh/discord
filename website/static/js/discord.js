@@ -37,94 +37,102 @@ function setCheckBoxValue(data) {
     }
     else return '<i class="fa fa-times-circle-o" style="color: #db1100" aria-hidden="true"></i>';
 }
-var $members_table = $('#table_of_members').DataTable({
-            "bServerSide": true,
-            "ajax": {
-                type: 'GET',
-                "url": links.members,
-                "data": {}
+
+
+$members_table = $('#table_of_members').DataTable({
+    "bServerSide": true,
+    "ajax": {
+        type: 'GET',
+        "url": links.members,
+        "data": {}
+    },
+    "bProcessing": true,
+    "bSortable": true,
+    "bSearch": true,
+    "ordering": true,
+    "order": [[1, "asc"]],
+    "bInfo": true,
+    "dom": 'trip',
+    "lengthMenu": [[10, 25, 50, 100, 250], [10, 25, 50, 100, 250]],
+    "iDisplayLength": 10,
+    "select": {
+        "style": "multi"
+    },
+    "preDrawCallback": function (settings) {
+        $('.member-button').html('<button id="member_add" type="button" class="custom-btn bg-gradient-purple">Add Member</button>');
+
+    },
+    language: {
+        search: '', searchPlaceholder: "Search...",
+        sProcessing: "<div id='loader'></div>"
+    },
+    "columnDefs": [
+        {
+            'targets': 1,
+            'width': "20%"
+
+        },
+        {
+            'targets': 2,
+            'width': "20%"
+
+        },
+        {
+            'targets': 5,
+            'visible': false,
+            'render': function (data, type, full, meta) {
+                return setCheckBoxValue(data);
+            }
+        },
+        {
+            'targets': 6,
+            'visible': false,
+            'render': function (data, type, full, meta) {
+                return setCheckBoxValue(data);
+            }
+        },
+        {
+            'targets': 7,
+            'visible': false,
+            'render': function (data, type, full, meta) {
+                return setCheckBoxValue(data);
+            }
+        },
+        {
+            'targets': 8,
+            'visible': false,
+            'render': function (data, type, full, meta) {
+                return setCheckBoxValue(data);
+            }
+        },
+        {
+            'targets': 9,
+            'visible': false,
+            'render': function (data, type, full, meta) {
+                return setCheckBoxValue(data);
+            }
+        },
+        {
+            'targets': 10,
+            'width': "5px",
+            'render': function (data, type, full, meta) {
+                return '<a href="" data-memberid ="' + data + '" data-toggle="modal" data-target="#add_member" class="update">' +
+                    '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
             },
-            "bProcessing": true,
-            "bSortable": true,
-            "bSearch": true,
-            "ordering": true,
-            "order": [[1, "asc" ]],
-            "bInfo": true,
-            "dom": 'fltrip',
-            "lengthMenu": [[10, 25, 50, 100, 250], [10, 25, 50, 100, 250]],
-            "iDisplayLength": 10,
-            "select": {
-                "style": "multi"
+            'orderable': false
+        },
+        {
+            'targets': 11,
+            'width': "5px",
+            'render': function (data, type, full, meta) {
+                return '<button data-toggle="confirmation" data-memberid ="' + data + '" class="btn btn-danger btn-sm delete pull-center">' +
+                    '<i class="fa fa-trash"></i></button>';
             },
+            'orderable': false
+        }
+    ]
+});
 
-            language: { search: '', searchPlaceholder: "Search...",
-            sProcessing: "<div id='loader'></div>"},
-            "columnDefs": [
-                {
-                    'targets': 1,
-                    'width': "20%"
-
-                },
-                 {
-                    'targets': 2,
-                    'width': "20%"
-
-                },
-                {
-                    'targets': 5,
-                    'visible': false,
-                    'render': function (data, type, full, meta) {
-                        return setCheckBoxValue(data);
-                        }
-                },
-                {
-                    'targets': 6,
-                    'visible': false,
-                    'render': function (data, type, full, meta) {
-                        return setCheckBoxValue(data);
-                        }
-                },
-                {
-                    'targets': 7,
-                    'visible': false,
-                    'render': function (data, type, full, meta) {
-                        return setCheckBoxValue(data);
-                        }
-                },
-                {
-                    'targets': 8,
-                    'visible': false,
-                    'render': function (data, type, full, meta) {
-                        return setCheckBoxValue(data);
-                        }
-                },
-                {
-                    'targets': 9,
-                    'visible': false,
-                    'render': function (data, type, full, meta) {
-                        return setCheckBoxValue(data);
-                        }
-                },
-               {
-                    'targets': 10,
-                    'width': "5px",
-                    'render': function (data, type, full, meta) {
-                         return '<a href="" data-memberid ="'+ data +'" data-toggle="modal" data-target="#add_member" class="update">'+
-                                '<i style="margin-left: 5px" class="fa fa-edit"></i></a>';
-                        },
-                    'orderable': false
-                },
-                {
-                    'targets': 11,
-                    'width': "5px",
-                    'render': function (data, type, full, meta) {
-                     return '<button data-toggle="confirmation" data-memberid ="'+ data +'" class="btn btn-danger btn-sm delete pull-center">' +
-                            '<i class="fa fa-trash"></i></button>';
-                    },
-                    'orderable': false
-                }
-            ]
-        });
 
 function deleteMember(memberid){
     $.ajax({
@@ -152,6 +160,14 @@ function deleteMember(memberid){
             }
         })
 }
+
+$("#search_member").on('input', function () {
+    $members_table.search( this.value ).draw();
+});
+
+$('#select_lenght_member').change(function() {
+  $members_table.page.len( this.value ).draw();
+});
 
 $('#table_of_members').confirmation({
         rootSelector: '#table_of_members',
@@ -469,7 +485,7 @@ var $paypal_table = $('#table_paypal').DataTable({
             "ordering": true,
             "order": [[1, "asc" ]],
             "bInfo": true,
-            "dom": 'fltrip',
+            "dom": 'trip',
             "lengthMenu": [[10, 25, 50], [10, 25, 50]],
             "iDisplayLength": 10,
             "select": {
@@ -502,6 +518,14 @@ var $paypal_table = $('#table_paypal').DataTable({
             ]
         });
 
+$("#search_paypal").on('input', function () {
+    $paypal_table.search( this.value ).draw();
+});
+
+$('#select_lenght_paypal').change(function() {
+    $paypal_table.page.len( this.value ).draw();
+});
+
 function deletePayPalIPN(id){
     $.ajax({
             url: links.paypal_table,
@@ -530,7 +554,7 @@ function deletePayPalIPN(id){
 }
 
 $('.member-text').html('<h2 class="board-title mb-0">Members</h2>');
-$('.member-button').html('<button id="member_add2" type="button" class="custom-btn bg-gradient-purple" hidden>Add Member</button>');
+// $('.member-button').html('<button id="member_add2" type="button" class="custom-btn bg-gradient-purple">Add Member</button>');
 $('.paypal-text').html('<h2 class="board-title mb-0">PayPal IPN</h2>');
 
 

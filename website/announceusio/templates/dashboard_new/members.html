@@ -7,7 +7,8 @@
 			================================================== -->
 			<section id="members-table-section" class="members-table-section sec-plr-45 clearfix">
 				<div class="container">
-					<div class="members-board">
+					<div class="members-board" style="height: inherit;">
+
 
 						<div id="members_hidden" class="top-bar mb-50">
 							<div class="row">
@@ -20,19 +21,21 @@
 									<div class="topbar-items-list ul-li-right">
 										<ul class="clearfix">
 											<li>
-												<div class="search-bar" hidden>
+												<div class="search-bar">
 													<form action="#">
-														<input type="search" placeholder="search">
+														<input id="search_member" type="search" placeholder="search">
 													</form>
 												</div>
 											</li>
 											<li>
-												<div class="select-options" hidden>
+												<div class="select-options">
 													Show
-													<select>
-														<option selected>X</option>
-														<option value="1">Y</option>
-														<option value="2">Z</option>
+													<select id="select_lenght_member">
+														<option value="10" selected>10</option>
+														<option value="25">25</option>
+														<option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                        <option value="250">250</option>
 													</select>
 													Entris
 												</div>
