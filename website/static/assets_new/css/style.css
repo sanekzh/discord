@@ -866,7 +866,7 @@ button {
     .members-table-section .members-board .top-bar .topbar-items-list > ul > li:last-child {
       margin-right: 0px; }
     .members-table-section .members-board .top-bar .topbar-items-list > ul > li .search-bar input[type=search] {
-      width: 442px;
+      width: auto;
       height: 53px;
       border: none;
       padding: 0px 20px;
