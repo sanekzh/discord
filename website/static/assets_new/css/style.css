@@ -761,7 +761,7 @@ button {
     height: 170px;
     font-size: 70px;
     line-height: 170px;
-    padding-right: 39px;
+    padding-right: 15px;
     border-right: 1px solid #7a7f83; }
     .counter-section .counter-item .item-icon > i {
       -webkit-background-clip: text !important;
@@ -771,18 +771,19 @@ button {
       background: -o-linear-gradient(top right, #7c3880, #ca2c5f);
       background: linear-gradient(to bottom left, #7c3880, #ca2c5f); }
   .counter-section .counter-item .item-content {
-    display: table;
+    /*display: table;*/
     padding-top: 15px;
     padding-left: 30px; }
     .counter-section .counter-item .item-content .item-title {
       margin-bottom: 35px;
       display: inline-block; }
     .counter-section .counter-item .item-content h3 {
-      font-size: 66px;
+      /*font-size: 66px;*/
+      font-size: -webkit-xxx-large;
       margin-bottom: 0px;
       font-weight: 400; }
-      .counter-section .counter-item .item-content h3 .counter-text {
-        font-size: 66px; }
+      /*.counter-section .counter-item .item-content h3 .counter-text {*/
+        /*font-size: 66px; }*/
 
 /* counter section - end
 ================================================== */
@@ -866,7 +867,7 @@ button {
     .members-table-section .members-board .top-bar .topbar-items-list > ul > li:last-child {
       margin-right: 0px; }
     .members-table-section .members-board .top-bar .topbar-items-list > ul > li .search-bar input[type=search] {
-      width: auto;
+      width: auto
       height: 53px;
       border: none;
       padding: 0px 20px;
