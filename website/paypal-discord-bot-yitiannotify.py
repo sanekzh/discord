@@ -79,8 +79,8 @@ def help_message():
         return help_message
 
 def embed_message(title, description):
-    text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="© CookStart.io", icon_url="https://announceus.io/static/images/boticon.png")
+    text = discord.Embed(title=title, description=description, color=0x41BEFB)
+    text.set_footer(text="YitianNotify.com | by © CookStrt.io", icon_url="https://pbs.twimg.com/profile_images/1101004799082926082/f1rDA6a2_400x400.jpg")
     return text
 
 def activate_user(author, email):

@@ -80,7 +80,7 @@ def help_message():
 
 def embed_message(title, description):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="© CookStart.io", icon_url="https://announceus.io/static/images/boticon.png")
+    text.set_footer(text="AMNotify BringsTheHeat | by CookStart.io", icon_url="https://i.imgur.com/KulDblv.jpg")
     return text
 
 def activate_user(author, email):
@@ -112,7 +112,7 @@ def activate_user(author, email):
         member.discord_id = author.id
 
         # Adding days
-        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=30)
+        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=90)
 
         # Set activated status true.
         member.is_activated = True

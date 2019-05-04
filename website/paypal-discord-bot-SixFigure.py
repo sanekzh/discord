@@ -80,7 +80,7 @@ def help_message():
 
 def embed_message(title, description):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="© CookStart.io", icon_url="https://announceus.io/static/images/boticon.png")
+    text.set_footer(text="SixFigure Sneakerhead | CookStart.io", icon_url="https://cdn.discordapp.com/attachments/568555204866474004/568807016802418724/image0.jpg")
     return text
 
 def activate_user(author, email):
