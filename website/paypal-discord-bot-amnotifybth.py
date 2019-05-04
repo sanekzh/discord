@@ -80,7 +80,7 @@ def help_message():
 
 def embed_message(title, description):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="AMNotify BringsTheHeat | by CookStart.io", icon_url="https://i.imgur.com/KulDblv.jpg")
+    text.set_footer(text="© CookStart.io", icon_url="https://announceus.io/static/images/boticon.png")
     return text
 
 def activate_user(author, email):
@@ -90,7 +90,7 @@ def activate_user(author, email):
     member = Member.objects.filter(user_id=OWNER_ID).filter(Q(email=email) | Q(discord_id=author.id)).first()
 
     # Checking if user is trying to use different email...
-    if member and member.email != email:
+    if member and member.email.lower() != email.lower():
         # message = "This is not your email. You have been activated with a different email."
         message = bot_message.wrong_email
         return False, message
@@ -112,7 +112,7 @@ def activate_user(author, email):
         member.discord_id = author.id
 
         # Adding days
-        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=90)
+        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=30)
 
         # Set activated status true.
         member.is_activated = True
@@ -144,22 +144,23 @@ async def member_invite():
         if members:
             # settings = SiteSettings.objects.first()
             email_settings = EmailSettings.objects.filter(user_id=OWNER_ID).first()
+            email_owner = email_settings.email.lower()
             bot_settings = BotSettings.objects.filter(user_id=OWNER_ID).first()
             smtp_client = smtplib.SMTP('smtp.gmail.com', 587)
             smtp_client.ehlo()
             smtp_client.starttls()
-            smtp_client.login(email_settings.email, email_settings.email_password)
+            smtp_client.login(email_owner, email_settings.email_password)
             for member in members:
                 invite = await client.create_invite(destination=client.get_channel(bot_settings.discord_channel_id), max_uses=1)
                 message_text = email_settings.message_body.format(invite_url=invite.url)
                 message_body = MIMEText(message_text)
                 message = MIMEMultipart()
-                message['From'] = email_settings.email
-                message['To'] = member.email
+                message['From'] = email_owner
+                message['To'] = member.email.lower()
                 message['Subject'] = email_settings.email_subject
                 message.attach(message_body)
-                smtp_client.sendmail(email_settings.email,
-                                     member.email, message.as_string())
+                smtp_client.sendmail(email_owner,
+                                     member.email.lower(), message.as_string())
                 member.is_invited = True
                 member.save()
         await asyncio.sleep(2)
