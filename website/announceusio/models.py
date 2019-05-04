@@ -224,7 +224,7 @@ def payment_received_succes(sender, **kwargs):
             member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
-        # member.is_activated = True
+        member.is_activated = True
         member.notify_7 = False
         member.notify_3 = False
         member.notify_24h = False
@@ -282,7 +282,7 @@ def payment_stripe_received_succes(sender, user_id):
             member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
-        # member.is_activated = True
+        member.is_activated = True
         member.notify_7 = False
         member.notify_3 = False
         member.notify_24h = False
