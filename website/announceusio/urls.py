@@ -31,8 +31,7 @@ urlpatterns = [
     path("paypal_page/", login_required()(views.PayPalIPNView.as_view()), name="paypal_page"),
     path("paypal_table/", login_required()(views.PayPalTableView.as_view()), name="paypal_table"),
     path("stripe/", login_required()(views.StripeView.as_view()), name="stripe"),
+    path("stripe_recurring/<int:id_owner>/", views.stripe_recurring_plan, name="stripe_recurring"),
     path("stripe/<int:id_owner>/", views.stripe_charge, name="stripe_charge"),
-    path("stripe/webhooks/", views.stripe_webhook, name="stripe_webhooks"),
-    # path("stripe_rep/<id_owner>/", views.StripeView.as_view(), name="stripe_rep"),
-
+    path("stripe/webhooks/", views.stripe_webhook, name="stripe_webhooks")
 ]

@@ -750,6 +750,71 @@ class StripeView(View):
         return HttpResponseRedirect('https://cookstart.io/billing/', '/')
 
 
+class StripeRecurringView(View):
+    template_name = 'dashboard_new/dashboard.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            user = User.objects.get(username=request.user)
+            billing_settings = Billing.objects.filter(user=user).first()
+            user_profile = UserProfile.objects.get(user=user)
+            email_settings = EmailSettings.objects.get(user=user)
+            price = int(billing_settings.price)*100
+            api_key = billing_settings.stripe_secret_token
+            stripe.api_key = billing_settings.stripe_secret_token
+            customer = stripe.Customer.create(
+                email='jenny.rosen@example.com',
+                source='src_18eYalAHEMiOZZp1l9ZTjSU0',
+            )
+            charge = stripe.Charge.create(
+                amount=price,
+                currency='usd',
+                description=email_settings.email,
+                source=request.POST['stripeToken']
+            )
+        return HttpResponseRedirect('https://cookstart.io/billing/', '/')
+
+
+@require_POST
+@csrf_exempt
+def stripe_recurring_plan(request, id_owner=None):
+    if request.method == 'POST':
+        user = User.objects.get(pk=id_owner)
+        billing_settings = Billing.objects.filter(user=user).first()
+        user_profile = UserProfile.objects.get(user=user)
+        email_settings = EmailSettings.objects.get(user=user)
+        price = int(billing_settings.price)*100
+        stripe.api_key = billing_settings.stripe_secret_token
+        product = stripe.Product.create(
+            name=f'Product for {request.POST["stripeEmail"]}',
+            type='service',
+        )
+        plan = stripe.Plan.create(
+            product=product['id'],
+            nickname=f'{request.POST["stripeEmail"]}',
+            interval='month',
+            currency='usd',
+            amount=price,
+        )
+        customer = stripe.Customer.create(
+            email=request.POST['stripeEmail'],
+            description=email_settings.email,
+            source=request.POST['stripeToken'],
+        )
+        if customer:
+            stripe_new = Stripe(
+                owner=user,
+                amount=0.0,
+                customer=customer['id']
+            )
+            stripe_new.save()
+            subscription = stripe.Subscription.create(
+                customer=customer['id'],
+                items=[{'plan': plan['id']}],
+            )
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
 @require_POST
 @csrf_exempt
 def stripe_charge(request, id_owner=None):
@@ -776,16 +841,31 @@ def stripe_webhook(request):
     if event_json['type'] == 'charge.succeeded':
         owner_email = event_json['data']['object']['description']
         email_settings = EmailSettings.objects.filter(email=owner_email).first()
-        owner = User.objects.get(username=email_settings.user.username)
-        member_email = event_json['data']['object']['source']['name']
-        if not Stripe.objects.filter(id_transaction=event_json['id']).exists():
-            stripe_new = Stripe(
-                owner=owner,
-                amount=str(int(event_json['data']['object']['amount'])/100),
-                id_transaction=event_json['id'],
-                status=event_json['data']['object']['status'],
-                payer_email=member_email
-            )
-            stripe_new.save()
-            payment_stripe_received_succes(stripe_new, owner.id)
+        if email_settings:
+            owner = User.objects.get(username=email_settings.user.username)
+            member_email = event_json['data']['object']['source']['name']
+            if not Stripe.objects.filter(id_transaction=event_json['id']).exists():
+                stripe_new = Stripe(
+                    owner=owner,
+                    amount=str(int(event_json['data']['object']['amount'])/100),
+                    id_transaction=event_json['id'],
+                    status=event_json['data']['object']['status'],
+                    payer_email=member_email
+                )
+                stripe_new.save()
+                payment_stripe_received_succes(stripe_new, owner.id)
+        else:
+            customer = event_json['data']['object']['customer']
+            member_email = event_json['data']['object']['source']['name']
+            if not Stripe.objects.filter(id_transaction=event_json['id']).exists():
+                stripe_owner = Stripe.objects.filter(customer=customer)
+                if stripe_owner:
+                    stripe_owner.update(
+                        amount=str(int(event_json['data']['object']['amount']) / 100),
+                        id_transaction=event_json['id'],
+                        status=event_json['data']['object']['status'],
+                        payer_email=member_email
+                    )
+                    payment_stripe_received_succes(stripe_owner.first(), stripe_owner.first().owner_id)
     return HttpResponse(status=200)
+

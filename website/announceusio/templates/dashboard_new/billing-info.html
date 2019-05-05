@@ -98,6 +98,22 @@
 												<span class="form-label">URL For Stripe Webhooks</span>
 												<input name="stripe_url" type="text" id="id_stripe_url" value="{{ form.stripe_url }}" maxlength="300" readonly>
 											</div>
+                                            <div class="form-textarea" style="margin-top: 20px">
+                                                <span class="form-label">Copy This Code Into Your Website For Recurring paymant:</span>
+                                                    <textarea id="id_message_body_recurring"><form action="https://cookstart.io/stripe_recurring/{{ form_stripe.id_owner }}/" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+   data-key="{{ form_stripe.token }}"
+   data-amount="{{ form_stripe.price }}"
+   data-name="{{ form_stripe.company }}"
+   data-description="{{ form_stripe.email }}"
+   data-image="https://cookstart.io/static/images/favicon.ico"
+   data-locale="auto"
+   >
+  </script>
+</form></textarea>
+                                            </div>
 										</div>
 									</div>
 								</div>

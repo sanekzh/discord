@@ -192,6 +192,7 @@ class Stripe(models.Model):
     status = models.CharField(max_length=64, blank=True, null=True)
     payer_email = models.EmailField(max_length=128, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
+    customer = models.CharField(max_length=256, default=None, blank=True, null=True)
 
 
 def payment_received_succes(sender, **kwargs):
