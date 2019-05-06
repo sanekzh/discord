@@ -112,7 +112,8 @@ def activate_user(author, email):
         member.discord_id = author.id
 
         # Adding days
-        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=90)
+        billing_settings = Billing.objects.filter(user_id=OWNER_ID).first()
+        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing_settings.sub_days)
 
         # Set activated status true.
         member.is_activated = True
