@@ -113,7 +113,8 @@ def activate_user(author, email):
 
         # Adding days
         billing_settings = Billing.objects.filter(user_id=OWNER_ID).first()
-        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing_settings.sub_days)
+        days = billing_settings.sub_days if billing_settings.sub_days else 30
+        member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=days)
 
         # Set activated status true.
         member.is_activated = True
