@@ -225,13 +225,19 @@ class AddMemberView(View):
             length = int(request.GET.get('length', 10))
             ajax_response['iTotalRecords'] = ajax_response['iTotalDisplayRecords'] = members.count()
             for member in members[start:start + length]:
+                if member.subscription_date_expire and member.subscription_date_expire < timezone.now():
+                    expired = True
+                else:
+                    expired = False
                 ajax_response['aaData'].append(
                     [
                         member.email,
                         member.discord_username if member.discord_username != member.email else '',
                         member.discord_id if member.discord_id != member.email else '',
-                        str((member.subscription_date_expire).strftime('%B %d, %Y, %I:%M')
+                        [str((member.subscription_date_expire).strftime('%B %d, %Y, %I:%M')
                             + member.subscription_date_expire.strftime(' %p').lower()) if member.subscription_date_expire else '',
+                          expired
+                         ],
                         str((member.created_on).strftime('%B %d, %Y, %I:%M') + member.created_on.strftime(' %p').lower()),
                         member.notify_7,
                         member.notify_3,

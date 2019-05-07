@@ -78,7 +78,7 @@ def help_message():
         help_message = bot_message.help_message_body
         return help_message
 
-def embed_message(title, description):
+def embed_message(title, description=''):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
     text.set_footer(text="© CookStart.io", icon_url="https://announceus.io/static/images/boticon.png")
     return text

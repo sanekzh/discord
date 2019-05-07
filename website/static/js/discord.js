@@ -78,6 +78,12 @@ $members_table = $('#table_of_members').DataTable({
 
         },
         {
+            'targets': 3,
+            'render': function (data, type, full, meta) {
+                return data[0]
+            }
+        },
+        {
             'targets': 5,
             'visible': false,
             'render': function (data, type, full, meta) {
@@ -129,8 +135,14 @@ $members_table = $('#table_of_members').DataTable({
                     '<i class="fa fa-trash"></i></button>';
             },
             'orderable': false
+        },
+    ],
+    rowCallback: function(row, data, index){
+        if(data[3][1]){
+            $(row).find('td:eq(3)').css('color', 'coral');
         }
-    ]
+
+      }
 });
 
 
