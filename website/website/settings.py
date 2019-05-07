@@ -86,11 +86,8 @@ WSGI_APPLICATION = 'website.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'CONN_MAX_AGE': 3000, 
-        # 'NAME': 'db_django',
         'NAME': 'db_discord',
         'USER': 'root',
         # 'PASSWORD': 'aw@ewq2zAd',
@@ -130,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'EST'
+TIME_ZONE = 'US/Eastern'
 
 USE_I18N = True
 
