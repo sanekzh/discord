@@ -1,30 +1,371 @@
+<!DOCTYPE html>
 {% load static %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>CookStart.io - Discord PayPal Activation Bot</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-}
-.auto-style2 {
-	font-size: xx-large;
-}
-</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>CookStart.io | Discord PayPal & Stripe Membership Bot</title>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <link href="{% static 'assets/css/index/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/meanmenu.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/owl.carousel.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/default.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/index/responsive.css' %}" rel="stylesheet">
+
 </head>
 
 <body>
 
-<p class="auto-style2">&nbsp;</p>
-<p class="auto-style1"><img alt="" height="82" src="{% static 'images/logonew.png' %}" width="400" /></p>
-<p class="auto-style1">&nbsp;</p>
-<p class="auto-style1">Coming Soon.</p>
-<p class="auto-style1">&nbsp;</p>
-<p class="auto-style1"><strong><a href="https://cookstart.io/dashboard/">
-ALREADY GROUP OWNER? CLICK HERE TO LOGIN TO YOUR DASHBOARD</a></strong></p>
+
+    <div class="side-menu">
+       <span class="menu-close"><i class="fal fa-times"></i></span>
+        <div class="side-menu-inner">
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+        </div>
+        <div class="info-btns">
+                            
+							<a href="https://discordapp.com/invite/vFFv9wg" class="custom-btn-bordered bg-gradient-purple">Discord</a>
+							<a href="https://cookstart.io/dashboard" class="custom-btn bg-gradient-purple">Login</a>
+                        </div>
+    </div>
+
+
+    <!-- Header bar section start -->
+    <div class="header-bar-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="site-logo">
+                        <a href=""><img src="{% static 'assets/img/site-logo.png' %}" alt=""></a>
+                        <span class="menu-open"><i class="fal fa-align-right"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="site-menu-wrp">
+                        <div class="site-menu">
+                            <ul id="nav">
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="#pricing">Pricing</a></li>
+                            </ul>
+                        </div>
+                        <div class="info-btns">
+                            <a href="https://discordapp.com/invite/vFFv9wg" class="custom-btn-bordered bg-gradient-purple"><span>Discord</span></a>
+							<a href="https://cookstart.io/dashboard" class="custom-btn bg-gradient-purple">Login</a>
+{#                            <button class="custom-btn-bordered bg-gradient-purple"><span>Discord</span></button>#}
+{#                            <button class="custom-btn bg-gradient-purple">Login</button>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header bar section complate -->
+
+
+    <!-- hero area start -->
+
+    <div class="hero-area" style="background-image: url({% static 'assets/img/headre-bg.png' %});">
+        <span class="rocket-img bounce-animate"><img src="{% static 'assets/img/rocket.png' %}" alt=""></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-4">
+                    <div class="hero-content">
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="left-text">
+                                    <h1>Welcome to, <br>Cookstart</h1>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="header-img">
+                                    <img src="{% static 'assets/img/phone-img.png' %}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- hero area end -->
+
+
+    <!-- Freatures area start -->
+
+
+    <div class="features-area" id="features">
+        <span class="r1-img"><img src="{% static 'assets/img/r-1.png' %}" alt=""></span>
+        <span class="r2-img"><img src="{% static 'assets/img/r-2.png' %}" alt=""></span>
+        <span class="r3-img"><img src="{% static 'assets/img/r-3.png' %}" alt=""></span>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="fe-top-content">
+                        <h2>Create an easy to use, subscription based group within <span>minutes</span></h2>
+                    </div>
+
+                    <div class="section-title">
+                        <h1>Features Include</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="features-inner-content">
+                        <div class="row">
+                            <div class="col-md-6 pd-rt">
+                                <div class="left-fe-content leftitem">
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-1.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Manage Member’s Roles</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-3.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Paypal & Stripe Support</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-5.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Manage Payments</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pd-left">
+                                <div class="left-fe-content rtitem">
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-2.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Month to Month & Recurring <br> Payments</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-4.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Instant Invites & Custom <br>Messages for Commands</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-fetcontent">
+
+
+                                        <div class="fe-img">
+                                            <img src="{% static 'assets/img/f-6.png' %}" alt="">
+                                        </div>
+                                        <div class="fe-text d-flex align-items-center">
+                                            <p>Manage Giveaways</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="fe-btm-text">
+                                    <h1>and much, much more!</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Freatures area end -->
+
+    <!-- pricing area start -->
+
+    <div class="pricing-area" id="pricing">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>Pricing</h1>
+                        <p>All Plans Start with $150 Initial Setup Fee</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pricing-bk">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="sigle-pr-blk">
+                                    <h2>0-25 Users</h2>
+                                    <div class="pr-main-blk d-flex align-items-center">
+                                        <div class="main-pr-amnt">
+                                            <h1>$50 <span>per month</span></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="sigle-pr-blk">
+                                    <h2>0-25 Users</h2>
+                                    <div class="pr-main-blk d-flex align-items-center">
+                                        <div class="main-pr-amnt">
+                                            <h1>$50 <span>per month</span></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="sigle-pr-blk">
+                                    <h2>0-25 Users</h2>
+                                    <div class="pr-main-blk d-flex align-items-center">
+                                        <div class="main-pr-amnt">
+                                            <h1>$50 <span>per month</span></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="sigle-pr-blk bor-lst-none">
+                                    <h2>0-25 Users</h2>
+                                    <div class="pr-main-blk d-flex align-items-center">
+                                        <div class="main-pr-amnt">
+                                            <h1>$50 <span>per month</span></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- pricing area end -->
+
+
+    <!-- Footer area start -->
+
+
+    <div class="footer-area">
+        <span class="r-4"><img src="{% static 'assets/img/r-4.png' %}" alt=""></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>Keep In Touch</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="touch-list">
+                        <div class="single-touch-item">
+                            <div class="touch-main">
+                                <div class="left-td-img">
+                                    <img src="{% static 'assets/img/t-2.png' %}" alt="">
+                                </div>
+                                <div class="t-content d-flex align-items-center">
+                                    <p>Twitter</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-touch-item">
+                            <div class="touch-main">
+                                <div class="left-td-img">
+                                    <img src="{% static 'assets/img/t-1.png' %}" alt="">
+                                </div>
+                                <div class="t-content d-flex align-items-center">
+                                    <p>Discord</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-120">
+                <div class="col-md-12">
+                    <div class="footer-text">
+                        <p>Copyright © CookStart.io All Right Reserved </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Footer area end -->
+
+
+
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'assets/js/index/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/index/Popper.js' %}"></script>
+    <script src="{% static 'assets/js/index/jquery.sticky.js' %}"></script>
+    <script src="{% static 'assets/js/index/jquery.meanmenu.js' %}"></script>
+    <script src="{% static 'assets/js/index/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/index/jquery.nav.js' %}"></script>
+    <script src="{% static 'assets/js/index/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/index/main.js' %}"></script>
+    
+    <script>
+    
+            // Menu Nav
+function smoothSctollTop() {
+    $('.side-menu-inner ul li > a').on('click', function (event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 80
+            }, 1000);
+        }
+    });
+}
+smoothSctollTop();
+    </script>
+
+
 
 </body>
 

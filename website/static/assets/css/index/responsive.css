@@ -1,0 +1,745 @@
+/* XL Device :1200px. */
+@media (min-width: 1400px) and (max-width: 1600px) {
+
+    
+   .rocket-img {
+	max-width: 700px;
+} 
+.rocket-img {
+	position: absolute;
+	left: 0;
+	bottom: 203px;
+}   
+ 
+.fe-text p {
+	margin: 0;
+	font-size: 23px;
+	color: #000;
+	font-weight: 200;
+}  
+.fe-img img {
+	max-width: ;
+	height: 101px;
+} 
+    
+    
+    
+}
+
+
+/* XL Device :1200px. */
+@media (min-width: 1200px) and (max-width: 1399px) {
+.header-bar-section {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+.features-area {
+	padding-left: 50px;
+	padding-right: 50px;
+}    
+.hero-area {
+	height: 900px;
+	
+}  
+.left-text h1 {
+	font-size: 48px;
+
+} 
+.header-img img {
+	max-width: 450px;
+	width: 264px;
+}    
+.header-img {
+	width: 100%;
+	text-align: left;
+}  
+.rocket-img.bounce-animate {
+    max-width: 500px;
+}
+.rocket-img {
+    position: absolute;
+    left: 0;
+    bottom: 197px;
+} 
+    
+.fe-top-content h2 {
+	font-size: 33px;
+	
+}  
+.fe-text p {
+	margin: 0;
+	font-size: 23px;
+	color: #000;
+	font-weight: 200;
+}  
+.fe-img img {
+	max-width: ;
+	height: 98px;
+}  
+.fe-text {
+	
+	height: 101px;
+	
+}
+.fe-btm-text h1 {
+	font-size: 56px;
+	color: #000;
+	font-weight: 300;
+}    
+.r3-img {
+	position: absolute;
+	bottom: 0;
+	right: 50%;
+	-webkit-transform: translateX(298%);
+	transform: translateX(191%);
+} 
+.r1-img img {
+	max-width: 185px;
+}  
+.r2-img img {
+	max-width: 281px;
+} 
+.pr-main-blk {
+	height: 270px;
+}  
+.pr-main-blk h1 {
+	font-size: 54px;
+	
+}   
+.sigle-pr-blk h2 {
+	font-size: 24px;
+
+}  
+.r-4 img {
+	max-width: 233px;
+}  
+.touch-list {
+	width: 700px;
+	margin: 0 auto;
+}  
+.left-td-img img {
+	height: 58px;
+	margin-top: 14px;
+}
+    
+.left-td-img {
+	float: left;
+	width: 75px;
+}
+.t-content {
+	width: 67%;
+	height: 81px;
+}  
+.left-td-img {
+	height: 87px;
+}
+.left-td-img {
+	height: 87px;
+} 
+    
+}
+
+/* LG Device :992px. */
+@media (min-width: 992px) and (max-width: 1200px) {
+.header-bar-section {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+.features-area {
+	padding-left: 50px;
+	padding-right: 50px;
+}    
+.hero-area {
+	height: 900px;
+	
+}  
+.left-text h1 {
+	font-size: 48px;
+
+} 
+.header-img img {
+	max-width: 450px;
+	width: 264px;
+}    
+.header-img {
+	width: 100%;
+	text-align: left;
+}  
+.rocket-img.bounce-animate {
+    max-width: 500px;
+}
+.rocket-img {
+    position: absolute;
+    left: 0;
+    bottom: 197px;
+} 
+    
+.fe-top-content h2 {
+	font-size: 26px;
+}  
+.fe-text p {
+	margin: 0;
+	font-size: 20px;
+	color: #000;
+	font-weight: 200;
+} 
+.fe-img img {
+	max-width: ;
+	height: 98px;
+}  
+.fe-text {
+	
+	height: 101px;
+	
+}
+.fe-btm-text h1 {
+	font-size: 56px;
+	color: #000;
+	font-weight: 300;
+}    
+.r3-img {
+	position: absolute;
+	bottom: 33px;
+	right: 50%;
+	-webkit-transform: translateX(298%);
+	transform: translateX(191%);
+}
+.r1-img img {
+	max-width: 185px;
+}  
+.r2-img img {
+	max-width: 208px;
+}
+.pr-main-blk {
+	height: 220px;
+}  
+.pr-main-blk h1 {
+	font-size: 38px;
+}  
+.sigle-pr-blk h2 {
+	font-size: 16px;
+}  
+.r-4 img {
+	max-width: 233px;
+}  
+.touch-list {
+	width: 700px;
+	margin: 0 auto;
+}  
+.left-td-img img {
+	height: 58px;
+	margin-top: 14px;
+}
+    
+.left-td-img {
+	float: left;
+	width: 75px;
+}
+.t-content {
+	width: 67%;
+	height: 81px;
+}  
+.left-td-img {
+	height: 87px;
+}
+.left-td-img {
+	height: 87px;
+} 
+    
+.pd-rt {
+	padding-right: 50px;
+}
+.pd-left {
+	padding-left: 50px;
+}  
+    
+.fe-text p {
+	margin: 0;
+	font-size: 20px;
+	color: #000;
+	font-weight: 200;
+} 
+  
+.r3-img img {
+	width: 99px;
+}  
+.section-title h1 {
+	font-size: 38px;
+	
+}   
+.section-title h1::after {
+
+	width: 88px;
+	
+} 
+.section-title p {
+	font-size: 25px;
+	
+}  
+ .pr-main-blk h1 span {
+	display: block;
+	font-size: 16px;
+}  
+    
+}
+
+ 
+/* MD Device :768px. */
+@media (min-width: 768px) and (max-width: 991px) {
+
+.info-btns button:nth-child(2) {
+	
+	padding: 7px 0;
+}   
+    
+.header-bar-section {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.features-area {
+	padding-left: 15px;
+	padding-right: 15px;
+}    
+.hero-area {
+	height: 900px;
+	
+}  
+.left-text h1 {
+	font-size: 34px;
+}
+.header-img img {
+	max-width: 450px;
+	width: 201px;
+}   
+.header-img {
+	width: 100%;
+	text-align: left;
+}  
+.rocket-img.bounce-animate {
+	max-width: 365px;
+}
+.rocket-img {
+    position: absolute;
+    left: 0;
+    bottom: 197px;
+} 
+    
+.fe-top-content h2 {
+	font-size: 26px;
+}  
+.fe-text p {
+	margin: 0;
+	font-size: 20px;
+	color: #000;
+	font-weight: 200;
+} 
+.fe-img img {
+	max-width: ;
+	height: 66px;
+} 
+.fe-text {
+	height: 69px;
+}
+.fe-text p br {
+	display: none;
+}  
+.fe-btm-text h1 {
+	font-size: 56px;
+	color: #000;
+	font-weight: 300;
+}    
+.r3-img {
+	position: absolute;
+	bottom: 33px;
+	right: 50%;
+	-webkit-transform: translateX(298%);
+	transform: translateX(191%);
+}
+.r1-img img {
+	max-width: 126px;
+}  
+.r2-img img {
+	max-width: 152px;
+}
+.pr-main-blk {
+	height: 220px;
+}  
+.pr-main-blk h1 {
+	font-size: 38px;
+}  
+.sigle-pr-blk h2 {
+	font-size: 16px;
+}  
+.r-4 img {
+	max-width: 233px;
+}  
+.touch-list {
+	width: 700px;
+	margin: 0 auto;
+}  
+.left-td-img img {
+	height: 58px;
+	margin-top: 14px;
+}
+    
+.left-td-img {
+	float: left;
+	width: 75px;
+}
+.t-content {
+	width: 67%;
+	height: 81px;
+}  
+.left-td-img {
+	height: 87px;
+}
+.left-td-img {
+	height: 87px;
+} 
+    
+.pd-rt {
+	padding-right: 50px;
+}
+.pd-left {
+	padding-left: 50px;
+}  
+    
+.fe-text p {
+	margin: 0;
+	font-size: 16px;
+	color: #000;
+	font-weight: 200;
+}
+  
+.r3-img img {
+	width: 99px;
+}  
+.section-title h1 {
+	font-size: 38px;
+	
+}   
+.section-title h1::after {
+
+	width: 88px;
+	
+} 
+.section-title p {
+	font-size: 25px;
+	
+}  
+ .pr-main-blk h1 span {
+	display: block;
+	font-size: 16px;
+}  
+.hero-content {
+	padding-top: 288px;
+} 
+.site-menu ul li a {
+	display: block;
+	font-size: 19px;
+	color: #000;
+	font-weight: 400;
+	padding: 10px 11px;
+}
+.info-btns button {
+	font-size: 19px;
+	background: transparent;
+	border: 1px solid #c52d62;
+	width: 111px;
+	text-align: center;
+	oa: ;
+	padding: 6px 0;
+	border-radius: 10px;
+	margin-left: 11px;
+}  
+.site-menu {
+	display: inline-block;
+	margin-right: 4px;
+}
+.pricing-area {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+}
+ 
+
+/* SM Small Device :320px. */
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+
+    
+    
+ .custom-btn, .custom-btn-bordered {
+	line-height: 26px;
+	color: ;
+	cursor: pointer;
+}   
+    
+    
+    
+
+.site-logo {
+  position: relative;
+  
+}
+.site-logo span.menu-open {
+	position: absolute;
+	right: 0;
+	font-size: 33px;
+	color: #a63271;
+	display: block;
+	top: 0;cursor: pointer;
+}
+    
+.header-bar-section {
+	padding-left: 0;
+	padding-right: 0;
+}
+.t-content p {
+	font-size: 32px;
+	font-weight: ;
+	font-weight: 200;
+	margin: 0;
+	margin-top: 6px;
+}    
+    
+.features-area {
+	padding-left: 0px;
+	padding-right: 0px;
+}    
+.hero-area {
+	height: 697px;
+	background-position: 70% 100%;
+}
+.left-text h1 {
+	font-size: 34px;
+}
+.header-img img {
+	max-width: 450px;
+	width: 140px;
+}  
+.header-img {
+	width: 100%;
+	text-align: center;
+} 
+.rocket-img.bounce-animate {
+	max-width: 250px;
+}
+.rocket-img {
+	position: absolute;
+	left: 0;
+	bottom: 19px;
+}
+    
+.fe-top-content h2 {
+	font-size: 26px;
+}  
+.fe-text p {
+	margin: 0;
+	font-size: 20px;
+	color: #000;
+	font-weight: 200;
+} 
+.fe-img img {
+	max-width: ;
+	height: 66px;
+} 
+.fe-text {
+	height: auto;
+	margin-top: 13px;
+}
+.fe-text p br {
+	display: none;
+}  
+.fe-btm-text h1 {
+	font-size: 28px;
+	color: #000;
+	font-weight: 300;
+}   
+.r3-img {
+	position: absolute;
+	bottom: -13px;
+	right: 50%;
+	-webkit-transform: translateX(298%);
+	transform: translateX(55%);
+}
+.r1-img img {
+	max-width: 78px;
+}
+.r2-img img {
+	max-width: 104px;
+}
+.pr-main-blk {
+	height: 178px;
+} 
+.pr-main-blk h1 {
+	font-size: 38px;
+}  
+.sigle-pr-blk h2 {
+	font-size: 16px;
+}  
+.r-4 img {
+	max-width: 115px;
+} 
+.sigle-pr-blk {
+	border-right: 0px solid #949494;
+	border-bottom: 1px solid #949494;
+	margin-bottom: 21px;
+}  
+.touch-list {
+	width: 100%;
+	margin: 0 auto;
+} 
+.left-td-img img {
+	height: 58px;
+	margin-top: 14px;
+}
+.footer-text p {
+	font-size: 15px;
+	color: #000;
+	font-weight: 300;
+	margin: 0;
+}  
+.left-td-img {
+	float: left;
+	width: 75px;
+}
+.t-content {
+	width: 67%;
+	height: 81px;
+}  
+.left-td-img {
+	height: 87px;
+}
+.left-td-img {
+	height: 87px;
+} 
+.single-fetcontent {
+	margin-bottom: 40px;
+}
+.pd-rt {
+	padding-right: 15px;
+}
+.pd-left {
+	padding-left: 15px;
+}  
+.fe-img {
+	text-align: center;
+}
+.fe-text p {
+	margin: 0;
+	font-size: 16px;
+	color: #000;
+	font-weight: 200;
+}
+.section-title {
+	text-align: center;
+	margin-bottom: 46px;
+	magin-t: m;
+	margin-top: 39px;
+} 
+.r3-img img {
+	width: 71px;
+}  
+.section-title h1 {
+	font-size: 30px;
+}  
+.section-title h1::after {
+	width: 63px;
+}
+.section-title p {
+	font-size: 20px;
+} 
+ .pr-main-blk h1 span {
+	display: block;
+	font-size: 16px;
+}  
+.hero-content {
+	padding-top: 288px;
+} 
+.site-menu ul li a {
+	display: block;
+	font-size: 19px;
+	color: #000;
+	font-weight: 400;
+	padding: 10px 11px;
+}
+.info-btns button {
+	font-size: 19px;
+	background: transparent;
+	border: 1px solid #c52d62;
+	width: 111px;
+	text-align: center;
+	oa: ;
+	padding: 6px 0;
+	border-radius: 10px;
+	margin-left: 11px;
+}  
+.site-menu {
+	display: inline-block;
+	margin-right: 4px;
+}
+.pricing-area {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.site-menu-wrp {
+	display: none;
+}  
+.left-text {
+	width: 100%;
+	text-align: center;
+}
+.features-area {
+	position: relative;
+	padding-top: 40px;
+} 
+.features-area {
+	padding-bottom: 40px;
+}  
+    
+.fe-img {
+	float: none;
+	width: 100%;
+}  
+    
+.fe-text {
+	float: none;
+	
+	width: 100%;
+} 
+.features-inner-content {
+
+	padding: 15px;
+
+}  
+.touch-list {
+	
+	display: block;
+	
+}    
+.single-touch-item {
+	width: 100%;
+	border-radius: 30px;
+	padding: 0 10px;
+}  
+.touch-main {
+	background: #fff;
+	padding: 16px;
+	border-radius: 27px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 0 30px #ddd6;
+	box-shadow: 0 0 30px #ddd6;
+	margin-bottom: 20px;
+}  
+}
+
+
+
+
+
+/* SM Small Device :550px. */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+
+ 
+}
