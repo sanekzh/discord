@@ -209,7 +209,7 @@ function setModalValues(data) {
         $('#id_discord_username').val(data[1]);
         $('#id_discord_id').val(data[2]);
         $('#id_email').val(data[0]);
-        $('#id_subscription_date_expire').val(data[3]);
+        $('#id_subscription_date_expire').val(data[3][2]);
         $("#id_notify_3").prop( "checked", data[5]);
         $("#id_notify_7").prop( "checked", data[6]);
         $("#id_notify_24h").prop( "checked", data[7]);
