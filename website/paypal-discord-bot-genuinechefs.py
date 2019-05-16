@@ -229,7 +229,7 @@ async def member_reminder():
                 await client.remove_roles(user, role)
 
                 # await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
-                await client.send_message(user, embed=embed_message(str(bot_message.expired_reminder).format(member.discord_username)))
+                await client.send_message(user, embed=embed_message("Reminder", str(bot_message.expired_reminder).format(member.discord_username)))
 
 
         await asyncio.sleep(2)
