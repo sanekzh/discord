@@ -87,8 +87,16 @@ def activate_user(author, email):
     """ We here are activating user email address."""
 
     message = None
+    activate = True
     member = Member.objects.filter(user_id=OWNER_ID).filter(Q(email=email) | Q(discord_id=author.id)).first()
-    time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
+    if member.subscription_date_expire:
+        time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
+        if time_left.days > 0:
+            activate = True
+        else:
+            activate = False
+    else:
+        activate = True
     # Checking if user is trying to use different email...
     if member and member.email.lower() != email.lower():
         # message = "This is not your email. You have been activated with a different email."
@@ -104,7 +112,7 @@ def activate_user(author, email):
     # checking if member email is presents in database but is not activated.
     # this means he/she got paid but not yet activated.
 
-    elif member and member.is_activated == False and time_left.days > 0:
+    elif member and member.is_activated == False and activate:
 
         # Discord username like user#1234
         member.discord_username = author
