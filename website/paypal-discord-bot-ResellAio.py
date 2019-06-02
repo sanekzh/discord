@@ -89,7 +89,7 @@ def activate_user(author, email):
     message = None
     activate = True
     member = Member.objects.filter(user_id=OWNER_ID).filter(Q(email=email) | Q(discord_id=author.id)).first()
-    if member.subscription_date_expire:
+    if member and member.subscription_date_expire:
         time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
         if time_left.days > 0:
             activate = True
