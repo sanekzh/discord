@@ -20,7 +20,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-OWNER_ID = 44
+OWNER_ID = 40
 
 client = discord.Client()
 settings = BotSettings.objects.get(user_id=OWNER_ID)
@@ -80,23 +80,15 @@ def help_message():
 
 def embed_message(title, description):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="France Notify |by CookStart.io", icon_url="https://cdn.discordapp.com/attachments/570671720093057106/572886431870091265/BTH_Robot.png")
+    text.set_footer(text="Veyron | by CookStart.io", icon_url="https://i.ibb.co/vj0vnCX/vlogo.png")
     return text
 
 def activate_user(author, email):
     """ We here are activating user email address."""
 
     message = None
-    activate = True
     member = Member.objects.filter(user_id=OWNER_ID).filter(Q(email=email) | Q(discord_id=author.id)).first()
-    if member.subscription_date_expire:
-        time_left = member.subscription_date_expire - datetime.datetime.now(datetime.timezone.utc)
-        if time_left.days > 0:
-            activate = True
-        else:
-            activate = False
-    else:
-        activate = True
+
     # Checking if user is trying to use different email...
     if member and member.email.lower() != email.lower():
         # message = "This is not your email. You have been activated with a different email."
@@ -111,8 +103,7 @@ def activate_user(author, email):
 
     # checking if member email is presents in database but is not activated.
     # this means he/she got paid but not yet activated.
-
-    elif member and member.is_activated == False and activate:
+    elif member and member.is_activated == False:
 
         # Discord username like user#1234
         member.discord_username = author
@@ -238,7 +229,7 @@ async def member_reminder():
                 await client.remove_roles(user, role)
 
                 # await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
-                await client.send_message(user, embed=embed_message("Reminder", str(bot_message.expired_reminder).format(member.discord_username)))
+                await client.send_message(user, embed=embed_message(str(bot_message.expired_reminder).format(member.discord_username)))
 
 
         await asyncio.sleep(2)

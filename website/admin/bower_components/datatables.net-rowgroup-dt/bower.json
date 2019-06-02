@@ -1,0 +1,37 @@
+{
+    "name": "datatables.net-rowgroup-dt",
+    "description": "RowGroup for DataTables ",
+    "main": [
+        "css/rowGroup.dataTables.css"
+    ],
+    "keywords": [
+        "row grouping",
+        "DataTables",
+        "jQuery",
+        "table",
+        "DataTables"
+    ],
+    "dependencies": {
+        "jquery": ">=1.7",
+        "datatables.net": ">=1.10.13",
+        "datatables.net-rowgroup": ">=1.0.0"
+    },
+    "moduleType": [
+        "globals",
+        "amd",
+        "node"
+    ],
+    "ignore": [
+        "composer.json",
+        "datatables.json",
+        "package.json"
+    ],
+    "authors": [
+        {
+            "name": "SpryMedia Ltd",
+            "homepage": "https://datatables.net"
+        }
+    ],
+    "homepage": "https://datatables.net",
+    "license": "MIT"
+}

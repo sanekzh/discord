@@ -20,7 +20,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-OWNER_ID = 44
+OWNER_ID = 42
 
 client = discord.Client()
 settings = BotSettings.objects.get(user_id=OWNER_ID)
@@ -80,7 +80,7 @@ def help_message():
 
 def embed_message(title, description):
     text = discord.Embed(title=title, description=description, color=0xe83e8c)
-    text.set_footer(text="France Notify |by CookStart.io", icon_url="https://cdn.discordapp.com/attachments/570671720093057106/572886431870091265/BTH_Robot.png")
+    text.set_footer(text="CopQuiz | by CookStart.io", icon_url="https://cdn.discordapp.com/attachments/580399261296885761/580442897871011843/Cop_Quiz.jpg")
     return text
 
 def activate_user(author, email):
