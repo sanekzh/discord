@@ -3,6 +3,7 @@ import os
 import uuid
 from shutil import copyfile
 
+import datetime
 import requests
 from bs4 import BeautifulSoup
 from decimal import Decimal
@@ -137,6 +138,8 @@ class DashboardView(View):
                                             discord_username__isnull=False).order_by('-id')[:5]
             members_list = []
             for member in members:
+                # if member.subscription_date_expire:
+                #     print((member.subscription_date_expire - timezone.localtime(timezone.now())).days)
                 member_dict = {
                     'email': member.email,
                     'discord_username': member.discord_username,
