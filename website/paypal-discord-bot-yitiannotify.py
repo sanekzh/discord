@@ -225,7 +225,7 @@ async def member_reminder():
                     await client.send_message(user, embed=embed_message("Reminder", str(bot_message.finely_reminder).format(
                                                                         member.discord_username)))
 
-                elif member.is_activated and time_left.days <= 0:
+                elif member.is_activated and time_left.days + 1 <= 0:
                     print(time_left.seconds)
                     member.notify_3 = False
                     member.notify_7 = False

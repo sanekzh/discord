@@ -220,9 +220,9 @@ def payment_received_succes(sender, **kwargs):
         # days to her/him.
         # member = Member.objects.filter(email=ipn_obj.payer_email).first()
         if member.subscription_date_expire is not None:
-            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=31)
+            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
         else:
-            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=31)
+            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
         # member.is_activated = True
@@ -278,9 +278,9 @@ def payment_stripe_received_succes(sender, user_id):
         # days to her/him.
         # member = Member.objects.filter(email=ipn_obj.payer_email).first()
         if member.subscription_date_expire is not None:
-            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=31)
+            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
         else:
-            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=31)
+            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
 
 
         # member.is_activated = True
