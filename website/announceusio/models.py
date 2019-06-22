@@ -1,5 +1,6 @@
 import datetime
-
+from django.db.models import Sum, Q
+from django.http import HttpResponse, QueryDict
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, User
 
@@ -204,44 +205,47 @@ def payment_received_succes(sender, **kwargs):
     """
 
     ipn_obj = sender
-
-    billing = Billing.objects.get(paypal_email=ipn_obj.receiver_email)
-    member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).exists()
-    # settings = SiteSettings.objects.first()
-    print("I am in valid ipn")
-    print(ipn_obj)
-
-
-    if member:
-        member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).first()
-        # billing = Billing.objects.filter(user=get_member.user).first()
-        print("I am here...")
-        # If the user already exists in database we are just adding 30
-        # days to her/him.
-        # member = Member.objects.filter(email=ipn_obj.payer_email).first()
-        if member.subscription_date_expire is not None:
-            member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
-        else:
-            member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
-
-
-        # member.is_activated = True
-        member.notify_7 = False
-        member.notify_3 = False
-        member.notify_24h = False
-
-        member.save()
-    else:
-        # Saving starting point of Member.
-        print("Add new Member...")
+    if ipn_obj.payment_status == 'Completed':
         try:
             billing = Billing.objects.get(paypal_email=ipn_obj.receiver_email)
-            new_member = Member(user=billing.user,
-                                email=ipn_obj.payer_email)
-            new_member.save()
         except Exception as e:
-            print("Error add new Member...", e.args)
+            return HttpResponse(status=200)
+        member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).exists()
+        # settings = SiteSettings.objects.first()
+        print("I am in valid ipn")
+        print(ipn_obj)
 
+
+        if member:
+            member = Member.objects.filter(user=billing.user, email=ipn_obj.payer_email).first()
+            # billing = Billing.objects.filter(user=get_member.user).first()
+            print("I am here...")
+            # If the user already exists in database we are just adding 30
+            # days to her/him.
+            # member = Member.objects.filter(email=ipn_obj.payer_email).first()
+            if member.subscription_date_expire is not None:
+                member.subscription_date_expire = member.subscription_date_expire + datetime.timedelta(days=billing.sub_days)
+            else:
+                member.subscription_date_expire = datetime.datetime.now() + datetime.timedelta(days=billing.sub_days)
+
+
+            # member.is_activated = True
+            member.notify_7 = False
+            member.notify_3 = False
+            member.notify_24h = False
+
+            member.save()
+        else:
+            # Saving starting point of Member.
+            print("Add new Member...")
+            try:
+                billing = Billing.objects.get(paypal_email=ipn_obj.receiver_email)
+                new_member = Member(user=billing.user,
+                                    email=ipn_obj.payer_email)
+                new_member.save()
+            except Exception as e:
+                print("Error add new Member...", e.args)
+    return HttpResponse(status=200)
 
 
 
