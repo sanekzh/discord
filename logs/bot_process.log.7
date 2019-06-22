@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/http.py", line 258, in static_login
+    data = yield from self.request(Route('GET', '/users/@me'))
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/http.py", line 200, in request
+    raise HTTPException(r, data)
+discord.errors.HTTPException: UNAUTHORIZED (status code: 401): 401: Unauthorized
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/discord/discord/website/paypal-discord-bot-admin.py", line 319, in <module>
+    client.run(settings.bot_token)
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/client.py", line 519, in run
+    self.loop.run_until_complete(self.start(*args, **kwargs))
+  File "/usr/lib/python3.6/asyncio/base_events.py", line 484, in run_until_complete
+    return future.result()
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/client.py", line 490, in start
+    yield from self.login(*args, **kwargs)
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/client.py", line 416, in login
+    yield from getattr(self, '_login_' + str(n))(*args, **kwargs)
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/client.py", line 346, in _login_1
+    data = yield from self.http.static_login(token, bot=is_bot)
+  File "/home/discord/venv/lib/python3.6/site-packages/discord/http.py", line 262, in static_login
+    raise LoginFailure('Improper token has been passed.') from e
+discord.errors.LoginFailure: Improper token has been passed.
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fb1fc3df358>
+Task was destroyed but it is pending!
+task: <Task pending coro=<member_reminder() running at /home/discord/discord/website/paypal-discord-bot-admin.py:188> wait_for=<Future pending cb=[<TaskWakeupMethWrapper object at 0x7fb1fc3d6c48>()]>>
+Task was destroyed but it is pending!
+task: <Task pending coro=<member_invite() running at /home/discord/discord/website/paypal-discord-bot-admin.py:151> wait_for=<Future pending cb=[<TaskWakeupMethWrapper object at 0x7fb1fc3d6cd8>()]>>
