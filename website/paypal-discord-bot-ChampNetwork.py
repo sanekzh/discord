@@ -224,7 +224,7 @@ async def member_reminder():
                     await client.send_message(user, embed=embed_message("Reminder", str(bot_message.finely_reminder).format(
                                                                         member.discord_username)))
 
-                elif member.is_activated and time_left.days <= 0:
+                elif member.is_activated and time_left.days < 0 and time_left.seconds < 0:
                     print(time_left.seconds)
                     member.notify_3 = False
                     member.notify_7 = False
@@ -236,11 +236,11 @@ async def member_reminder():
 
                     # Removing `Member` role from expired user.
                     # settings = SiteSettings.objects.first()
-                    # role = discord.utils.get(server.roles, name=bot_settings.member_role)
-                    # await client.remove_roles(user, role)
-
+                    role = discord.utils.get(server.roles, name=bot_settings.member_role)
+                    await client.remove_roles(user, role)
+                    #
                     # await client.send_message(user, embed=embed_message("Hello {}, Your subscription has now been expired if you wish to still renew please proceed to http://announceus.io".format(member.discord_username)))
-                    # await client.send_message(user, embed=embed_message("Reminder", str(bot_message.expired_reminder).format(member.discord_username)))
+                    await client.send_message(user, embed=embed_message("Reminder", str(bot_message.expired_reminder).format(member.discord_username)))
 
 
         await asyncio.sleep(2)
